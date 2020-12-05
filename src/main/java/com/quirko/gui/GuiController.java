@@ -67,6 +67,8 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
+    private String diff;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
@@ -147,12 +149,26 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
         generatePreviewPanel(brick.getNextBrickData());
-
-
-        timeLine = new Timeline(new KeyFrame(
+        System.out.println(diff+" if else ");
+        if(diff.equalsIgnoreCase("easy")){
+            timeLine = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        }
+        else if(diff.equalsIgnoreCase("medium")){
+            timeLine = new Timeline(new KeyFrame(
                 Duration.millis(400),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
+        }
+        else if(diff.equalsIgnoreCase("hard")){
+            timeLine = new Timeline(new KeyFrame(
+                Duration.millis(100),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        }
+     
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
@@ -264,6 +280,27 @@ public class GuiController implements Initializable {
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
         gamePanel.requestFocus();
+        System.out.println(diff+" if else ");
+        if(diff.equalsIgnoreCase("easy")){
+            timeLine = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        }
+        else if(diff.equalsIgnoreCase("medium")){
+            timeLine = new Timeline(new KeyFrame(
+                Duration.millis(400),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        }
+        else if(diff.equalsIgnoreCase("hard")){
+            timeLine = new Timeline(new KeyFrame(
+                Duration.millis(100),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        }
+     
+        timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
@@ -271,5 +308,9 @@ public class GuiController implements Initializable {
 
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
+    }
+    public void setDiff(String diff){
+        this.diff=diff;
+        System.out.println(diff+" gui cont");
     }
 }

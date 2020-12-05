@@ -12,17 +12,19 @@ public class SimpleBoard implements Board {
 
     private final int width;
     private final int height;
-    private final BrickGenerator brickGenerator;
+    private  BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
+    private String diff;
 
-    public SimpleBoard(int width, int height) {
+    public SimpleBoard(int width, int height, String diff) {
+        this.diff=diff;
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];
-        brickGenerator = new RandomBrickGenerator();
+        brickGenerator = new RandomBrickGenerator(diff);
         brickRotator = new BrickRotator();
         score = new Score();
     }
@@ -125,5 +127,9 @@ public class SimpleBoard implements Board {
         currentGameMatrix = new int[width][height];
         score.reset();
         createNewBrick();
+        brickGenerator = new RandomBrickGenerator(diff);
+    }
+    public void setDiff(String diff){
+        this.diff=diff;
     }
 }

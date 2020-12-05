@@ -12,15 +12,19 @@ public class RandomBrickGenerator implements BrickGenerator {
 
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
 
-    public RandomBrickGenerator() {
+    public RandomBrickGenerator(String diff) {
         brickList = new ArrayList<>();
         brickList.add(new IBrick());
         brickList.add(new JBrick());
         brickList.add(new LBrick());
         brickList.add(new OBrick());
-        brickList.add(new SBrick());
-        brickList.add(new TBrick());
-        brickList.add(new ZBrick());
+        if(!diff.equalsIgnoreCase("easy")){
+            brickList.add(new SBrick());
+            brickList.add(new TBrick());
+            brickList.add(new ZBrick());
+
+        }
+        
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
     }
