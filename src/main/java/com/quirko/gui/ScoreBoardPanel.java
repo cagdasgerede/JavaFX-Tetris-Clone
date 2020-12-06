@@ -44,8 +44,6 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
         table = new JTable();
         scrollPane.setViewportView(table);
         
-        
-        
         columns =new String[2];
         columns[0]="Number";
         columns[1]="Score";
@@ -57,19 +55,13 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
             rows[i][1] = String.valueOf(MenuPanel.score[i]);
         }
         
-        
         TableModel tablemodel=new DefaultTableModel(rows,columns);
         
         table.setModel(tablemodel);
         table.setBackground(Color.WHITE);
         table.setSelectionBackground(Color.GRAY);
-
-        
     
-         
     }
-
-   
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -77,9 +69,7 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
 		switch (keyCode) {
             case KeyEvent.VK_ESCAPE:
              MenuPanel.scoreboard.dispose();
-             
         }
-
     }
  
     @Override

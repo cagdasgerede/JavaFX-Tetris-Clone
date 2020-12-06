@@ -19,6 +19,4 @@ public class MenuFrame extends JFrame{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
 		this.setVisible(true);
 	}
- 
-	 
 }

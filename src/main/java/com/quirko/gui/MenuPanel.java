@@ -1,4 +1,3 @@
-
 package com.quirko.gui;
 
 import java.awt.Color;
@@ -12,14 +11,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JPanel;
-
 import com.quirko.app.GameController;
 import com.quirko.logic.Score;
 import com.quirko.logic.SimpleBoard;
 
-
 public class MenuPanel extends JPanel implements KeyListener {
-
 	/*
 	This class is an exit menu
 	Includes Settings-Load-Save-ScoreBoard-Exıt functions.
@@ -45,7 +41,6 @@ public class MenuPanel extends JPanel implements KeyListener {
 
 	}
 
-	
 	private String[] menus = new String[] { "SETTINGS", "LOAD", "SAVE", "SCOREBOARD" , "EXIT GAME" };
 
 	private int focusIndex;
@@ -54,20 +49,16 @@ public class MenuPanel extends JPanel implements KeyListener {
 
 	private int[] menu_ys = new int[] { 80, 110, 140, 170, 200  };
 
-	 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		 
 		g.setColor(new Color(0x9391d6));
 		g.fillRect(0, 0, width, height);
 
-	 
 		for (int i = 0; i < menus.length; i++) {
 			int x = menu_x;
 			int y = menu_ys[i];
 
-			 
 			if (i == focusIndex) {
 				g.setColor(Color.GREEN);
 			} else {
@@ -83,74 +74,77 @@ public class MenuPanel extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode(); 
 		 	
-			if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
-				focusIndex = (focusIndex + menus.length - 1) % menus.length;
-				this.repaint();
-			}
-			if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
-				focusIndex = (focusIndex + 1) % menus.length;
-				this.repaint();
-			}
-			if(keyCode == KeyEvent.VK_ENTER){ // Enter Key
+		if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
+			focusIndex = (focusIndex + menus.length - 1) % menus.length;
+			this.repaint();
+		}
+		if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
+			focusIndex = (focusIndex + 1) % menus.length;
+			this.repaint();
+		}
+		if(keyCode == KeyEvent.VK_ENTER){ // Enter Key
 
-				// Exit tuşuna basıldıysa programdan çıkar...
-				if (focusIndex == 4)
-					GuiController.exit();
+			//Exit the program if the Exit key is pressed.
+			if (focusIndex == 4)
+				GuiController.exit();
 				
-				// ScoreBoard tuşuna basıldıysa skorlar ekrana yazdırılır.
-				if(focusIndex == 3){
-					try {
-						howManyScore = 0;
-						loadScore();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					scoreboard = new ScoreBoardPanel();
+			//If the ScoreBoard key is pressed, the scores are printed on the screen.
+			if(focusIndex == 3){
+				try {
+					howManyScore = 0;
+					loadScore();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
+
+				scoreboard = new ScoreBoardPanel();
+			}
 					
-				// Save tuşuna basıldıysa oyunu kaydeder...
-				if (focusIndex == 2) {
-					int[][] currentGame = SimpleBoard.currentGameMatrix;
-					Score skor = SimpleBoard.score;
-					int score = skor.scoreProperty().get();
-					String str = "";
-					for (int i = 0; i < currentGame.length; i++) {
-						for (int j = 0; j < currentGame[i].length; j++) {
-							int index = currentGame[i][j];
-							str += String.valueOf(index);
-						}
-						str += "\n";
+			//Saves the game if the Save button is pressed.
+			if (focusIndex == 2) {
+				int[][] currentGame = SimpleBoard.currentGameMatrix;
+				Score skor = SimpleBoard.score;
+				int score = skor.scoreProperty().get();
+				String str = "";
+
+				for (int i = 0; i < currentGame.length; i++) {
+					for (int j = 0; j < currentGame[i].length; j++) {
+						int index = currentGame[i][j];
+						str += String.valueOf(index);
 					}
-					try {
-						save(Integer.toString(score), str, "game.txt");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					str += "\n";
 				}
 
-				// Load tuşuna basıldıysa son kaydedilen oyunu geri yükler...
-				if (focusIndex == 1) {
-					try {
-						load();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					GameController.viewGuiController.refreshGameBackground(newGameMatrix);
-				}
-
-				//Settings tuşuna basılırsa ayarlar menüsü ekrana gelir...
-				if(focusIndex == 0){
-					settingFrame = new SettingsMenuFrame();
+				try {
+					save(Integer.toString(score), str, "game.txt");
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 
-			//Menu açıldıktan sonra ESC tuşuna basılırsa menü kapanır...
-			if(keyCode == KeyEvent.VK_ESCAPE){ // Escape Key
-				GuiController.frame.dispose();
+			//Load the last saved game if the Load key was pressed.
+			if (focusIndex == 1) {
+				try {
+					load();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				GameController.viewGuiController.refreshGameBackground(newGameMatrix);
+			}
+
+			//If the Settings button is pressed, the settings menu appears.
+			if(focusIndex == 0){
+				settingFrame = new SettingsMenuFrame();
 			}
 		}
 
-	// Save ederken oyun ekranı matrisini ve skoru alır game.txt dosyasına yazar...
+		//If the ESC button is pressed after the menu is opened, the menu closes.
+		if(keyCode == KeyEvent.VK_ESCAPE){ // Escape Key
+			GuiController.frame.dispose();
+		}
+	}
+
+	// While saving, it takes the game screen matrix and the score method that writes to the game.txt file.
 	public void save(String score, String game, String name) throws IOException {
 		BufferedWriter bw = null;
 		bw = new BufferedWriter(new FileWriter("game.txt", false));
@@ -163,13 +157,14 @@ public class MenuPanel extends JPanel implements KeyListener {
 		bw.close();
 	}
 
-	//Son kaydedilen oyun ekranı matrisini ve skorunu geri yükleyen metot...
+	//Method that restores the last saved game screen matrix and score ...
 	public void load() throws IOException {
 		String line = "";
 		BufferedReader br = new BufferedReader(new FileReader("game.txt"));
 		newGameMatrix = new int[SimpleBoard.currentGameMatrix.length][SimpleBoard.currentGameMatrix[0].length];
 		int row = 0;
 		int skor = 0;
+		
 		while ((line = br.readLine()) != null) {
 			if(line.equals("game:")){
 				while(true){
@@ -195,9 +190,9 @@ public class MenuPanel extends JPanel implements KeyListener {
 	}
 
 	/*
-	GuiController sınıfında her oyun gameover olduğunda skor "score.txt"-
-	dosyasını yazılır.Eğer kullanıcı scoreboard tuşuna basarsa yazılan skorlar-
-	bu dosyadan okunarak ekrana bastırılır.
+	The score "score.txt" whenever there is a gameover in the GuiController class -
+	If the user presses the scoreboard button, the scores will be
+	It is read from this file and printed on the screen.
 	*/ 
 	public void loadScore() throws IOException {
 		String line = "";
@@ -221,6 +216,5 @@ public class MenuPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-	
 	
 }

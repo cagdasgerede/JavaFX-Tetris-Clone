@@ -11,9 +11,11 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 	This class is a settings menu.
 	Game speed may change from this window
 	*/
+
 	private static final long serialVersionUID = 1L;
 	private int width, height;
 	static SettingsMenuFrame settingFrame;
+
 	public SpeedSettingsMenuPanel() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -33,16 +35,13 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		 
 		g.setColor(new Color(0x9391d6));
 		g.fillRect(0, 0, width, height);
 
-	 
 		for (int i = 0; i < menus.length; i++) {
 			int x = menu_x;
 			int y = menu_ys[i];
 
-			 
 			if (i == focusIndex) {
 				g.setColor(Color.GREEN);
 			} else {
@@ -66,22 +65,23 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 				this.repaint();
 			}
 			if(keyCode == KeyEvent.VK_ENTER){ // Enter key
-				//Çok yavaş tuşuna basıldıysa hızı 1 yapar...
+				
+				//If pressed too slow, it makes the speed 1.
 				if(focusIndex == 0){
 					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
 					GuiController.timeLine.setRate(1.0);
 				}
-				//Yavaş tuşuna basıldıysa hızı 2 yapar...
+				//If the slow button is pressed, it makes the speed 2.
 				if(focusIndex == 1){
 					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
 					GuiController.timeLine.setRate(2.0);
 				}
-				//Hızlı tuşuna basıldıysa hızı 4 yapar...
+				//Pressing the fast key makes the speed 4.
 				if(focusIndex == 2){
 					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
 					GuiController.timeLine.setRate(4.0);
 				}
-				//Çok hızlı tuşuna basıldıysa hızı 5 yapar...
+				//If the button is pressed very fast, it makes the speed 5.
 				if(focusIndex == 3){
 					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
 					GuiController.timeLine.setRate(5.0);
@@ -100,6 +100,5 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-	
 	
 }

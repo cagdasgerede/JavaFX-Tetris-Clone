@@ -105,7 +105,7 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
-                // Esc tuşuna basılınca oyun durur ve çıkış menüsü gelir...
+                //When the Esc key is pressed, the game stops and the exit menu appears.
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
                     pauseButton.selectedProperty().setValue(true);
                     frame = new MenuFrame();
@@ -270,7 +270,7 @@ public class GuiController implements Initializable {
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
         
-        //Her oyun sonlandığında skoru kaydeder...
+        //Each game saves the score when it ends.
         try {
             saveScore();
         } catch (IOException e) {
@@ -296,6 +296,7 @@ public class GuiController implements Initializable {
         System.exit(0);
     }
 
+    //The method to write the scores to the "score.txt" file when the game is over.
     public static void saveScore() throws IOException {
         if(isGameOver.get() == Boolean.TRUE){
            BufferedWriter bw = null;

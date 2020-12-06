@@ -12,6 +12,7 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 	By pressing the settings button from the player exit menu-
 	comes to this section and from here view "speed settings".
 	*/
+
 	private static final long serialVersionUID = 1L;
 	private int width, height;
 	static SpeedSettingsFrame gamespeedsettingsmenuframe;
@@ -23,7 +24,7 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 
 	}
     
-    private String[] menus = new String[] { "HIZ AYARLARI"};
+    private String[] menus = new String[] { "SPEED SETTINGS"};
 
     private int focusIndex;
 
@@ -34,16 +35,13 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		 
 		g.setColor(new Color(0x9391d6));
 		g.fillRect(0, 0, width, height);
 
-	 
 		for (int i = 0; i < menus.length; i++) {
 			int x = menu_x;
 			int y = menu_ys[i];
 
-			 
 			if (i == focusIndex) {
 				g.setColor(Color.GREEN);
 			} else {
@@ -61,7 +59,7 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 		switch (keyCode) {
 			case KeyEvent.VK_UP:// up direction key
 				focusIndex = (focusIndex + menus.length - 1) % menus.length; // Consider the meaning of % remainder.
-				this.repaint(); // refresh the canvas
+				this.repaint(); 
 				break;
 			case KeyEvent.VK_DOWN:// down arrow
 				focusIndex = (focusIndex + 1) % menus.length;
@@ -69,7 +67,7 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 				break;
             case KeyEvent.VK_ENTER:
                 
-                //Kullanıcı hız ayarları tuşuna basmıştır...
+                //The user pressed the speed settings button.
                 if(focusIndex == 0){
 					gamespeedsettingsmenuframe = new SpeedSettingsFrame();
                 }
