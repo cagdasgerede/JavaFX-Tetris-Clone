@@ -12,7 +12,6 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 	By pressing the settings button from the player exit menu-
 	comes to this section and from here view "speed settings".
 	*/
-
 	private static final long serialVersionUID = 1L;
 	private int width, height;
 	static SpeedSettingsFrame gamespeedsettingsmenuframe;
@@ -52,14 +51,13 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
 		}
 	}
 
-
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode(); 
 		switch (keyCode) {
 			case KeyEvent.VK_UP:// up direction key
 				focusIndex = (focusIndex + menus.length - 1) % menus.length; // Consider the meaning of % remainder.
-				this.repaint(); 
+				this.repaint();  
 				break;
 			case KeyEvent.VK_DOWN:// down arrow
 				focusIndex = (focusIndex + 1) % menus.length;
@@ -76,8 +74,7 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
                 MenuPanel.settingFrame.dispose();
         }
                
-            
-        }
+	}
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -86,5 +83,4 @@ public class SettingsMenuPanel extends JPanel implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
 }

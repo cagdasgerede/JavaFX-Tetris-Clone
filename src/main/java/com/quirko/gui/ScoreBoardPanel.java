@@ -60,9 +60,9 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
         table.setModel(tablemodel);
         table.setBackground(Color.WHITE);
         table.setSelectionBackground(Color.GRAY);
-    
+         
     }
-
+   
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode(); 

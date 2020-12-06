@@ -11,11 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JPanel;
+
 import com.quirko.app.GameController;
 import com.quirko.logic.Score;
 import com.quirko.logic.SimpleBoard;
 
 public class MenuPanel extends JPanel implements KeyListener {
+
 	/*
 	This class is an exit menu
 	Includes Settings-Load-Save-ScoreBoard-Exıt functions.
@@ -69,7 +71,6 @@ public class MenuPanel extends JPanel implements KeyListener {
 		}
 	}
 
-	 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode(); 
@@ -84,10 +85,10 @@ public class MenuPanel extends JPanel implements KeyListener {
 		}
 		if(keyCode == KeyEvent.VK_ENTER){ // Enter Key
 
-			//Exit the program if the Exit key is pressed.
+			// Exit the program if the Exit key is pressed
 			if (focusIndex == 4)
 				GuiController.exit();
-				
+			
 			//If the ScoreBoard key is pressed, the scores are printed on the screen.
 			if(focusIndex == 3){
 				try {
@@ -96,7 +97,6 @@ public class MenuPanel extends JPanel implements KeyListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-
 				scoreboard = new ScoreBoardPanel();
 			}
 					
@@ -106,7 +106,6 @@ public class MenuPanel extends JPanel implements KeyListener {
 				Score skor = SimpleBoard.score;
 				int score = skor.scoreProperty().get();
 				String str = "";
-
 				for (int i = 0; i < currentGame.length; i++) {
 					for (int j = 0; j < currentGame[i].length; j++) {
 						int index = currentGame[i][j];
@@ -114,7 +113,6 @@ public class MenuPanel extends JPanel implements KeyListener {
 					}
 					str += "\n";
 				}
-
 				try {
 					save(Integer.toString(score), str, "game.txt");
 				} catch (IOException e1) {
@@ -157,14 +155,13 @@ public class MenuPanel extends JPanel implements KeyListener {
 		bw.close();
 	}
 
-	//Method that restores the last saved game screen matrix and score ...
+	//Method that load the last saved game screen matrix and score ...
 	public void load() throws IOException {
 		String line = "";
 		BufferedReader br = new BufferedReader(new FileReader("game.txt"));
 		newGameMatrix = new int[SimpleBoard.currentGameMatrix.length][SimpleBoard.currentGameMatrix[0].length];
 		int row = 0;
 		int skor = 0;
-		
 		while ((line = br.readLine()) != null) {
 			if(line.equals("game:")){
 				while(true){
@@ -216,5 +213,4 @@ public class MenuPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-	
 }

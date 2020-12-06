@@ -11,11 +11,9 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 	This class is a settings menu.
 	Game speed may change from this window
 	*/
-
 	private static final long serialVersionUID = 1L;
 	private int width, height;
 	static SettingsMenuFrame settingFrame;
-
 	public SpeedSettingsMenuPanel() {
 		this.setFocusable(true);
 		this.addKeyListener(this);
@@ -31,7 +29,6 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 
 	private int[] menu_ys = new int[] { 80, 110, 140, 170 };
 
-	 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -51,47 +48,46 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 			g.drawString(menus[i], x, y);
 		}
 	}
-
 	 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode(); 
-			if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
-				focusIndex = (focusIndex + menus.length - 1) % menus.length; 
-				this.repaint(); 
-			}
-			if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
-				focusIndex = (focusIndex + 1) % menus.length;
-				this.repaint();
-			}
-			if(keyCode == KeyEvent.VK_ENTER){ // Enter key
+		if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
+			focusIndex = (focusIndex + menus.length - 1) % menus.length; 
+			this.repaint(); 
+		}
+		if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
+			focusIndex = (focusIndex + 1) % menus.length;
+			this.repaint();
+		}
+		if(keyCode == KeyEvent.VK_ENTER){ // Enter key
 				
-				//If pressed too slow, it makes the speed 1.
-				if(focusIndex == 0){
-					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-					GuiController.timeLine.setRate(1.0);
-				}
-				//If the slow button is pressed, it makes the speed 2.
-				if(focusIndex == 1){
-					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-					GuiController.timeLine.setRate(2.0);
-				}
-				//Pressing the fast key makes the speed 4.
-				if(focusIndex == 2){
-					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-					GuiController.timeLine.setRate(4.0);
-				}
-				//If the button is pressed very fast, it makes the speed 5.
-				if(focusIndex == 3){
-					SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-					GuiController.timeLine.setRate(5.0);
-				}
-			}
-
-			if(keyCode == KeyEvent.VK_ESCAPE){ //Escape Key
+			//If pressed too slow, it makes the speed 1.
+			if(focusIndex == 0){
 				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+				GuiController.timeLine.setRate(1.0);
+			}
+			//If the slow button is pressed, it makes the speed 2.
+			if(focusIndex == 1){
+				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+				GuiController.timeLine.setRate(2.0);
+			}
+			//Pressing the fast key makes the speed 4.
+			if(focusIndex == 2){
+				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+				GuiController.timeLine.setRate(4.0);
+			}
+			//If the button is pressed very fast, it makes the speed 5.
+			if(focusIndex == 3){
+				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+				GuiController.timeLine.setRate(5.0);
 			}
 		}
+
+		if(keyCode == KeyEvent.VK_ESCAPE){ //Escape Key
+			SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+		}
+	}
  
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -100,5 +96,4 @@ public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-	
 }

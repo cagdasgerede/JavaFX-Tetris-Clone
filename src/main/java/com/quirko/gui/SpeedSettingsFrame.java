@@ -1,8 +1,8 @@
 package com.quirko.gui;
 
 import javax.swing.JFrame;
+
 public class SpeedSettingsFrame extends JFrame{
-	
 	/*
 	 Creates a frame by calling the SpeedSettingsMenuPanel class.
 	*/
@@ -19,6 +19,4 @@ public class SpeedSettingsFrame extends JFrame{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
 		this.setVisible(true);
 	}
- 
-	 
 }
