@@ -48,6 +48,11 @@
                 P - pause/resume.
                 ]]>
             </Text>
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                ESC - escape menu.
+                ]]>
+            </Text>
 
         </VBox>
     </VBox>

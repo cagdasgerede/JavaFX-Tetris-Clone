@@ -1,6 +1,7 @@
 package com.quirko.gui;
 
 import com.quirko.logic.DownData;
+import com.quirko.logic.SimpleBoard;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
@@ -27,6 +28,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -61,11 +65,13 @@ public class GuiController implements Initializable {
 
     private Rectangle[][] rectangles;
 
-    private Timeline timeLine;
+    public static Timeline timeLine;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
-    private final BooleanProperty isGameOver = new SimpleBooleanProperty();
+    public static final BooleanProperty isGameOver = new SimpleBooleanProperty();
+
+    public static MenuFrame frame;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,8 +105,12 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
-
+                // Esc tuşuna basılınca oyun durur ve çıkış menüsü gelir...
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    pauseButton.selectedProperty().setValue(true);
+                    frame = new MenuFrame();
             }
+        }
         });
         gameOverPanel.setVisible(false);
         pauseButton.selectedProperty().bindBidirectional(isPause);
@@ -206,8 +216,10 @@ public class GuiController implements Initializable {
 
     private void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
-            brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
+            brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap()
+                    + brick.getxPosition() * BRICK_SIZE);
+            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap()
+                    + brick.getyPosition() * BRICK_SIZE);
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
@@ -235,7 +247,8 @@ public class GuiController implements Initializable {
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+                NotificationPanel notificationPanel = new NotificationPanel(
+                        "+" + downData.getClearRow().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
             }
@@ -256,7 +269,13 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-
+        
+        //Her oyun sonlandığında skoru kaydeder...
+        try {
+            saveScore();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void newGame(ActionEvent actionEvent) {
@@ -272,4 +291,22 @@ public class GuiController implements Initializable {
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
     }
+
+    public static void exit() {
+        System.exit(0);
+    }
+
+    public static void saveScore() throws IOException {
+        if(isGameOver.get() == Boolean.TRUE){
+           BufferedWriter bw = null;
+            bw = new BufferedWriter(new FileWriter("score.txt", true));
+            bw.write("score:\n");
+            bw.write(Integer.toString(SimpleBoard.score.scoreProperty().get()));
+            bw.newLine();
+            bw.flush();
+            bw.close();
+        }
+    }
+
+
 }

@@ -10,7 +10,7 @@ public class GameController implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
-    private final GuiController viewGuiController;
+    public static  GuiController viewGuiController;
 
     public GameController(GuiController c) {
         viewGuiController = c;
