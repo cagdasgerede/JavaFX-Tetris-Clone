@@ -3,8 +3,10 @@ package com.quirko.gui;
 import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
+import com.quirko.gui.DifficultyType;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.Animation;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -67,7 +69,21 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
-    private String diff;
+    private Enum diff;
+
+    private final double rate=0.5;
+
+    private final double hard_acc=0.5;
+    
+    private final double medium_acc=0.2; 
+    
+    private final double easy_acc=0.05;
+    
+    private double hard_rate=rate;
+
+    private double medium_rate=rate;
+
+    private double easy_rate=rate;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -101,7 +117,23 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
-
+                //different acculator for each difficulty level
+                if(diff == DifficultyType.EASY){
+                    timeLine.setRate(easy_rate);
+                    if(easy_rate < 1.5)
+                        easy_rate+=rate*easy_acc;
+                }
+                else if(diff == DifficultyType.MEDIUM){
+                    timeLine.setRate(medium_rate);
+                    if(medium_rate < 2)
+                        medium_rate+=rate*medium_acc;
+                }
+                else if(diff == DifficultyType.HARD){
+                    timeLine.setRate(hard_rate);
+                    if(hard_rate < 3)
+                        hard_rate+=rate*hard_acc;
+                }
+                
             }
         });
         gameOverPanel.setVisible(false);
@@ -149,25 +181,11 @@ public class GuiController implements Initializable {
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
 
         generatePreviewPanel(brick.getNextBrickData());
-        System.out.println(diff+" if else ");
-        if(diff.equalsIgnoreCase("easy")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(1000),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        timeLine = new Timeline(new KeyFrame(
+        Duration.millis(500),
+        ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
-        }
-        else if(diff.equalsIgnoreCase("medium")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
-        ));
-        }
-        else if(diff.equalsIgnoreCase("hard")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(100),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
-        ));
-        }
+        
      
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
@@ -279,27 +297,14 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(false);
         eventListener.createNewGame();
-        gamePanel.requestFocus();
-        System.out.println(diff+" if else ");
-        if(diff.equalsIgnoreCase("easy")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(1000),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        gamePanel.requestFocus();       
+        timeLine = new Timeline(new KeyFrame(
+        Duration.millis(500),
+        ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
-        }
-        else if(diff.equalsIgnoreCase("medium")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
-        ));
-        }
-        else if(diff.equalsIgnoreCase("hard")){
-            timeLine = new Timeline(new KeyFrame(
-                Duration.millis(100),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
-        ));
-        }
-     
+        easy_rate=rate;
+        medium_rate=rate;
+        hard_rate=rate;
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
@@ -309,8 +314,7 @@ public class GuiController implements Initializable {
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
     }
-    public void setDiff(String diff){
-        this.diff=diff;
-        System.out.println(diff+" gui cont");
+    public void setDifficulty(Enum difficulty){
+        this.diff=difficulty;
     }
 }

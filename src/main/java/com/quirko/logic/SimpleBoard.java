@@ -12,14 +12,14 @@ public class SimpleBoard implements Board {
 
     private final int width;
     private final int height;
-    private  BrickGenerator brickGenerator;
+    private BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
-    private String diff;
+    private Enum diff;
 
-    public SimpleBoard(int width, int height, String diff) {
+    public SimpleBoard(int width, int height, Enum diff) {
         this.diff=diff;
         this.width = width;
         this.height = height;
@@ -129,7 +129,7 @@ public class SimpleBoard implements Board {
         createNewBrick();
         brickGenerator = new RandomBrickGenerator(diff);
     }
-    public void setDiff(String diff){
-        this.diff=diff;
+    public void setDifficulty(Enum diff){
+        this.diff = diff;
     }
 }

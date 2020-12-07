@@ -17,17 +17,18 @@ import com.quirko.app.GameController;
 
 
 public class DifficultySetPanel extends JFrame implements ActionListener{
-    public String diff;
+	
+	public Enum diff;
+	
 	public DifficultySetPanel(){
-		diff="";
 		setSize(500,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Difficulty Choice");
 		setLayout(new BorderLayout());
 		
-		JPanel tus_paneli = new JPanel();
-		tus_paneli.setLayout(new  GridLayout(3,1));
-		tus_paneli.setBackground(Color.cyan);
+		JPanel button_panel = new JPanel();
+		button_panel.setLayout(new  GridLayout(3,1));
+		button_panel.setBackground(Color.cyan);
 		
 		JButton easy = new JButton("EASY");
 		JButton medium = new JButton("MEDIUM");
@@ -37,40 +38,31 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 		medium.addActionListener(this);
 		hard.addActionListener(this);
 		
-		tus_paneli.add(easy);
-		tus_paneli.add(medium);
-		tus_paneli.add(hard);
+		button_panel.add(easy);
+		button_panel.add(medium);
+		button_panel.add(hard);
 		
-		add(tus_paneli,BorderLayout.CENTER);
+		add(button_panel,BorderLayout.CENTER);
 
 		setVisible(true);
-		System.out.println(diff);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	
 		String action_command = e.getActionCommand();
 		if(action_command.equals("EASY")) {
-			this.diff="easy";
-			System.out.println(diff);
-            //this.dispose();
+			this.diff=DifficultyType.EASY;
 		}
 		else if(action_command.equals("MEDIUM")) {
-            this.diff="medium";
-           // this.dispose();
-			
+            this.diff=DifficultyType.MEDIUM;
 		}
 		else if(action_command.equals("HARD")) {
-            this.diff="hard";
-         //   this.dispose();
+            this.diff=DifficultyType.HARD;
 		}
 		
-		
-		
     }
-    public String getDiff(){
-		System.out.println(diff);
+    public 	Enum getDiff(){
+		System.out.println("");
 		return this.diff;
 	}
 	

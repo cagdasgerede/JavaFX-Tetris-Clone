@@ -23,5 +23,6 @@ public interface Board {
     Score getScore();
 
     void newGame();
-    void setDiff(String diff);
+
+    void setDifficulty(Enum diff);
 }

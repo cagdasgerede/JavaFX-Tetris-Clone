@@ -24,19 +24,19 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         GuiController c = fxmlLoader.getController();
         DifficultySetPanel dfs= new DifficultySetPanel();
-        String diff = dfs.getDiff();
-        while(diff.length()==0){
+        Enum diff = dfs.getDiff();
+        while(diff==null){
             diff = dfs.getDiff();
 
         }
-      //  System.out.println(diff);
+     
         dfs.dispose();
         primaryStage.setTitle("TetrisJFX");
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
        
-        new GameController(c,diff);
+        new GameController(c, diff);
     }
 
 
