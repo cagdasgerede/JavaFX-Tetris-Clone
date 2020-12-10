@@ -6,6 +6,7 @@ import com.quirko.logic.bricks.BrickGenerator;
 import com.quirko.logic.bricks.RandomBrickGenerator;
 import com.quirko.logic.rotator.BrickRotator;
 import com.quirko.logic.rotator.NextShapeInfo;
+import javax.sound.sampled.Clip;
 
 import java.awt.*;
 
@@ -20,6 +21,7 @@ public class SimpleBoard implements Board {
     private final Score score;
     private DotBrick dotBrickObj = new DotBrick();
     private Brick currentBrick;
+    private AudioHandler audio;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
@@ -89,6 +91,11 @@ public class SimpleBoard implements Board {
     @Override
     public boolean createNewBrick() {
         currentBrick = brickGenerator.getBrick();
+        if (currentBrick.getClass().equals(dotBrickObj.getClass())) {
+            audio = AudioHandler.getInstance();
+            audio.load("selection.wav", "select");
+            audio.play("select", 0);
+        }
         brickRotator.setBrick(currentBrick);
         currentOffset = new Point(4, 0);
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
