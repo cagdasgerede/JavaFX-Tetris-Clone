@@ -12,8 +12,11 @@ public class RandomBrickGenerator implements BrickGenerator {
 
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
 
+    private int index = 0;
+
     public RandomBrickGenerator() {
         brickList = new ArrayList<>();
+        brickList.add(new DotBrick());
         brickList.add(new IBrick());
         brickList.add(new JBrick());
         brickList.add(new LBrick());
@@ -36,5 +39,14 @@ public class RandomBrickGenerator implements BrickGenerator {
     @Override
     public Brick getNextBrick() {
         return nextBricks.peek();
+    }
+
+    public Brick changeNextBrick() {
+        index++;
+        if(brickList.size() == index){
+            index=0;
+            return brickList.get(0);
+        }
+        return brickList.get(index);
     }
 }

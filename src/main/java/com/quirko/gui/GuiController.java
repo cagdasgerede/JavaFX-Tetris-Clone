@@ -88,6 +88,10 @@ public class GuiController implements Initializable {
                         refreshBrick(eventListener.onRotateEvent(new MoveEvent(EventType.ROTATE, EventSource.USER)));
                         keyEvent.consume();
                     }
+                    if (keyEvent.getCode() == KeyCode.C) {
+                        refreshBrick(eventListener.onChangeEvent(new MoveEvent(EventType.CHANGE, EventSource.USER)));
+                        keyEvent.consume();
+                    }
                     if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
                         moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                         keyEvent.consume();
@@ -184,6 +188,9 @@ public class GuiController implements Initializable {
             case 7:
                 returnPaint = Color.BURLYWOOD;
                 break;
+            case 8:
+                returnPaint = Color.GRAY;
+                break;    
             default:
                 returnPaint = Color.WHITE;
                 break;
