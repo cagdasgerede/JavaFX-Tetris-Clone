@@ -11,9 +11,12 @@ public class GameController implements InputEventListener {
     private Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
+    
+    private Achievements achieve;
 
-    public GameController(GuiController c) {
+    public GameController(GuiController c, Achievements achieve) {
         viewGuiController = c;
+        this.achieve = achieve;
         board.createNewBrick();
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
@@ -27,6 +30,8 @@ public class GameController implements InputEventListener {
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
+            //check achievements
+            
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
             }
