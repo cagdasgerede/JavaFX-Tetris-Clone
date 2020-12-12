@@ -5,6 +5,8 @@ import com.quirko.logic.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
+// A special brick that player can change it another Bricks.
+// The name of it comes from its shape: Dot(.)
 public class DotBrick implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();

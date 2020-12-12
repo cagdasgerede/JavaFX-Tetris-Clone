@@ -1,3 +1,6 @@
+/** Author: Full name of Author is unknown. Here is the youtube channel of author:
+ *  https://www.youtube.com/c/FaTalCubez/featured
+ */
 package com.quirko.logic;
 
 import java.io.IOException;
@@ -27,7 +30,7 @@ public class AudioHandler {
 		return handler;
 	}
 
-	/** Website too look at: www.javalobby.org/java/forums/t18465.html */
+	/** Youtube video to look at: https://www.youtube.com/watch?v=x_o6rx7kCXA&ab_channel=FaTalCubez */
 	public void load(String resourcePath, String name) {
 		// Establish path to file
 		URL resource = AudioHandler.class.getClassLoader().getResource(resourcePath);
