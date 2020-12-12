@@ -1,5 +1,6 @@
-/** Author: Full name of Author is unknown. Here is the youtube channel of author:
- *  https://www.youtube.com/c/FaTalCubez/featured
+/** Author: Full name of Author is unknown. Here is the youtube channel and source code of author:
+ *  video: https://www.youtube.com/c/FaTalCubez/featured
+ *  source: http://www.mediafire.com/file/c5ai9cvbc4aeau6/2048-Final.zip/file
  */
 package com.quirko.logic;
 
@@ -30,7 +31,6 @@ public class AudioHandler {
 		return handler;
 	}
 
-	/** Youtube video to look at: https://www.youtube.com/watch?v=x_o6rx7kCXA&ab_channel=FaTalCubez */
 	public void load(String resourcePath, String name) {
 		// Establish path to file
 		URL resource = AudioHandler.class.getClassLoader().getResource(resourcePath);

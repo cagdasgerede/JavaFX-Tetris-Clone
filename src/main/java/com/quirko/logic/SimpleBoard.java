@@ -88,10 +88,11 @@ public class SimpleBoard implements Board {
         }
     }
 
+    // Inside of if statement's resource: http://www.mediafire.com/file/c5ai9cvbc4aeau6/2048-Final.zip/file
     @Override
     public boolean createNewBrick() {
         currentBrick = brickGenerator.getBrick();
-        if (currentBrick.getClass().equals(dotBrickObj.getClass())) { // Inside of if statement's resource: https://www.youtube.com/watch?v=x_o6rx7kCXA&ab_channel=FaTalCubez
+        if (currentBrick.getClass().equals(dotBrickObj.getClass())) {
             audio = AudioHandler.getInstance();
             audio.load("selection.wav", "select");
             audio.play("select", 0);
