@@ -90,7 +90,7 @@ public class GameController implements InputEventListener {
         while(diff_new==null){
             diff_new = dfs.getDiff();
         }
-      
+        
         dfs.dispose();
         this.diff = diff_new;
         board.setDifficulty(diff);

@@ -35,6 +35,17 @@ public class RandomBrickGenerator implements BrickGenerator {
             brickList.add(new OBrick());
         }
         //for medium level adding both of them for balancing
+        if(diff == DifficultyType.HARD){//extra hard shape for increase difficulty
+            brickList.add(new SBrick());
+            brickList.add(new TBrick());
+            brickList.add(new ZBrick());
+        }
+        if(diff == DifficultyType.EASY){//extra easy shape for decrease difficulty
+            brickList.add(new IBrick());
+            brickList.add(new JBrick());
+            brickList.add(new LBrick());
+            brickList.add(new OBrick());
+        }
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
     }

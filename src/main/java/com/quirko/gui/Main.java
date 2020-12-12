@@ -17,7 +17,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         URL location = getClass().getClassLoader().getResource("gameLayout.fxml");
         ResourceBundle resources = null;
         FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
@@ -27,18 +26,14 @@ public class Main extends Application {
         Enum diff = dfs.getDiff();
         while(diff==null){
             diff = dfs.getDiff();
-
         }
-     
         dfs.dispose();
         primaryStage.setTitle("TetrisJFX");
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
-       
         new GameController(c, diff);
     }
-
 
     public static void main(String[] args) {
         launch(args);

@@ -3,6 +3,7 @@ package com.quirko.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,16 +29,28 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 		
 		JPanel button_panel = new JPanel();
 		button_panel.setLayout(new  GridLayout(3,1));
-		button_panel.setBackground(Color.cyan);
+		button_panel.setBackground(Color.BLACK);
 		
 		JButton easy = new JButton("EASY");
 		JButton medium = new JButton("MEDIUM");
 		JButton hard = new JButton("HARD");
-		
+
 		easy.addActionListener(this);
 		medium.addActionListener(this);
 		hard.addActionListener(this);
 		
+		easy.setBackground(Color.DARK_GRAY);
+		medium.setBackground(Color.DARK_GRAY);
+		hard.setBackground(Color.DARK_GRAY);
+
+		easy.setForeground(Color.GREEN);
+		medium.setForeground(Color.YELLOW);
+		hard.setForeground(Color.red);
+
+		easy.setFont(new Font("Arial", Font.BOLD, 40));
+		medium.setFont(new Font("Arial", Font.BOLD, 40));
+		hard.setFont(new Font("Arial", Font.BOLD, 40));
+
 		button_panel.add(easy);
 		button_panel.add(medium);
 		button_panel.add(hard);
@@ -58,12 +71,11 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 		}
 		else if(action_command.equals("HARD")) {
             this.diff=DifficultyType.HARD;
-		}
-		
-    }
+		}	
+	}
+	
     public 	Enum getDiff(){
 		System.out.println("");
 		return this.diff;
-	}
-	
+	}	
 }
