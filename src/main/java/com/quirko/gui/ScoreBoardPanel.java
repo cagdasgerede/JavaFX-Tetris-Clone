@@ -1,15 +1,11 @@
 package com.quirko.gui;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.event.*;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 public class ScoreBoardPanel extends JFrame implements KeyListener{
 
@@ -25,7 +21,7 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
     public ScoreBoardPanel() {
         this.setTitle("ScoreBoard");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setBounds(100, 100, 450, 300);
+        this.setBounds(400, 510, 450, 300);
         this.setVisible(true);
         this.setBackground(Color.DARK_GRAY);
         this.addKeyListener(this);
@@ -48,11 +44,11 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
         columns[0]="Number";
         columns[1]="Score";
         
-        rows=new String[MenuPanel.howManyScore][2];
+        rows=new String[MenuPanel.getHowManyScore()][2];
  
         for(int i = 0; i < rows.length; i++){
             rows[i][0] = String.valueOf(i + 1); 
-            rows[i][1] = String.valueOf(MenuPanel.score[i]);
+            rows[i][1] = String.valueOf(MenuPanel.getScores()[i]);
         }
         
         TableModel tablemodel=new DefaultTableModel(rows,columns);
@@ -68,7 +64,7 @@ public class ScoreBoardPanel extends JFrame implements KeyListener{
         int keyCode = e.getKeyCode(); 
 		switch (keyCode) {
             case KeyEvent.VK_ESCAPE:
-             MenuPanel.scoreboard.dispose();
+             ScoreBoardPanel.this.dispose();
         }
     }
  

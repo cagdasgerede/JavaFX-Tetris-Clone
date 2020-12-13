@@ -68,11 +68,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-    
-      <dependency>
-        <groupId>org.wso2.carbon</groupId>
-        <artifactId>org.wso2.carbon.ui</artifactId>
-        <version>4.4.37</version>
-      </dependency>
     </dependencies>
 </project>

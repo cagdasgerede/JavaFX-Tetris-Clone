@@ -29,6 +29,7 @@
             </BorderPane>
         </VBox>
         <Button text="New Game" onAction="#newGame" styleClass="ipad-dark-grey" prefWidth="140"/>
+        <Button text="Escape Menu" onAction="#escapeMenu" styleClass="ipad-dark-grey" prefWidth="140"/>
         <ToggleButton text="Pause" styleClass="ipad-dark-grey" onAction="#pauseGame" prefWidth="140"
                       fx:id="pauseButton"/>
         <VBox fx:id="helpBox">

@@ -1,99 +1,84 @@
 package com.quirko.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-public class SpeedSettingsMenuPanel extends JPanel implements KeyListener {
-	/*
-	This class is a settings menu.
-	Game speed may change from this window
-	*/
-	private static final long serialVersionUID = 1L;
-	private int width, height;
-	static SettingsMenuFrame settingFrame;
-	public SpeedSettingsMenuPanel() {
-		this.setFocusable(true);
-		this.addKeyListener(this);
-		this.setBackground(Color.DARK_GRAY);
-
-	}
-
-	private String[] menus = new String[] { "TOO SLOW", "SLOW", "FAST", "TOO FAST" };
-
-	private int focusIndex;
-
-	private int menu_x = 260;
-
-	private int[] menu_ys = new int[] { 80, 110, 140, 170 };
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		g.setColor(new Color(0x9391d6));
-		g.fillRect(0, 0, width, height);
-
-		for (int i = 0; i < menus.length; i++) {
-			int x = menu_x;
-			int y = menu_ys[i];
-
-			if (i == focusIndex) {
-				g.setColor(Color.GREEN);
-			} else {
-				g.setColor(Color.WHITE);
-			}
-
-			g.drawString(menus[i], x, y);
-		}
-	}
+public class SpeedSettingsMenuPanel extends JFrame{
 	 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode(); 
-		if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
-			focusIndex = (focusIndex + menus.length - 1) % menus.length; 
-			this.repaint(); 
-		}
-		if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
-			focusIndex = (focusIndex + 1) % menus.length;
-			this.repaint();
-		}
-		if(keyCode == KeyEvent.VK_ENTER){ // Enter key
-				
-			//If pressed too slow, it makes the speed 1.
-			if(focusIndex == 0){
-				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-				GuiController.timeLine.setRate(1.0);
-			}
-			//If the slow button is pressed, it makes the speed 2.
-			if(focusIndex == 1){
-				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-				GuiController.timeLine.setRate(2.0);
-			}
-			//Pressing the fast key makes the speed 4.
-			if(focusIndex == 2){
-				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-				GuiController.timeLine.setRate(4.0);
-			}
-			//If the button is pressed very fast, it makes the speed 5.
-			if(focusIndex == 3){
-				SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
-				GuiController.timeLine.setRate(5.0);
-			}
+	private static final long serialVersionUID = 1L;
+
+	JButton tooSlowSpeed, slowSpeed, fastSpeed, tooFastSpeed;
+	private int width = 400, height = 510;
+	private double speed;
+
+	public SpeedSettingsMenuPanel() {
+		this.setTitle("Speed Settings");
+		this.setSize(width, height);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setLayout(new FlowLayout());
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+
+		tooSlowSpeed = new JButton("TOO SLOW");
+		panel.add(tooSlowSpeed);
+		tooSlowSpeed.addActionListener(new myActionListener());
+		tooSlowSpeed.setLocation(300, 180);
+		tooSlowSpeed.setBackground(Color.BLUE);
+
+		slowSpeed = new JButton("SLOW");
+		panel.add(slowSpeed);
+		slowSpeed.addActionListener(new myActionListener());
+		slowSpeed.setBackground(Color.GREEN);
+
+		fastSpeed = new JButton("FAST");
+		panel.add(fastSpeed);
+		fastSpeed.addActionListener(new myActionListener());
+		fastSpeed.setBackground(Color.YELLOW);
+
+		tooFastSpeed = new JButton("TOO FAST");
+		panel.add(tooFastSpeed);
+		tooFastSpeed.addActionListener(new myActionListener());
+		tooFastSpeed.setBackground(Color.RED);
+
+		this.getContentPane().add(panel , "CENTER");
+		this.setLocationRelativeTo(null);
+		this.getContentPane().setBackground(Color.DARK_GRAY);
+		this.addKeyListener(new myActionListener());
+		this.setFocusable(true);
+		this.setVisible(true);
+	}
+
+	private class myActionListener implements ActionListener , KeyListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == tooSlowSpeed) speed = 1.0;
+
+			else if(e.getSource() == slowSpeed) speed = 2.0;
+			 
+			else if(e.getSource() == fastSpeed) speed = 4.0;
+			 
+			else if(e.getSource() == tooFastSpeed) speed = 5.0;
+			 
+			SpeedSettingsMenuPanel.this.dispose();
+			GuiController.getTimeLine().setRate(speed);
 		}
 
-		if(keyCode == KeyEvent.VK_ESCAPE){ //Escape Key
-			SettingsMenuPanel.gamespeedsettingsmenuframe.dispose();
+		@Override
+		public void keyPressed(KeyEvent e) {
+		   if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				SpeedSettingsMenuPanel.this.dispose();
+		   }
 		}
-	}
- 
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
- 
-	@Override
-	public void keyTyped(KeyEvent e) {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+
 	}
 }

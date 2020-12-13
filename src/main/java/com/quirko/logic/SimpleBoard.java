@@ -14,9 +14,9 @@ public class SimpleBoard implements Board {
     private final int height;
     private final BrickGenerator brickGenerator;
     private final BrickRotator brickRotator;
-    public static int[][] currentGameMatrix;
+    private static int[][] currentGameMatrix;
     private Point currentOffset;
-    public static Score score;
+    private static Score score;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
@@ -25,6 +25,18 @@ public class SimpleBoard implements Board {
         brickGenerator = new RandomBrickGenerator();
         brickRotator = new BrickRotator();
         score = new Score();
+    }
+
+    public static int[][] getCurrentGameMatrix() {
+        return currentGameMatrix;
+    }
+
+    public static void setCurrentGameMatrix(int[][] matrix){
+        currentGameMatrix = matrix;
+    }
+
+    public static Score getGameScore(){
+        return score;
     }
 
     @Override

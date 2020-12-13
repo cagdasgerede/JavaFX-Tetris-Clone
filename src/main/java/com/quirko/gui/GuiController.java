@@ -1,9 +1,12 @@
 package com.quirko.gui;
 
 import com.quirko.logic.DownData;
+import com.quirko.logic.events.*;
 import com.quirko.logic.SimpleBoard;
 import com.quirko.logic.ViewData;
-import com.quirko.logic.events.*;
+import java.io.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -27,12 +30,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
 
@@ -65,13 +62,11 @@ public class GuiController implements Initializable {
 
     private Rectangle[][] rectangles;
 
-    public static Timeline timeLine;
+    private static Timeline timeLine;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
-    public static final BooleanProperty isGameOver = new SimpleBooleanProperty();
-
-    public static MenuFrame frame;
+    private static final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,7 +103,7 @@ public class GuiController implements Initializable {
                 // When the Esc key is pressed, the game stops and the exit menu appears.
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
                     pauseButton.selectedProperty().setValue(true);
-                    frame = new MenuFrame();
+                    new MenuPanel();
             }
         }
         });
@@ -299,12 +294,20 @@ public class GuiController implements Initializable {
            BufferedWriter bw = null;
             bw = new BufferedWriter(new FileWriter("score.txt", true));
             bw.write("score:\n");
-            bw.write(Integer.toString(SimpleBoard.score.scoreProperty().get()));
+            bw.write(Integer.toString(SimpleBoard.getGameScore().scoreProperty().get()));
             bw.newLine();
             bw.flush();
             bw.close();
         }
     }
 
+    public static Timeline getTimeLine(){
+        return timeLine;
+    }
+
+    public void escapeMenu(ActionEvent actionEvent){
+        pauseButton.selectedProperty().setValue(true);
+        new MenuPanel();
+    }
 
 }

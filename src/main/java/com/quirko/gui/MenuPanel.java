@@ -1,109 +1,94 @@
 package com.quirko.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import javax.swing.JPanel;
-
 import com.quirko.app.GameController;
 import com.quirko.logic.Score;
 import com.quirko.logic.SimpleBoard;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Arrays;
+import javax.swing.*;
 
-public class MenuPanel extends JPanel implements KeyListener {
-
-	/*
-	This class is an exit menu
-	Includes Settings-Load-Save-ScoreBoard-Exıt functions.
-	*/
+public class MenuPanel extends JFrame{
+	 
 	private static final long serialVersionUID = 1L;
 
-	private int width, height;
+	JButton settings, load, save, scoreBoard, exit;
+	private int width = 400 , height = 510;
+	private static int [] scores = new int[100];
+	private static int howManyScore = 0;
+	private int [][] newGameMatrix;
 
-	public static ScoreBoardPanel scoreboard;
-
-	public static SettingsMenuFrame settingFrame;
-
-	public static int [] score = new int[100];
-
-	public static int howManyScore = 0;
-
-	public int [][] newGameMatrix;
-	
-	public MenuPanel() {
-		this.setFocusable(true);
-		this.addKeyListener(this);
-		this.setBackground(Color.DARK_GRAY);
-
+	public static int[] getScores(){
+		return scores;
 	}
 
-	private String[] menus = new String[] { "SETTINGS", "LOAD", "SAVE", "SCOREBOARD" , "EXIT GAME" };
+	public static int getHowManyScore(){
+		return howManyScore;
+	}
 
-	private int focusIndex;
+	public MenuPanel(){
+		this.setTitle("Escape Menu");
+		this.setSize(width, height);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setLayout(new FlowLayout());
 
-	private int menu_x = 260;
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
 
-	private int[] menu_ys = new int[] { 80, 110, 140, 170, 200  };
+		settings = new JButton("SETTINGS");
+		panel.add(settings);
+		settings.addActionListener(new myActionListener());
+		settings.setBackground(Color.MAGENTA);
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		load = new JButton("LOAD");
+		panel.add(load);
+		load.addActionListener(new myActionListener());
+		load.setBackground(Color.GREEN);
 
-		g.setColor(new Color(0x9391d6));
-		g.fillRect(0, 0, width, height);
+		save = new JButton("SAVE");
+		panel.add(save);
+		save.addActionListener(new myActionListener());
+		save.setBackground(Color.YELLOW);
 
-		for (int i = 0; i < menus.length; i++) {
-			int x = menu_x;
-			int y = menu_ys[i];
+		scoreBoard = new JButton("SCORE BOARD");
+		panel.add(scoreBoard);
+		scoreBoard.addActionListener(new myActionListener());
+		scoreBoard.setBackground(Color.RED);
 
-			if (i == focusIndex) {
-				g.setColor(Color.GREEN);
-			} else {
-				g.setColor(Color.WHITE);
+		exit = new JButton("EXIT");
+		panel.add(exit);
+		exit.addActionListener(new myActionListener());
+		exit.setBackground(Color.ORANGE);
+
+		this.getContentPane().add(panel , "CENTER");
+		this.setLocationRelativeTo(null);
+		this.getContentPane().setBackground(Color.DARK_GRAY);
+		this.setFocusable(true);
+		this.addKeyListener(new myActionListener());
+		this.setVisible(true);
+	}
+
+	private class myActionListener implements ActionListener, KeyListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == settings){
+				new SettingsMenuPanel();
 			}
 
-			g.drawString(menus[i], x, y);
-		}
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode(); 
-		 	
-		if(keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_W){  // up direction key
-			focusIndex = (focusIndex + menus.length - 1) % menus.length;
-			this.repaint();
-		}
-		if(keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_S){  // down arrow
-			focusIndex = (focusIndex + 1) % menus.length;
-			this.repaint();
-		}
-		if(keyCode == KeyEvent.VK_ENTER){ // Enter Key
-
-			// Exit the program if the Exit key is pressed
-			if (focusIndex == 4)
-				GuiController.exit();
-			
-			//If the ScoreBoard key is pressed, the scores are printed on the screen.
-			if(focusIndex == 3){
+			else if(e.getSource() == load){
 				try {
-					howManyScore = 0;
-					loadScore();
+					load();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				scoreboard = new ScoreBoardPanel();
+				GameController.getViewGuiController().refreshGameBackground(newGameMatrix);
 			}
-					
-			//Saves the game if the Save button is pressed.
-			if (focusIndex == 2) {
-				int[][] currentGame = SimpleBoard.currentGameMatrix;
-				Score skor = SimpleBoard.score;
+
+			else if(e.getSource() == save){
+				int[][] currentGame = SimpleBoard.getCurrentGameMatrix();
+				Score skor = SimpleBoard.getGameScore();
 				int score = skor.scoreProperty().get();
 				String str = "";
 				for (int i = 0; i < currentGame.length; i++) {
@@ -120,25 +105,33 @@ public class MenuPanel extends JPanel implements KeyListener {
 				}
 			}
 
-			//Load the last saved game if the Load key was pressed.
-			if (focusIndex == 1) {
+			else if(e.getSource() == scoreBoard){
 				try {
-					load();
+					howManyScore = 0;
+					loadScore();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				GameController.viewGuiController.refreshGameBackground(newGameMatrix);
+				new ScoreBoardPanel();
 			}
 
-			//If the Settings button is pressed, the settings menu appears.
-			if(focusIndex == 0){
-				settingFrame = new SettingsMenuFrame();
+			else if(e.getSource() == exit){
+				System.exit(0);
 			}
 		}
 
-		//If the ESC button is pressed after the menu is opened, the menu closes.
-		if(keyCode == KeyEvent.VK_ESCAPE){ // Escape Key
-			GuiController.frame.dispose();
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				MenuPanel.this.dispose();
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {
 		}
 	}
 
@@ -159,7 +152,7 @@ public class MenuPanel extends JPanel implements KeyListener {
 	public void load() throws IOException {
 		String line = "";
 		BufferedReader br = new BufferedReader(new FileReader("game.txt"));
-		newGameMatrix = new int[SimpleBoard.currentGameMatrix.length][SimpleBoard.currentGameMatrix[0].length];
+		newGameMatrix = new int[SimpleBoard.getCurrentGameMatrix().length][SimpleBoard.getCurrentGameMatrix()[0].length];
 		int row = 0;
 		int skor = 0;
 		while ((line = br.readLine()) != null) {
@@ -172,15 +165,15 @@ public class MenuPanel extends JPanel implements KeyListener {
 						newGameMatrix[row][col] = line.charAt(col) - '0';
 					}
 					row++;
-					SimpleBoard.currentGameMatrix = newGameMatrix;
+					SimpleBoard.setCurrentGameMatrix(newGameMatrix);
 				}
 			}
 
 			if(line.equals("skor:")){
 				line = br.readLine();
 				skor = Integer.parseInt(line);
-				SimpleBoard.score.reset();
-				SimpleBoard.score.add(skor);
+				SimpleBoard.getGameScore().reset();
+				SimpleBoard.getGameScore().add(skor);
 			}
 		}
 		br.close();
@@ -197,20 +190,11 @@ public class MenuPanel extends JPanel implements KeyListener {
 		while ((line = br.readLine()) != null) {
 			if(line.equals("score:")){
 				line = br.readLine();
-				score[howManyScore] = Integer.parseInt(line);
+				scores[howManyScore] = Integer.parseInt(line);
 				howManyScore++;
 			}
 		}
-		 Arrays.sort(score , 0 , howManyScore);
-
+		Arrays.sort(scores , 0 , howManyScore);
 		br.close();
-	}
- 
-	@Override
-	public void keyReleased(KeyEvent e) {
-	}
- 
-	@Override
-	public void keyTyped(KeyEvent e) {
 	}
 }

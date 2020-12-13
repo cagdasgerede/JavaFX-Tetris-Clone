@@ -10,7 +10,7 @@ public class GameController implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
-    public static  GuiController viewGuiController;
+    private static GuiController viewGuiController;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -18,6 +18,10 @@ public class GameController implements InputEventListener {
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+    }
+
+    public static GuiController getViewGuiController() {
+        return viewGuiController;
     }
 
     @Override
