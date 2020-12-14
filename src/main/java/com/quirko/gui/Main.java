@@ -2,6 +2,7 @@ package com.quirko.gui;
 
 import com.quirko.app.GameController;
 import com.quirko.gui.DifficultySetPanel;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,8 +11,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-
 
 public class Main extends Application {
 
@@ -24,7 +23,7 @@ public class Main extends Application {
         GuiController c = fxmlLoader.getController();
         DifficultySetPanel dfs= new DifficultySetPanel();
         Enum diff = dfs.getDiff();
-        while(diff==null){
+        while(diff == null){
             diff = dfs.getDiff();
         }
         dfs.dispose();

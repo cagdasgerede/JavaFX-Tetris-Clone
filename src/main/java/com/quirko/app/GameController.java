@@ -7,6 +7,7 @@ import com.quirko.logic.*;
 import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -21,16 +22,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.quirko.gui.GuiController;
 
-
-
 public class GameController implements InputEventListener {
     Enum diff;
-    private Board board ;
+    private Board board;
 
     private final GuiController viewGuiController;
 
-    public GameController(GuiController c,Enum diff) {
-        this.diff=diff;
+    public GameController(GuiController c, Enum diff) {
+        this.diff = diff;
         viewGuiController = c;
         board= new SimpleBoard(25, 10, diff);
         board.createNewBrick();
@@ -85,9 +84,9 @@ public class GameController implements InputEventListener {
 
     @Override
     public void createNewGame() {
-        DifficultySetPanel dfs= new DifficultySetPanel();
+        DifficultySetPanel dfs = new DifficultySetPanel();
         Enum diff_new = dfs.getDiff();
-        while(diff_new==null){
+        while(diff_new == null){
             diff_new = dfs.getDiff();
         }
         

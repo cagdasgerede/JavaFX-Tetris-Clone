@@ -4,6 +4,7 @@ import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import com.quirko.gui.DifficultyType;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.Animation;

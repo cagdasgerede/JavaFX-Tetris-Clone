@@ -1,5 +1,8 @@
 package com.quirko.gui;
 
+import com.quirko.gui.GuiController;
+import com.quirko.app.GameController;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -8,14 +11,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import com.quirko.gui.GuiController;
-import com.quirko.app.GameController;
-
 
 public class DifficultySetPanel extends JFrame implements ActionListener{
 	
@@ -64,18 +66,24 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
 		if(action_command.equals("EASY")) {
-			this.diff=DifficultyType.EASY;
+			this.diff = DifficultyType.EASY;
 		}
 		else if(action_command.equals("MEDIUM")) {
-            this.diff=DifficultyType.MEDIUM;
+			this.diff = DifficultyType.MEDIUM;
 		}
 		else if(action_command.equals("HARD")) {
-            this.diff=DifficultyType.HARD;
+			this.diff = DifficultyType.HARD;
 		}	
 	}
 	
-    public 	Enum getDiff(){
-		System.out.println("");
+    public Enum getDiff(){
+		//when difficulty level is choosen, wait for a second for return difficulty level to Main.
+		try{
+			TimeUnit.SECONDS.sleep(1);
+		}
+		catch (InterruptedException e) { 
+			System.out.println("Interrupted");
+		} 
 		return this.diff;
 	}	
 }

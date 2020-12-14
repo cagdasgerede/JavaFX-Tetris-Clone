@@ -20,7 +20,7 @@ public class SimpleBoard implements Board {
     private Enum diff;
 
     public SimpleBoard(int width, int height, Enum diff) {
-        this.diff=diff;
+        this.diff = diff;
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];
