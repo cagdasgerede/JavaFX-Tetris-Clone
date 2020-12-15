@@ -1,5 +1,5 @@
 <?import com.quirko.gui.GameOverPanel?>
-<?import com.quirko.gui.LevelSuccesPanel?>
+<?import com.quirko.gui.LevelSuccessPanel?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
@@ -78,7 +78,7 @@
     </VBox>
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
-            <LevelSuccesPanel fx:id="levelSuccPanel"/>
+            <LevelSuccessPanel fx:id="levelSuccPanel"/>
         </VBox>
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>

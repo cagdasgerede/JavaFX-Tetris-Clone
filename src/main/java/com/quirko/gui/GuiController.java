@@ -56,7 +56,7 @@ public class GuiController implements Initializable {
     private GameOverPanel gameOverPanel;
 
     @FXML
-    public LevelSuccesPanel levelSuccPanel;
+    public LevelSuccessPanel levelSuccPanel;
 
     @FXML
     private Text targetValue;
@@ -103,12 +103,11 @@ public class GuiController implements Initializable {
                         keyEvent.consume();
                     }
 
-                    //Level Down
                     if (keyEvent.getCode() == KeyCode.K) {
                         refreshBrick(eventListener.onLevelUpEvent(new MoveEvent(EventType.LEVELUP, EventSource.USER)));
                         keyEvent.consume();
                     }
-                    //Level Up
+
                     if (keyEvent.getCode() == KeyCode.L) {
                         refreshBrick(eventListener.onLevelDownEvent(new MoveEvent(EventType.LEVELDOWN, EventSource.USER)));
                         keyEvent.consume();
@@ -300,7 +299,6 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-
     }
 
     public void nextGame(int matrixCOUNT) {
@@ -309,8 +307,6 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gamePanel.requestFocus();
         isPause.setValue(Boolean.TRUE);
-
-
     }
 
     public void newGame(ActionEvent actionEvent) {
@@ -321,7 +317,6 @@ public class GuiController implements Initializable {
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
-
     }
 
 
@@ -331,24 +326,19 @@ public class GuiController implements Initializable {
 
     public void setSpeed(int level) {
         timeLine.setRate(timeLine.getRate() + (level * 1.0 * level) / 30);
-        System.out.println("Speed: " + timeLine.getRate());
     }
 
     public void downShift(int level) {
         timeLine.setRate(timeLine.getRate() - (level * 1.0 * level) / 30);
-        System.out.println("Speed: " + timeLine.getRate());
     }
 
     public void resetSpeed() {
         timeLine.setRate(1.0);
-        System.out.println("Speed: " + timeLine.getRate());
     }
 
 
     public void closeLevelLabel() {
         levelSuccPanel.setVisible(false);
         timeLine.play();
-
-
     }
 }

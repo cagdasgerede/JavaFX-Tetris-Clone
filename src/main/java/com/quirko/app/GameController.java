@@ -9,7 +9,9 @@ import com.quirko.logic.events.MoveEvent;
 
 public class GameController implements InputEventListener {
 
-    private Level level = new Level(70);
+    private int level1TargetStart = 70;
+
+    private Level level = new Level(level1TargetStart);
 
     private Board board = new SimpleBoard(25, 10, level);
 
@@ -24,7 +26,6 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
         viewGuiController.bindTarget(board.getLevel().targetProperty());
         viewGuiController.bindLevelID(board.getLevel().levelIDProperty());
-        //Maxpoint for the first level is 250.
         board.updateLevel(level);
     }
 
@@ -45,7 +46,6 @@ public class GameController implements InputEventListener {
 
             }
             if (board.createNewBrick()) {
-                System.out.println(level.getName() + " is over. You failed.");
                 viewGuiController.resetSpeed();
                 viewGuiController.gameOver();
                 createNewGame(false);
@@ -53,15 +53,16 @@ public class GameController implements InputEventListener {
 
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
         } else {
-            //this is when player uses down arrow.
+            //This state is when player presses down (↓) arrow or S key on the keyboard.
             if (event.getEventSource() == EventSource.USER) {
+                //When user presses S or ↓ arrow in order to make blocks go down faster, game adds 1 point.
+                //So 1 point must be added to that level.
                 level.addPoint(1);
                 board.updateLevel(level);
                 board.getScore().add(1);
             }
         }
         if(level.completed()){
-            System.out.println(level.getName() + " is completed.");
             viewGuiController.setSpeed(level.getLevelNumber());
             createNewGame(true);
         }
@@ -94,7 +95,6 @@ public class GameController implements InputEventListener {
             level.upgradeLevel();
             viewGuiController.nextGame(countOfFilledMatrix());
             board.nextGame();
-
         }
         else {
             board.gameOver();
@@ -112,7 +112,6 @@ public class GameController implements InputEventListener {
             board.newGame();
             board.updateLevel(level);
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
-
         }
         return board.getViewData();
     }
@@ -125,7 +124,6 @@ public class GameController implements InputEventListener {
             board.newGame();
             board.updateLevel(level);
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
-
         }
         return board.getViewData();
     }
@@ -140,7 +138,6 @@ public class GameController implements InputEventListener {
                 }
             }
         }
-        System.out.println("Left matrix: " + filledCount);
         viewGuiController.levelSuccPanel.setLeftMatrixCount(filledCount);
         return filledCount;
     }

@@ -10,6 +10,7 @@ public class Level {
     private int maxPoint;
     private int currentPoint;
     private int moveCount;
+    private int level1TargetStart = 70;
     private IntegerProperty target;
     private IntegerProperty levelID;
 
@@ -60,7 +61,6 @@ public class Level {
 
 
     public void levelUp() {
-        System.out.println("Level UP by user");
         this.levelNumber++;
         this.maxPoint = (int) Math.round(maxPoint * 1.2);
         maxPoint *= 1.2;
@@ -104,10 +104,9 @@ public class Level {
         levelNumber = 1;
         currentPoint = 0;
         moveCount = 0;
-        maxPoint = 70;
+        maxPoint = level1TargetStart;
         target.setValue(maxPoint);
         levelID.setValue(1);
-        System.out.println("Level resettled");
     }
 
 
@@ -117,7 +116,6 @@ public class Level {
 
 
     public void upgradeLevel() {
-        System.out.println("Level upgraded");
         this.levelNumber++;
         this.maxPoint = (int) Math.round(maxPoint * 1.2);
         maxPoint *= 1.2;
