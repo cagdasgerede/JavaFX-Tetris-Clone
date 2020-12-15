@@ -30,8 +30,10 @@ public class GameController implements InputEventListener {
         if (!canMove) {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
-            //check achievements
-            
+
+            //check line clear related achievements
+            achieve.clearedLines(clearRow.getLinesRemoved());
+
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
             }
@@ -44,9 +46,11 @@ public class GameController implements InputEventListener {
         } else {
             if (event.getEventSource() == EventSource.USER) {
                 board.getScore().add(1);
+                //check score related achievements
+                achieve.scored(board.getScore().scoreProperty().getValue());
             }
         }
-        return new DownData(clearRow, board.getViewData());
+        return new DownData(clearRow, board.getViewData(), achieve);
     }
 
     @Override
