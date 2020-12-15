@@ -401,5 +401,4 @@ public class MatrixOperationsTest {
         ClearRow result = MatrixOperations.checkRemoving(matrix);
         assertArrayEquals(expected, result.getNewMatrix());
     }
-
 }

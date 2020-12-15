@@ -20,4 +20,12 @@ public class IBrickTest {
         brick.getShapeMatrix().remove(0);
         Assert.assertEquals(2, brick.getShapeMatrix().size());
     }
+
+    @Test
+    public void testGetBrickShape() throws Exception {
+        RandomBrickGenerator randomBrickGenerator = new RandomBrickGenerator();
+        Brick brick = randomBrickGenerator.getBrick(1);
+        Brick testBrick = new IBrick();
+        Assert.assertEquals(testBrick.getClass(), brick.getClass());
+    }
 }
