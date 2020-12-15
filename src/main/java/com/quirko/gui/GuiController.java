@@ -239,6 +239,13 @@ public class GuiController implements Initializable {
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
             }
+            //display achievements when they are completed
+            if (downData.getAchievements().getCompleted(false) != null) {
+                NotificationPanel notificationPanel = new NotificationPanel(downData.getAchievements().getCompleted(true));
+                groupNotification.getChildren().add(notificationPanel);
+                notificationPanel.showAchievement(groupNotification.getChildren());
+            }
+
             refreshBrick(downData.getViewData());
         }
         gamePanel.requestFocus();

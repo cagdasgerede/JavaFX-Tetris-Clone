@@ -43,4 +43,20 @@ public class NotificationPanel extends BorderPane {
         });
         transition.play();
     }
+
+    public void showAchievement(ObservableList<Node> list) {
+        FadeTransition ft = new FadeTransition(Duration.millis(3000), this);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(2500), this);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ParallelTransition transition = new ParallelTransition(tt, ft);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                list.remove(NotificationPanel.this);
+            }
+        });
+        transition.play();
+    }
+    
 }
