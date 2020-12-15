@@ -5,30 +5,47 @@ import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
+import javafx.geometry.Insets;
 
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.List;
 
 public class GuiController implements Initializable {
 
@@ -67,6 +84,8 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
+    private List<Pair<String, Integer>> scores = new ArrayList<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
@@ -99,6 +118,9 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
+                if (keyEvent.getCode() == KeyCode.X) {
+                    showScore(null);
+                }
 
             }
         });
@@ -121,6 +143,24 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
         scoreValue.setEffect(reflection);
+
+        loadScores();
+    }
+
+    public List<Pair<String, Integer>> getScores() {
+        return scores;
+    }
+
+    public void loadScores() {
+        try (BufferedReader br = new BufferedReader(new FileReader(new File("score.txt")))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split(":");
+                scores.add(new Pair<>(words[0], Integer.parseInt(words[1])));
+            }
+        } catch (IOException ignored) {
+
+        }
     }
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
@@ -257,6 +297,53 @@ public class GuiController implements Initializable {
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
 
+        boolean isAdded = false;
+        int pos = -1;
+        for (int i = 0; i < scores.size(); i++) {
+            Pair<String, Integer> score = scores.get(i);
+            if (score.getValue() < Integer.parseInt(scoreValue.getText())) {
+                pos = i;
+                isAdded = true;
+                break;
+            }
+        }
+
+        if (!isAdded && scores.size() < 10) {
+            isAdded = true;
+            pos = scores.size();
+        }
+
+        if (isAdded) {
+            TextInputDialog td = new TextInputDialog("");
+            td.setHeaderText("Enter your name");
+
+            int finalPos = pos;
+            Platform.runLater(() -> {
+                Optional<String> result = td.showAndWait();
+                if (result.isPresent()) {
+                    String name = td.getEditor().getText();
+
+                    if (name == null)
+                        return;
+
+                    scores.add(finalPos, new Pair<>(name, Integer.parseInt(scoreValue.getText())));
+
+                    if (scores.size() == 11)
+                        scores.remove(10);
+
+                    try {
+                        PrintWriter writer = new PrintWriter(new File("score.txt"));
+                        for (Pair<String, Integer> score : scores) {
+                            writer.write(score.getKey() + ":" + score.getValue().toString() + "\n");
+                        }
+                        writer.flush();
+                        writer.close();
+                    } catch (FileNotFoundException ignored) {
+                    }
+                }
+            });
+
+        }
     }
 
     public void newGame(ActionEvent actionEvent) {
@@ -271,5 +358,52 @@ public class GuiController implements Initializable {
 
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
+    }
+
+    public void showScore(ActionEvent actionEvent) {
+        //Label for education
+        Label label = new Label("Top 10");
+        label.setMaxSize(350, 30);
+        label.setAlignment(Pos.CENTER);
+        Font font = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 12);
+        label.setFont(font);
+        //Creating a table view
+        TableView<ScoreData> table = new TableView<ScoreData>();
+        ObservableList<ScoreData> data = FXCollections.observableArrayList(
+        );
+
+        for (Pair<String, Integer> score : scores) {
+            data.add(new ScoreData(score.getKey(), score.getValue().toString()));
+        }
+
+        //Creating columns
+        TableColumn nameCol = new TableColumn("Player Name");
+        nameCol.setStyle( "-fx-alignment: CENTER;");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("playerName"));
+        nameCol.setPrefWidth(230);
+        TableColumn scoreCol = new TableColumn("Score");
+        scoreCol.setStyle( "-fx-alignment: CENTER;");
+        scoreCol.setCellValueFactory(new PropertyValueFactory("score"));
+        scoreCol.setPrefWidth(100);
+
+        //Adding data to the table
+        ObservableList<String> list = FXCollections.observableArrayList();
+        table.setItems(data);
+        table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        table.getColumns().addAll(nameCol, scoreCol);
+        //Setting the size of the table
+        table.setMaxSize(350, 200);
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(0, 0, 0, 0));
+        vbox.getChildren().addAll(label, table);
+        Scene scene = new Scene(vbox, 350, 230);
+
+
+        Stage stage = new Stage();
+        stage.setTitle("ScoreBoard");
+        stage.setScene(scene);
+        stage.show();
     }
 }

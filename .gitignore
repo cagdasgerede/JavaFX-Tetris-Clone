@@ -2,3 +2,5 @@
 .sonar
 target
 jar_builder.bat
+*.iml
+.DS_Store

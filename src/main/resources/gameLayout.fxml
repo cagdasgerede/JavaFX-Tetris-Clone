@@ -31,11 +31,13 @@
         <Button text="New Game" onAction="#newGame" styleClass="ipad-dark-grey" prefWidth="140"/>
         <ToggleButton text="Pause" styleClass="ipad-dark-grey" onAction="#pauseGame" prefWidth="140"
                       fx:id="pauseButton"/>
+        <ToggleButton text="Scoreboard" styleClass="ipad-dark-grey" onAction="#showScore" prefWidth="140"
+                      fx:id="scoreButton"/>
         <VBox fx:id="helpBox">
 
             <Text styleClass="helpInfo" wrappingWidth="150">
                 <![CDATA[
-                Use arrow keys (←, ↑, →, ↓) or (A,S,D,W) keys for movement and rotating.
+                Use arrow keys (↑, ←, ↓, →) or (W,A,S,D) keys for movement and rotating.
                 ]]>
             </Text>
             <Text styleClass="helpInfo" wrappingWidth="150">
@@ -48,6 +50,12 @@
                 P - pause/resume.
                 ]]>
             </Text>
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                X - show scoreboard.
+                ]]>
+            </Text>
+
 
         </VBox>
     </VBox>
