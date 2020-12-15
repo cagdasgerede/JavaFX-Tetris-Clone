@@ -2,7 +2,6 @@ package com.quirko.gui;
 
 import com.quirko.app.GameController;
 import com.quirko.logic.DownData;
-import com.quirko.logic.SimpleBoard;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
@@ -30,9 +29,10 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
@@ -72,18 +72,11 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
-    private boolean escapePressed = false;
     File file;
+
     String path;
 
-    public boolean getEscape()
-    {
-        return escapePressed;
-    }
-
-    public void setEscape(boolean escapePressed){
-        this.escapePressed = escapePressed;
-    }
+    int autoSaveCounter = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -124,22 +117,19 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
                     path = System.getProperty("user.dir") + File.separator + "saves";
                     file = new File(path);
-                    if (pauseButton.selectedProperty().getValue())
-                    {
+                    if (pauseButton.selectedProperty().getValue()) {
                         Stage primaryStage = Main.getStg();
                         fileChooser.setInitialDirectory(file);
                         fileChooser.setTitle("Save File");
                         fileChooser.setInitialFileName("my_save");
-                        fileChooser.getExtensionFilters().addAll(new
-                        FileChooser.ExtensionFilter("textfile", "*.txt"));
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("textfile", "*.txt"));
                         file = fileChooser.showSaveDialog(primaryStage);
                         String fileName = "";
-                        if (file != null){
-                            fileName = file.getName();
+                        if (file != null) {
+                            fileName = file.getAbsolutePath();
                             GameController.saveGame(fileName);
                         }
-                    }
-                    else{
+                    } else {
                         Stage primaryStage = Main.getStg();
                         fileChooser.setInitialDirectory(file);
                         fileChooser.setTitle("Save File");
@@ -147,13 +137,12 @@ public class GuiController implements Initializable {
                         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("textfile", "*.txt"));
                         file = fileChooser.showOpenDialog(primaryStage);
                         String fileName = "";
-                        if (file != null){
-                            fileName = file.getName();
+                        if (file != null) {
+                            fileName = file.getAbsolutePath();
                             GameController.loadGame(fileName);
                         }
                     }
                 }
-
             }
         });
         gameOverPanel.setVisible(false);
@@ -197,16 +186,15 @@ public class GuiController implements Initializable {
                 brickPanel.add(rectangle, j, i);
             }
         }
-        brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-        brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
+        brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap()
+                + brick.getxPosition() * BRICK_SIZE);
+        brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap()
+                + brick.getyPosition() * BRICK_SIZE);
 
         generatePreviewPanel(brick.getNextBrickData());
 
-
-        timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
-                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
-        ));
+        timeLine = new Timeline(
+                new KeyFrame(Duration.millis(400), ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
@@ -260,8 +248,10 @@ public class GuiController implements Initializable {
 
     public void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
-            brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
-            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
+            brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap()
+                    + brick.getxPosition() * BRICK_SIZE);
+            brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap()
+                    + brick.getyPosition() * BRICK_SIZE);
             for (int i = 0; i < brick.getBrickData().length; i++) {
                 for (int j = 0; j < brick.getBrickData()[i].length; j++) {
                     setRectangleData(brick.getBrickData()[i][j], rectangles[i][j]);
@@ -286,10 +276,16 @@ public class GuiController implements Initializable {
     }
 
     private void moveDown(MoveEvent event) {
+        autoSaveCounter++;
+        if (autoSaveCounter == 75) {
+            autoSave();
+            autoSaveCounter = 0;
+        }
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
-                NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearRow().getScoreBonus());
+                NotificationPanel notificationPanel = new NotificationPanel(
+                        "+" + downData.getClearRow().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
             }
@@ -310,7 +306,6 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-
     }
 
     public void newGame(ActionEvent actionEvent) {
@@ -325,5 +320,14 @@ public class GuiController implements Initializable {
 
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
+    }
+
+    public void autoSave() {
+        String timeStamp = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy").format(new Date());
+        timeStamp = "saves" + File.separator + "auto_saved_" + timeStamp + ".txt";
+        path = System.getProperty("user.dir") + File.separator + "saves";
+        file = new File(path);
+        file.mkdir();
+        GameState.saveGame(timeStamp);
     }
 }

@@ -5,7 +5,6 @@ import com.quirko.logic.bricks.BrickGenerator;
 import com.quirko.logic.bricks.RandomBrickGenerator;
 import com.quirko.logic.rotator.BrickRotator;
 import com.quirko.logic.rotator.NextShapeInfo;
-
 import java.awt.*;
 
 public class SimpleBoard implements Board {
