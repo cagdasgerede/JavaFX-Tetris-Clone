@@ -12,16 +12,19 @@ public class SimpleBoard implements Board {
 
     private final int width;
     private final int height;
-    private final BrickGenerator brickGenerator;
-    private final BrickRotator brickRotator;
+    private static BrickGenerator brickGenerator;
+    private static BrickRotator brickRotator;
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
+    private ViewData viewData;
+    private RandomBrickGenerator RBG;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];
+        RBG = new RandomBrickGenerator();
         brickGenerator = new RandomBrickGenerator();
         brickRotator = new BrickRotator();
         score = new Score();
@@ -88,7 +91,8 @@ public class SimpleBoard implements Board {
         Brick currentBrick = brickGenerator.getBrick();
         brickRotator.setBrick(currentBrick);
         currentOffset = new Point(4, 0);
-        return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
+        viewData = new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+        return MatrixOperations.intersect(currentGameMatrix, viewData.getBrickData(), viewData.getxPosition(), viewData.getyPosition());
     }
 
     @Override
@@ -97,8 +101,19 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    public void setBoardMatrix(int[][] boardMatrix){
+        currentGameMatrix = boardMatrix;
+    }
+
+    @Override
     public ViewData getViewData() {
-        return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+        viewData = new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+        return viewData;
+    }
+
+    @Override
+    public void setViewData(int[][] brickData, int xPosition, int yPosition, int[][] nextBrickData){
+        viewData = new ViewData(brickData, xPosition, yPosition, nextBrickData);
     }
 
     @Override
@@ -119,11 +134,20 @@ public class SimpleBoard implements Board {
         return score;
     }
 
+    @Override
+    public void setScore(int score){
+        this.score.setScore(score);;
+    }
+
 
     @Override
     public void newGame() {
         currentGameMatrix = new int[width][height];
         score.reset();
         createNewBrick();
+    }
+
+    public static void setBrick(int b){
+        brickRotator.setBrick(brickGenerator.getBrick(b));
     }
 }

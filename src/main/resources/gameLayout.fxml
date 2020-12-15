@@ -48,6 +48,21 @@
                 P - pause/resume.
                 ]]>
             </Text>
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                Esc - save/load.
+                ]]>
+            </Text>
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                If game is paused, pressing Esc will save the game.
+                ]]>
+            </Text>
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                If game is not paused, pressing Esc will load the game.
+                ]]>
+            </Text>
 
         </VBox>
     </VBox>

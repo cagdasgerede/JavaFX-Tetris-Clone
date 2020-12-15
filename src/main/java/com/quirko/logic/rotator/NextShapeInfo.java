@@ -4,12 +4,12 @@ import com.quirko.logic.MatrixOperations;
 
 public final class NextShapeInfo {
 
-    private final int[][] shape;
-    private final int position;
+    private static int[][] shape;
+    private static int position;
 
-    public NextShapeInfo(final int[][] shape, final int position) {
-        this.shape = shape;
-        this.position = position;
+    public NextShapeInfo(int[][] s, int p) {
+        shape = s;
+        position = p;
     }
 
     public int[][] getShape() {
@@ -18,5 +18,9 @@ public final class NextShapeInfo {
 
     public int getPosition() {
         return position;
+    }
+
+    public static void setShape(int[][] s) {
+        shape = s;
     }
 }

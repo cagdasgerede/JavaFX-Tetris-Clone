@@ -1,6 +1,8 @@
 package com.quirko.gui;
 
+import com.quirko.app.GameController;
 import com.quirko.logic.DownData;
+import com.quirko.logic.SimpleBoard;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
@@ -25,8 +27,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -50,7 +55,7 @@ public class GuiController implements Initializable {
     private GridPane brickPanel;
 
     @FXML
-    private ToggleButton pauseButton;
+    public ToggleButton pauseButton;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -67,8 +72,25 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
+    private boolean escapePressed = false;
+    File file;
+    String path;
+
+    public boolean getEscape()
+    {
+        return escapePressed;
+    }
+
+    public void setEscape(boolean escapePressed){
+        this.escapePressed = escapePressed;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        path = System.getProperty("user.dir") + File.separator + "saves";
+        file = new File(path);
+        file.mkdir();
+        FileChooser fileChooser = new FileChooser();
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
         gamePanel.setFocusTraversable(true);
         gamePanel.requestFocus();
@@ -98,6 +120,38 @@ public class GuiController implements Initializable {
                 }
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
+                }
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    path = System.getProperty("user.dir") + File.separator + "saves";
+                    file = new File(path);
+                    if (pauseButton.selectedProperty().getValue())
+                    {
+                        Stage primaryStage = Main.getStg();
+                        fileChooser.setInitialDirectory(file);
+                        fileChooser.setTitle("Save File");
+                        fileChooser.setInitialFileName("my_save");
+                        fileChooser.getExtensionFilters().addAll(new
+                        FileChooser.ExtensionFilter("textfile", "*.txt"));
+                        file = fileChooser.showSaveDialog(primaryStage);
+                        String fileName = "";
+                        if (file != null){
+                            fileName = file.getName();
+                            GameController.saveGame(fileName);
+                        }
+                    }
+                    else{
+                        Stage primaryStage = Main.getStg();
+                        fileChooser.setInitialDirectory(file);
+                        fileChooser.setTitle("Save File");
+                        fileChooser.setInitialFileName("my_save");
+                        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("textfile", "*.txt"));
+                        file = fileChooser.showOpenDialog(primaryStage);
+                        String fileName = "";
+                        if (file != null){
+                            fileName = file.getName();
+                            GameController.loadGame(fileName);
+                        }
+                    }
                 }
 
             }
@@ -204,7 +258,7 @@ public class GuiController implements Initializable {
         }
     }
 
-    private void refreshBrick(ViewData brick) {
+    public void refreshBrick(ViewData brick) {
         if (isPause.getValue() == Boolean.FALSE) {
             brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
             brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
