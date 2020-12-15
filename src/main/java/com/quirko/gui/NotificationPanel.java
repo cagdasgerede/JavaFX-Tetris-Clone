@@ -16,7 +16,7 @@ import javafx.util.Duration;
 
 public class NotificationPanel extends BorderPane {
 
-    public NotificationPanel(String text) {     //BUNUN KULLANIMI FELAN
+    public NotificationPanel(String text) {
         setMinHeight(200);
         setMinWidth(220);
         final Label score = new Label(text);

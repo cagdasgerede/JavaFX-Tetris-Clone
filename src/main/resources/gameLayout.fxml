@@ -1,5 +1,5 @@
 <?import com.quirko.gui.GameOverPanel?>
-<?import com.quirko.gui.VERY_SPECIAL_Panel?>
+<?import com.quirko.gui.SpecialDropsPanel?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
@@ -78,7 +78,7 @@
 
     <Group fx:id="groupNotification" layoutX="14" layoutY="120">
         <VBox alignment="CENTER">
-            <VERY_SPECIAL_Panel fx:id="VERYSPECIAL_Panel"/>
+            <SpecialDropsPanel fx:id="specialDropsPanel"/>
         </VBox>
     </Group>
 

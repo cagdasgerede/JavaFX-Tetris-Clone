@@ -124,11 +124,11 @@ public class MatrixOperations {
     }
 
 
-    public static boolean isSpecial(int[][] matrix){
-            return matrix[0][0]==8;
+    public static boolean isColorDestroyer(int[][] matrix){
+        return matrix[0][0]==8;
     }
 
-    public static boolean isVerySpecial(int[][] matrix){
+    public static boolean isScoreMultiplexer(int[][] matrix){
         return matrix[1][1]==8;
 }
 

@@ -17,4 +17,5 @@ public final class ClearColor {
     public int getScoreBonus() {
         return scoreBonus;
     }
+    
 }

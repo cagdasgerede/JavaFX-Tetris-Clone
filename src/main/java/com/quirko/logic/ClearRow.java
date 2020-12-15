@@ -12,7 +12,6 @@ public final class ClearRow {
         this.scoreBonus = scoreBonus;
     }
 
-
     public int getLinesRemoved() {
         return linesRemoved;
     }
@@ -24,6 +23,5 @@ public final class ClearRow {
     public int getScoreBonus() {
         return scoreBonus;
     }
-
 
 }

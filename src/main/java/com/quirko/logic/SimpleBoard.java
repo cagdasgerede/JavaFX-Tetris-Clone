@@ -19,8 +19,8 @@ public class SimpleBoard implements Board {
     private Point currentOffset;
     private final Score score;
     private SuperPoint point;
-    public static boolean RightTouched=false;
-	public static boolean LeftTouched=false;
+    public static boolean rightTouched = false;
+    public static boolean leftTouched = false;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
@@ -30,8 +30,8 @@ public class SimpleBoard implements Board {
         brickRotator = new BrickRotator();
         score = new Score();
         point = new SuperPoint();
-        RightTouched=false;
-        LeftTouched=false;
+        rightTouched=false;
+        leftTouched=false;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class SimpleBoard implements Board {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         Point p = new Point(currentOffset);
         p.translate(0, 1);
-        if(MatrixOperations.isSpecial(brickRotator.getCurrentShape())) colorCode=brickRotator.getCurrentShape()[1][1];
-        else colorCode=0;
+        if(MatrixOperations.isColorDestroyer(brickRotator.getCurrentShape())) colorCode=brickRotator.getCurrentShape()[1][1];
+            else colorCode=0;
 
         boolean conflict = MatrixOperations.intersect(currentMatrix, brickRotator.getCurrentShape(), (int) p.getX(), (int) p.getY());
         if (conflict) {
@@ -55,12 +55,14 @@ public class SimpleBoard implements Board {
     public boolean moveBrickLeft() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         Point p = new Point(currentOffset);
-        if(MatrixOperations.isSpecial(brickRotator.getCurrentShape()))return false;
+        if(MatrixOperations.isColorDestroyer(brickRotator.getCurrentShape()))
+            return false;
+
         p.translate(-1, 0);
         boolean conflict = MatrixOperations.intersect(currentMatrix, brickRotator.getCurrentShape(), (int) p.getX(), (int) p.getY());
         if (conflict) {
-            if(MatrixOperations.isVerySpecial(brickRotator.getCurrentShape()))
-                LeftTouched = true; 
+            if(MatrixOperations.isScoreMultiplexer(brickRotator.getCurrentShape()))
+                leftTouched = true; 
             return false;
         } else {
             currentOffset = p;
@@ -72,12 +74,12 @@ public class SimpleBoard implements Board {
     public boolean moveBrickRight() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         Point p = new Point(currentOffset);
-        if(MatrixOperations.isSpecial(brickRotator.getCurrentShape()))return false;
+        if(MatrixOperations.isColorDestroyer(brickRotator.getCurrentShape()))return false;
         p.translate(1, 0);
         boolean conflict = MatrixOperations.intersect(currentMatrix, brickRotator.getCurrentShape(), (int) p.getX(), (int) p.getY());
         if (conflict) {
-            if(MatrixOperations.isVerySpecial(brickRotator.getCurrentShape()))
-                RightTouched = true; 
+            if(MatrixOperations.isScoreMultiplexer(brickRotator.getCurrentShape()))
+                rightTouched = true; 
             return false;
         } else {
             currentOffset = p;
@@ -89,7 +91,7 @@ public class SimpleBoard implements Board {
     public boolean rotateLeftBrick() {
         int[][] currentMatrix = MatrixOperations.copy(currentGameMatrix);
         NextShapeInfo nextShape = brickRotator.getNextShape();
-        if(MatrixOperations.isSpecial(brickRotator.getCurrentShape())) colorCode=brickRotator.getCurrentShape()[1][1];
+        if(MatrixOperations.isColorDestroyer(brickRotator.getCurrentShape())) colorCode=brickRotator.getCurrentShape()[1][1];
         boolean conflict = MatrixOperations.intersect(currentMatrix, nextShape.getShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
         if (conflict) {
             return false;
@@ -161,11 +163,11 @@ public class SimpleBoard implements Board {
 
 
     public boolean isTouched(){
-        return RightTouched&&LeftTouched;
+        return rightTouched && leftTouched;
     }
     
     public void makeUntouched() {
-        RightTouched = false;
-        LeftTouched = false;
+        rightTouched = false;
+        leftTouched = false;
     }
 }

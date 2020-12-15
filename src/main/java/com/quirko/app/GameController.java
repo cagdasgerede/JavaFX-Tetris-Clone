@@ -12,7 +12,6 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
 
-
     public GameController(GuiController c) {
         viewGuiController = c;
         board.createNewBrick();
@@ -28,7 +27,6 @@ public class GameController implements InputEventListener {
         ClearRow clearRow = null;
         ClearColor clearColor = null;
         
-
         if (!canMove) {
             board.mergeBrickToBackground();
 
@@ -52,7 +50,7 @@ public class GameController implements InputEventListener {
         
             if(board.isTouched()){
                     board.getSuperPoint().add(1);
-                    SimpleBoard.RightTouched=SimpleBoard.LeftTouched=false;
+                    SimpleBoard.rightTouched=SimpleBoard.leftTouched=false;
             }
 
             viewGuiController.refreshGameBackground(board.getBoardMatrix());
@@ -63,10 +61,11 @@ public class GameController implements InputEventListener {
             }
         }
 
-        if(SimpleBoard.colorCode!=0)
-        return new DownData(clearRow, board.getViewData(), clearColor);
-        else
-        return new DownData(clearColor, board.getViewData(), clearRow);
+        if(SimpleBoard.colorCode!=0){
+            return new DownData(clearRow, board.getViewData(), clearColor);
+        }else{
+            return new DownData(clearColor, board.getViewData(), clearRow);
+        }
         
     }
 

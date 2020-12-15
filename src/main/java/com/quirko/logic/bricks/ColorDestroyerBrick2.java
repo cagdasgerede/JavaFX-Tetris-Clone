@@ -5,11 +5,11 @@ import com.quirko.logic.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-final class SPECIALBrick2 implements Brick {
+final class ColorDestroyerBrick2 implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
 
-    public SPECIALBrick2() {
+    public ColorDestroyerBrick2() {
         brickMatrix.add(new int[][]{
                 {8, 8, 8, 0},
                 {8, 9, 8, 0},

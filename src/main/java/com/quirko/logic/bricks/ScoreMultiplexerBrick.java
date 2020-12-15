@@ -5,11 +5,11 @@ import com.quirko.logic.MatrixOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-final class VERYSPECIALBrick implements Brick {
+final class ScoreMultiplexerBrick implements Brick {
 
     private final List<int[][]> brickMatrix = new ArrayList<>();
 
-    public VERYSPECIALBrick() {
+    public ScoreMultiplexerBrick() {
         brickMatrix.add(new int[][]{
                 {0, 0, 0, 0},
                 {0, 8, 0, 0},

@@ -5,3 +5,4 @@ jar_builder.bat
 .classpath
 .project
 .settings/
+.DS_Store

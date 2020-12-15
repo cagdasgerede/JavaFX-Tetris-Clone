@@ -59,7 +59,7 @@ public class GuiController implements Initializable {
     private GameOverPanel gameOverPanel;
 
     @FXML
-    private VERY_SPECIAL_Panel VERYSPECIAL_Panel;
+    private SpecialDropsPanel specialDropsPanel;
 
     private Rectangle[][] displayMatrix;
 
@@ -106,18 +106,18 @@ public class GuiController implements Initializable {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
                 if(keyEvent.getCode() == KeyCode.V){
-                        if(!VERYSPECIAL_Panel.isVisible()){
+                        if(!specialDropsPanel.isVisible()){
                             timeLine.pause();
-                            VERYSPECIAL_Panel.setVisible(true);
+                            specialDropsPanel.setVisible(true);
                         } else{
-                            VERYSPECIAL_Panel.setVisible(false);
+                            specialDropsPanel.setVisible(false);
                             timeLine.play();
                         }
                 }
             }
         });
         gameOverPanel.setVisible(false);
-        VERYSPECIAL_Panel.setVisible(false);
+        specialDropsPanel.setVisible(false);
         pauseButton.selectedProperty().bindBidirectional(isPause);
         pauseButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -201,7 +201,7 @@ public class GuiController implements Initializable {
                 returnPaint = Color.BURLYWOOD;
                 break;
             case 8 : 
-                returnPaint = Color.BLACK.desaturate().desaturate();
+                returnPaint = Color.BLACK;
                 break;
             default:
                 returnPaint = Color.WHITE;
@@ -258,7 +258,7 @@ public class GuiController implements Initializable {
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
             }
-            else if ( downData.getClearColor()!=null ){
+            else if (downData.getClearColor()!=null){
                 NotificationPanel notificationPanel = new NotificationPanel("+" + downData.getClearColor().getScoreBonus());
                 groupNotification.getChildren().add(notificationPanel);
                 notificationPanel.showScore(groupNotification.getChildren());
