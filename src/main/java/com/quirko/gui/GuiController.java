@@ -70,7 +70,7 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
-    private Enum diff;
+    private Enum difficultyLevel;
 
     private final double rate = 0.5;
 
@@ -119,17 +119,17 @@ public class GuiController implements Initializable {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
                 //different accelaration for each difficulty level
-                if(diff == DifficultyType.EASY){
+                if(difficultyLevel == DifficultyType.EASY){
                     timeLine.setRate(easy_rate);
                     if(easy_rate < 1.5)
                         easy_rate += rate*easy_acc;
                 }
-                else if(diff == DifficultyType.MEDIUM){
+                else if(difficultyLevel == DifficultyType.MEDIUM){
                     timeLine.setRate(medium_rate);
                     if(medium_rate < 2)
                         medium_rate += rate*medium_acc;
                 }
-                else if(diff == DifficultyType.HARD){
+                else if(difficultyLevel == DifficultyType.HARD){
                     timeLine.setRate(hard_rate);
                     if(hard_rate < 3)
                         hard_rate += rate*hard_acc;
@@ -315,6 +315,6 @@ public class GuiController implements Initializable {
     }
 
     public void setDifficulty(Enum difficulty){
-        this.diff = difficulty;
+        this.difficultyLevel = difficulty;
     }
 }

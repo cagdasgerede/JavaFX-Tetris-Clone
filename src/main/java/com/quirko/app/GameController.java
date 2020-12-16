@@ -23,17 +23,17 @@ import javax.swing.JTextField;
 import com.quirko.gui.GuiController;
 
 public class GameController implements InputEventListener {
-    Enum diff;
+    Enum difficultyLevel;
     private Board board;
 
     private final GuiController viewGuiController;
 
-    public GameController(GuiController c, Enum diff) {
-        this.diff = diff;
+    public GameController(GuiController c, Enum difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
         viewGuiController = c;
-        board= new SimpleBoard(25, 10, diff);
+        board= new SimpleBoard(25, 10, difficultyLevel);
         board.createNewBrick();
-        viewGuiController.setDifficulty(diff);
+        viewGuiController.setDifficulty(difficultyLevel);
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
@@ -85,16 +85,16 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         DifficultySetPanel dfs = new DifficultySetPanel();
-        Enum diff_new = dfs.getDiff();
-        while(diff_new == null){
-            diff_new = dfs.getDiff();
+        Enum difficultyLevel_new = dfs.getDifficultyLevel();
+        while(difficultyLevel_new == null){
+            difficultyLevel_new = dfs.getDifficultyLevel();
         }
         
         dfs.dispose();
-        this.diff = diff_new;
-        board.setDifficulty(diff);
+        this.difficultyLevel = difficultyLevel_new;
+        board.setDifficulty(difficultyLevel);
         board.newGame();
-        viewGuiController.setDifficulty(this.diff);
+        viewGuiController.setDifficulty(this.difficultyLevel);
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 }

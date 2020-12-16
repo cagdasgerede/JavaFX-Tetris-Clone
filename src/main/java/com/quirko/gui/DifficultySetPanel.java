@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 
 public class DifficultySetPanel extends JFrame implements ActionListener{
 	
-	public Enum diff;
+	public Enum difficultyLevel;
 	
 	public DifficultySetPanel(){
 		setSize(500,500);
@@ -57,7 +57,7 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 		button_panel.add(medium);
 		button_panel.add(hard);
 		
-		add(button_panel,BorderLayout.CENTER);
+		add(button_panel, BorderLayout.CENTER);
 
 		setVisible(true);
 	}
@@ -66,17 +66,17 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
 		if(action_command.equals("EASY")) {
-			this.diff = DifficultyType.EASY;
+			this.difficultyLevel = DifficultyType.EASY;
 		}
 		else if(action_command.equals("MEDIUM")) {
-			this.diff = DifficultyType.MEDIUM;
+			this.difficultyLevel = DifficultyType.MEDIUM;
 		}
 		else if(action_command.equals("HARD")) {
-			this.diff = DifficultyType.HARD;
+			this.difficultyLevel = DifficultyType.HARD;
 		}	
 	}
 	
-    public Enum getDiff(){
+    public Enum getDifficultyLevel(){
 		//when difficulty level is choosen, wait for a second for return difficulty level to Main.
 		try{
 			TimeUnit.SECONDS.sleep(1);
@@ -84,6 +84,6 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 		catch (InterruptedException e) { 
 			System.out.println("Interrupted");
 		} 
-		return this.diff;
+		return this.difficultyLevel;
 	}	
 }

@@ -14,34 +14,27 @@ public class RandomBrickGenerator implements BrickGenerator {
 
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
     
-    private HardBricks hardBricks;
+    private HardConfiguration hardBricks;
 
-    private MediumBricks mediumBricks;
+    private MediumConfiguration mediumBricks;
 
-    private EasyBricks easyBricks;
+    private EasyConfiguration easyBricks;
 
     public RandomBrickGenerator(Enum diff) {
         brickList = new ArrayList<>();
-        hardBricks = new HardBricks();
-        mediumBricks = new MediumBricks();
-        easyBricks = new EasyBricks();
-        //for every level add every shape bricks, then according to difficulty level add extra bricks.
-        brickList.add(new IBrick());
-        brickList.add(new JBrick());
-        brickList.add(new LBrick());
-        brickList.add(new OBrick());
-        brickList.add(new SBrick());
-        brickList.add(new TBrick());
-        brickList.add(new ZBrick());
-        if(diff == DifficultyType.MEDIUM){//for medium level adding both of them for balancing
-            brickList.addAll(mediumBricks.brickList);
+        hardBricks = new HardConfiguration();
+        mediumBricks = new MediumConfiguration();
+        easyBricks = new EasyConfiguration();
+        //According to every level configuration add brickList.
+        if(diff == DifficultyType.MEDIUM){//for medium level adding each level for balancing
+            brickList.addAll(mediumBricks.getConfiguration());
         }
         else if(diff == DifficultyType.HARD){//extra hard shape for increase difficulty
-            brickList.addAll(hardBricks.brickList);
+            brickList.addAll(hardBricks.getConfiguration());
             
         }
         else if(diff == DifficultyType.EASY){//extra easy shape for decrease difficulty
-            brickList.addAll(easyBricks.brickList);
+            brickList.addAll(easyBricks.getConfiguration());
         }
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
@@ -59,4 +52,9 @@ public class RandomBrickGenerator implements BrickGenerator {
     public Brick getNextBrick() {
         return nextBricks.peek();
     }
+    
+    public List<Brick> getBrickList(){
+        return this.brickList;
+    }
+    
 }

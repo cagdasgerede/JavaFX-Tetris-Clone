@@ -22,16 +22,16 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         GuiController c = fxmlLoader.getController();
         DifficultySetPanel dfs= new DifficultySetPanel();
-        Enum diff = dfs.getDiff();
-        while(diff == null){
-            diff = dfs.getDiff();
+        Enum difficultyLevel = dfs.getDifficultyLevel();
+        while(difficultyLevel == null){
+            difficultyLevel = dfs.getDifficultyLevel();
         }
         dfs.dispose();
         primaryStage.setTitle("TetrisJFX");
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
-        new GameController(c, diff);
+        new GameController(c, difficultyLevel);
     }
 
     public static void main(String[] args) {
