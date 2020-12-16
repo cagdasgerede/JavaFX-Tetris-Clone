@@ -50,6 +50,10 @@ public class RandomBrickGenerator implements BrickGenerator {
         return brickList.get(index);
     }
 
+    public void setNextBrickAsDotBrick() {
+        nextBricks.add(brickList.get(0));
+    }
+
     public List<Brick> getList() {
         return brickList;
     }

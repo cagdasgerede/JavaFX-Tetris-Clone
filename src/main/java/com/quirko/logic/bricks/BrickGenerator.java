@@ -11,4 +11,6 @@ public interface BrickGenerator {
     Brick changeNextBrick();
 
     List<Brick> getList();
+
+    void setNextBrickAsDotBrick();
 }

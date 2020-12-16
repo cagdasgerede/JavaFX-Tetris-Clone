@@ -92,6 +92,10 @@ public class GuiController implements Initializable {
                         refreshBrick(eventListener.onChangeEvent(new MoveEvent(EventType.CHANGE, EventSource.USER)));
                         keyEvent.consume();
                     }
+                    if (keyEvent.getCode() == KeyCode.R) {
+                        refreshBrick(eventListener.onSetNextBrick(new MoveEvent(EventType.SET, EventSource.USER)));
+                        keyEvent.consume();
+                    }
                     if (keyEvent.getCode() == KeyCode.DOWN || keyEvent.getCode() == KeyCode.S) {
                         moveDown(new MoveEvent(EventType.DOWN, EventSource.USER));
                         keyEvent.consume();

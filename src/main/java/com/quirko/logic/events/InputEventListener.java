@@ -15,5 +15,7 @@ public interface InputEventListener {
 
     ViewData onChangeEvent(MoveEvent event);
 
+    ViewData onSetNextBrick(MoveEvent event);
+
     void createNewGame();
 }

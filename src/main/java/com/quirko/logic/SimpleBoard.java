@@ -104,6 +104,11 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    public void setNextBrickAsDotBrick() {
+        brickGenerator.setNextBrickAsDotBrick();
+    }
+
+    @Override
     public boolean changeBrick() {
         if (currentBrick.getClass().equals(dotBrickObj.getClass())) {
             Brick currentBrick = brickGenerator.changeNextBrick();

@@ -15,6 +15,8 @@ public interface Board {
 
     boolean changeBrick();
 
+    void setNextBrickAsDotBrick();
+
     boolean createNewBrick();
 
     int[][] getBoardMatrix();
