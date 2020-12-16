@@ -49,4 +49,8 @@ public class RandomBrickGenerator implements BrickGenerator {
         }
         return brickList.get(index);
     }
+
+    public List<Brick> getList() {
+        return brickList;
+    }
 }

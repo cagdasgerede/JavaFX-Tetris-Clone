@@ -1,8 +1,9 @@
 /** Author: Full name of Author is unknown. Here is the youtube channel and source code of author:
- *  video: https://www.youtube.com/c/FaTalCubez/featured
+ *  Youtube Channel: https://www.youtube.com/c/FaTalCubez/featured
+ *  video: https://www.youtube.com/watch?v=x_o6rx7kCXA&ab_channel=FaTalCubez
  *  source: http://www.mediafire.com/file/c5ai9cvbc4aeau6/2048-Final.zip/file
  */
-package com.quirko.logic;
+package com.quirko.thirdparty;
 
 import java.io.IOException;
 import java.net.URL;

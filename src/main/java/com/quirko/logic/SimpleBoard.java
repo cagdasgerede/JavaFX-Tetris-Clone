@@ -7,6 +7,7 @@ import com.quirko.logic.bricks.RandomBrickGenerator;
 import com.quirko.logic.rotator.BrickRotator;
 import com.quirko.logic.rotator.NextShapeInfo;
 import javax.sound.sampled.Clip;
+import com.quirko.thirdparty.AudioHandler;
 
 import java.awt.*;
 
@@ -140,6 +141,12 @@ public class SimpleBoard implements Board {
         return score;
     }
 
+    @Override
+    public void setCurrentBrickAsDotBrick() {
+        currentBrick = new DotBrick();
+        brickRotator.setBrick(currentBrick);
+        currentOffset = new Point(8, 0);
+    }
 
     @Override
     public void newGame() {

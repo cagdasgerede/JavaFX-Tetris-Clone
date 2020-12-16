@@ -1,5 +1,8 @@
 package com.quirko.logic;
 
+import com.quirko.logic.bricks.BrickGenerator;
+import com.quirko.logic.bricks.Brick;
+
 public interface Board {
 
     boolean moveBrickDown();
@@ -23,6 +26,8 @@ public interface Board {
     ClearRow clearRows();
 
     Score getScore();
+
+    void setCurrentBrickAsDotBrick();
 
     void newGame();
 }
