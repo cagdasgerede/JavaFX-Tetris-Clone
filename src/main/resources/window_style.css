@@ -64,6 +64,12 @@
     -fx-background-color: red;
 }
 
+.settingsStyle {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 48;
+    -fx-background-color: rgb(155, 235, 217);
+}
+
 .scoreClass{
     -fx-font-family: "Let's go Digital";
     -fx-font-size: 38;

@@ -6,6 +6,8 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.awt.*;
+
 public class MatrixOperations {
 
 
@@ -48,6 +50,10 @@ public class MatrixOperations {
 
     public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
         int[][] copy = copy(filledFields);
+        if(brick[1][2]==8){
+            //get a beep sound if bomb crashes
+            Toolkit.getDefaultToolkit().beep();
+        }
         for (int i = 0; i < brick.length; i++) {
             for (int j = 0; j < brick[i].length; j++) {
                 int targetX = x + i;
@@ -57,6 +63,41 @@ public class MatrixOperations {
                 }
             }
         }
+
+        if(brick[1][2]==8){
+            for (int i = 0; i < copy.length; i++) {
+                for (int j = 0; j < copy[i].length; j++) {
+                    if(copy[i][j]==8){
+                        for(int m=i-3/2; m<=i+3/2; m++){
+                            for(int n=j-3/2; n<=j+3/2; n++){
+                                System.out.println("***********************************n:"+n+" ***************************************");
+                                System.out.println("***********************************m:"+m+" ***************************************");
+                                if( m>=0 && m<copy.length && 0<=n && n<copy[i].length)
+                                    copy[m][n]=0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        /*
+        if(brick[1][2]==8){
+            for (int i = 0; i < filledFields.length; i++) {
+                for (int j = 0; j < filledFields[i].length; j++) {
+                    if(filledFields[i][j]==8){
+                        System.out.println("***********************************Lamborghini***************************************");
+                        for(int m=i-3/2; m<=i+3/2; i++){
+                            for(int n=j-3/2; n<=j+3/2; n++){
+                                if( 0<=m && m<=filledFields.length && 0<=n && n<=filledFields[i].length)
+                                copy[m][n]=0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        */ 
         return copy;
     }
 

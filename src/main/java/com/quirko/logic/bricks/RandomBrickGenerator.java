@@ -26,9 +26,12 @@ public class RandomBrickGenerator implements BrickGenerator {
     }
 
     @Override
-    public Brick getBrick() {
+    public Brick getBrick(int counter,int frequency) {
         if (nextBricks.size() <= 1) {
-            nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
+            if(counter%frequency==1)
+                nextBricks.add(new BombBrick());
+            else
+                nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         }
         return nextBricks.poll();
     }

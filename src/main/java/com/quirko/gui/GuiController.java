@@ -53,6 +53,12 @@ public class GuiController implements Initializable {
     private ToggleButton pauseButton;
 
     @FXML
+    private ToggleButton settingsButton;
+
+    @FXML
+    private ToggleButton settingsPanel;
+
+    @FXML
     private GameOverPanel gameOverPanel;
 
     private Rectangle[][] displayMatrix;
@@ -184,6 +190,9 @@ public class GuiController implements Initializable {
             case 7:
                 returnPaint = Color.BURLYWOOD;
                 break;
+            case 8:
+                returnPaint = Color.MAGENTA;
+                break;
             default:
                 returnPaint = Color.WHITE;
                 break;
@@ -256,6 +265,16 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
+
+    }
+
+    public void settings() {
+        timeLine.stop();
+        settingsPanel.setVisible(true);
+
+        /*
+        
+        */
 
     }
 
