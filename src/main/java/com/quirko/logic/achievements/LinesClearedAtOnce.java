@@ -9,23 +9,17 @@ public class LinesClearedAtOnce implements Achievements {
     public LinesClearedAtOnce() {
         completed = new Stack<Integer>();
         atOnce = new Stack<Integer>();
-        atOnce.push(100);
-        atOnce.push(50);
-        atOnce.push(20);
-        atOnce.push(10);
-        atOnce.push(5);
-        atOnce.push(1);
+        atOnce.push(4);
+        atOnce.push(3);
+        atOnce.push(2);
     }
 
     public LinesClearedAtOnce(int milestone) {
         completed = new Stack<Integer>();
         atOnce = new Stack<Integer>();
-        atOnce.push(100);
-        atOnce.push(50);
-        atOnce.push(20);
-        atOnce.push(10);
-        atOnce.push(5);
-        atOnce.push(1);
+        atOnce.push(4);
+        atOnce.push(3);
+        atOnce.push(2);
         
         if (atOnce.contains(milestone)) 
             while (!atOnce.isEmpty() && atOnce.peek() != milestone)

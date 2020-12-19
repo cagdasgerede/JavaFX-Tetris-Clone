@@ -11,22 +11,24 @@ public class TotalLinesCleared {
     public TotalLinesCleared() {
         completed = new Stack<Integer>();
         totalLines = new Stack<Integer>();
+        totalLines.push(500);
+        totalLines.push(300);
         totalLines.push(100);
         totalLines.push(50);
         totalLines.push(20);
         totalLines.push(10);
-        totalLines.push(5);
         totalLines.push(1);
     }
 
     public TotalLinesCleared(int milestone) {
         completed = new Stack<Integer>();
         totalLines = new Stack<Integer>();
+        totalLines.push(500);
+        totalLines.push(300);
         totalLines.push(100);
         totalLines.push(50);
         totalLines.push(20);
         totalLines.push(10);
-        totalLines.push(5);
         totalLines.push(1);
 
         if (totalLines.contains(milestone)) 

@@ -14,9 +14,9 @@ public class Scored implements Achievements {
         scores.push(2000);
         scores.push(1500);
         scores.push(1000);
-        scores.push(3);
-        scores.push(2);
-        scores.push(1);
+        scores.push(500);
+        scores.push(300);
+        scores.push(100);
     }
 
     public Scored(int milestone) {
