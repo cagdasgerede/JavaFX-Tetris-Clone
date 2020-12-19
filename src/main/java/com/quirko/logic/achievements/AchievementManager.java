@@ -2,9 +2,9 @@ package com.quirko.logic.achievements;
 
 public class AchievementManager {
     
-    private TotalLinesCleared totalCleared = new TotalLinesCleared();
-    private LinesClearedAtOnce clearedAtOnce = new LinesClearedAtOnce();
-    private Scored scored = new Scored();
+    public TotalLinesCleared totalCleared = new TotalLinesCleared();
+    public LinesClearedAtOnce clearedAtOnce = new LinesClearedAtOnce();
+    public Scored scored = new Scored();
 
     public AchievementManager() {
         totalCleared = new TotalLinesCleared();

@@ -1,6 +1,7 @@
 package com.quirko.gui;
 
 import com.quirko.app.GameController;
+import com.quirko.logic.achievements.AchievementFileIO;
 import com.quirko.logic.achievements.AchievementManager;
 
 import javafx.application.Application;
@@ -27,7 +28,19 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
-        new GameController(c, new AchievementManager());
+
+        AchievementFileIO achievementFileIO = new AchievementFileIO();
+        AchievementManager achievements;
+        String username = "abc"; //temporary until username input on startup is implemented
+        if (achievementFileIO.userExists(username)) {
+            int[] userAchievements = achievementFileIO.getUserAchievements(username);
+            achievements = new AchievementManager(userAchievements[0], userAchievements[1], userAchievements[2]);
+        }
+        else
+            achievements = new AchievementManager();
+            
+        achievementFileIO.saveAchievements(username, achievements);
+        new GameController(c, achievements);
     }
 
 

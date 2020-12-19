@@ -45,7 +45,6 @@ public class TotalLinesCleared {
                 Achievements.notDisplayed.add(getCompletionMessage());
                 return true;
             }
-            return false;
         }
         return false;
     }
@@ -55,6 +54,8 @@ public class TotalLinesCleared {
     }
 
     public int getLastCompleted() {
-        return completed.peek();
+        if (!completed.isEmpty())
+            return completed.peek();
+        return 0;
     }
 }

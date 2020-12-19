@@ -33,7 +33,6 @@ public class LinesClearedAtOnce implements Achievements {
                 Achievements.notDisplayed.add(getCompletionMessage());
                 return true;
             }
-            return false;
         }
         return false;
     }
@@ -43,7 +42,9 @@ public class LinesClearedAtOnce implements Achievements {
     }
 
     public int getLastCompleted() {
-        return completed.peek();
+        if (!completed.isEmpty())
+            return completed.peek();
+        return 0;
     }
 
 }
