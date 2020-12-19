@@ -53,13 +53,10 @@ public class GuiController implements Initializable {
     private ToggleButton pauseButton;
 
     @FXML
-    private ToggleButton settingsButton;
-
-    @FXML
-    private ToggleButton settingsPanel;
-
-    @FXML
     private GameOverPanel gameOverPanel;
+
+    @FXML
+    private OptionsPanel OptionsPanel;
 
     private Rectangle[][] displayMatrix;
 
@@ -268,16 +265,6 @@ public class GuiController implements Initializable {
 
     }
 
-    public void settings() {
-        timeLine.stop();
-        settingsPanel.setVisible(true);
-
-        /*
-        
-        */
-
-    }
-
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
         gameOverPanel.setVisible(false);
@@ -291,4 +278,10 @@ public class GuiController implements Initializable {
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
     }
+
+    public void Options(ActionEvent actionEvent){
+        pauseButton.selectedProperty().setValue(true);
+        new OptionsPanel();
+    }
+
 }

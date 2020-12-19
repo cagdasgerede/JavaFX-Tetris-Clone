@@ -24,7 +24,7 @@ public class MatrixOperationsTest {
     @After
     public void tearDown() {
     }
-
+    
     @Test
     public void testNoIntersect() {
         int[][] matrix = new int[][]{
@@ -400,6 +400,46 @@ public class MatrixOperationsTest {
         };
         ClearRow result = MatrixOperations.checkRemoving(matrix);
         assertArrayEquals(expected, result.getNewMatrix());
+    }
+
+    @Test
+    public void testCheckMerge() {
+        int[][] matrix = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,1,1,1},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+        };
+
+        int[][] expected = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,1,0,0},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+        };
+        int[][] brick = new int[][]{
+                {0,0,0,0},
+                {0,0,8,0},
+                {0,0,0,0},
+                {0,0,0,0},
+        };
+        int x=4;
+        int y=4;
+        MatrixOperations.setRadius(3);
+        int[][] result = MatrixOperations.merge(matrix,brick,x,y);
+        assertArrayEquals(expected, result);
     }
 
 }

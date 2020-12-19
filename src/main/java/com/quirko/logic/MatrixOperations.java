@@ -10,10 +10,19 @@ import java.awt.*;
 
 public class MatrixOperations {
 
+    private static int radius=3;
 
     //We don't want to instantiate this utility class
     private MatrixOperations(){
 
+    }
+
+    public static void setRadius(int radius) {
+       MatrixOperations.radius = radius;
+    }
+
+    public static int getRadius() {
+        return radius;
     }
 
     public static boolean intersect(final int[][] matrix, final int[][] brick, int x, int y) {
@@ -68,11 +77,9 @@ public class MatrixOperations {
             for (int i = 0; i < copy.length; i++) {
                 for (int j = 0; j < copy[i].length; j++) {
                     if(copy[i][j]==8){
-                        for(int m=i-3/2; m<=i+3/2; m++){
-                            for(int n=j-3/2; n<=j+3/2; n++){
-                                System.out.println("***********************************n:"+n+" ***************************************");
-                                System.out.println("***********************************m:"+m+" ***************************************");
-                                if( m>=0 && m<copy.length && 0<=n && n<copy[i].length)
+                        for(int m=i-radius/2; m<=i+radius/2; m++){
+                            for(int n=j-radius/2; n<=j+radius/2; n++){
+                               if( m>=0 && m<copy.length && 0<=n && n<copy[i].length)
                                     copy[m][n]=0;
                             }
                         }
@@ -80,24 +87,6 @@ public class MatrixOperations {
                 }
             }
         }
-        
-        /*
-        if(brick[1][2]==8){
-            for (int i = 0; i < filledFields.length; i++) {
-                for (int j = 0; j < filledFields[i].length; j++) {
-                    if(filledFields[i][j]==8){
-                        System.out.println("***********************************Lamborghini***************************************");
-                        for(int m=i-3/2; m<=i+3/2; i++){
-                            for(int n=j-3/2; n<=j+3/2; n++){
-                                if( 0<=m && m<=filledFields.length && 0<=n && n<=filledFields[i].length)
-                                copy[m][n]=0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        */ 
         return copy;
     }
 
