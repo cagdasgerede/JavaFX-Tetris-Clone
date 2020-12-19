@@ -10,13 +10,12 @@ public class Level {
     private int maxPoint;
     private int currentPoint;
     private int moveCount;
-    private int level1TargetStart = 70;
+    private int LEVEL_TARGET_START = 70;
     private IntegerProperty target;
     private IntegerProperty levelID;
 
 
-    //This constructor sets information for the first level. After that, levels increases
-    // automatically.
+    //This constructor sets information for the first level. After that, levels increases automatically.
     public Level(int maxPoint) {
         this.levelNumber = 1;
         this.maxLevel = 1;
@@ -104,7 +103,7 @@ public class Level {
         levelNumber = 1;
         currentPoint = 0;
         moveCount = 0;
-        maxPoint = level1TargetStart;
+        maxPoint = LEVEL_TARGET_START;
         target.setValue(maxPoint);
         levelID.setValue(1);
     }

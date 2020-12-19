@@ -6,12 +6,11 @@ import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
 
-
 public class GameController implements InputEventListener {
 
-    private int level1TargetStart = 70;
+    private int LEVEL_TARGET_START = 70;
 
-    private Level level = new Level(level1TargetStart);
+    private Level level = new Level(LEVEL_TARGET_START);
 
     private Board board = new SimpleBoard(25, 10, level);
 
@@ -56,7 +55,6 @@ public class GameController implements InputEventListener {
             //This state is when player presses down (↓) arrow or S key on the keyboard.
             if (event.getEventSource() == EventSource.USER) {
                 //When user presses S or ↓ arrow in order to make blocks go down faster, game adds 1 point.
-                //So 1 point must be added to that level.
                 level.addPoint(1);
                 board.updateLevel(level);
                 board.getScore().add(1);
@@ -130,7 +128,6 @@ public class GameController implements InputEventListener {
 
     public int countOfFilledMatrix(){
         int filledCount = 0;
-        //250 is the matrix size. x * y dimensions of the game.
         for(int i = 0; i < 25; i++){
             for(int x = 0; x< 10; x++){
                 if( board.getBoardMatrix()[i][x] != 0){

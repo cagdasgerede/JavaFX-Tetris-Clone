@@ -119,7 +119,6 @@ public class GuiController implements Initializable {
                     newGame(null);
                 }
 
-                //Continue to Play
                 if (keyEvent.getCode() == KeyCode.C) {
                     if (!levelSuccPanel.isDisabled())
                         isPause.setValue(Boolean.FALSE);
@@ -301,8 +300,8 @@ public class GuiController implements Initializable {
         isGameOver.setValue(Boolean.TRUE);
     }
 
-    public void nextGame(int matrixCOUNT) {
-        levelSuccPanel.setLeftMatrixCount(matrixCOUNT);
+    public void nextGame(int matrixCount) {
+        levelSuccPanel.setLeftMatrixCount(matrixCount);
         levelSuccPanel.setVisible(true);
         timeLine.stop();
         gamePanel.requestFocus();
@@ -328,6 +327,7 @@ public class GuiController implements Initializable {
         timeLine.setRate(timeLine.getRate() + (level * 1.0 * level) / 30);
     }
 
+    //This method slows down (downshifts) the game difficulty when user goes to previous levels.
     public void downShift(int level) {
         timeLine.setRate(timeLine.getRate() - (level * 1.0 * level) / 30);
     }

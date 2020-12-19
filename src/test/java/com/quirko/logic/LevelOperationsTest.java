@@ -10,7 +10,7 @@ public class LevelOperationsTest {
         Level level = new Level(50);
         level.upgradeLevel();
         level.upgradeLevel();
-        //Level started from 1 and we upgraded 2 levels. Level number should be 3.
+        //New game started and we upgraded 2 levels. Level number should be 3.
         assertEquals(3, level.getLevelNumber());
     }
 
@@ -24,7 +24,7 @@ public class LevelOperationsTest {
         level.upgradeLevel();
         level.downgradeLevel();
         level.downgradeLevel();
-        //Level started from 1 and we upgraded 4 levels and downgraded it 2 times. Level number should be 3.
+        //New game started and we upgraded 4 levels and downgraded it 2 times. Level number should be 3.
         assertEquals(3, level.getLevelNumber());
     }
 
@@ -38,8 +38,8 @@ public class LevelOperationsTest {
         level.upgradeLevel();
         level.downgradeLevel();
         level.downgradeLevel();
-        //Level started from 1 and we upgraded 4 levels and downgraded it 2 times.
-        //But max reached level should return 5. We keep track of max reached level too.
+        //New game started and we upgraded 4 levels and downgraded it 2 times.
+        //Max reached level should return 5. We keep track of max reached level too.
         assertEquals(5, level.getMaxLevel());
     }
 
@@ -48,7 +48,7 @@ public class LevelOperationsTest {
     public void levelGoUpReachedLevelTest() {
         /*
         Note: upgradeLevel function is only called when player finishes that level
-        FOR THE FIRST TIME. After that, player can play desired achieved level again.
+        for this first time. After that, player can play desired achieved level again.
          */
         Level level = new Level(50);
         level.upgradeLevel();
@@ -60,7 +60,7 @@ public class LevelOperationsTest {
         level.downgradeLevel();
         level.levelUp();
         level.levelUp();
-        //Level started from 1 and we upgraded 4 levels and downgraded it 3 times, and leveled up 2 times.
+        //New game started and we upgraded 4 levels and downgraded it 3 times, and leveled up 2 times.
         assertEquals(4, level.getLevelNumber());
     }
 
@@ -69,7 +69,7 @@ public class LevelOperationsTest {
     public void levelGoUpMaxReachedLevelTest() {
         /*
         Note: upgradeLevel function is only called when player finishes that level
-        FOR THE FIRST TIME. After that, player can play desired achieved level again.
+        for this first time. After that, player can play desired achieved level again.
          */
         Level level = new Level(50);
         level.upgradeLevel();
@@ -81,7 +81,7 @@ public class LevelOperationsTest {
         level.downgradeLevel();
         level.levelUp();
         level.levelUp();
-        //Level started from 1 and we upgraded 4 levels and downgraded it 3 times, and leveled up 2 times.
+        //New game started and we upgraded 4 levels and downgraded it 3 times, and leveled up 2 times.
         //But max reached level should return 5. We keep track of max reached level too.
         assertEquals(5, level.getMaxLevel());
     }
@@ -156,7 +156,6 @@ public class LevelOperationsTest {
     }
 
 
-
     @Test
     public void isLevelFinishedTest() {
         Level level = new Level(50);
@@ -164,6 +163,4 @@ public class LevelOperationsTest {
         level.addPoint(23);
         assertTrue(level.completed());
     }
-
 }
-
