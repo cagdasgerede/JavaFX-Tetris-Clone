@@ -1,10 +1,12 @@
 package com.quirko.gui;
 
 import com.quirko.logic.DownData;
-import com.quirko.logic.events.*;
-import com.quirko.logic.SimpleBoard;
 import com.quirko.logic.ViewData;
-import java.io.*;
+import com.quirko.logic.events.EventSource;
+import com.quirko.logic.events.EventType;
+import com.quirko.logic.events.InputEventListener;
+import com.quirko.logic.events.MoveEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
@@ -288,17 +290,8 @@ public class GuiController implements Initializable {
         System.exit(0);
     }
 
-    //The method to write the scores to the "score.txt" file when the game is over.
     public static void saveScore() throws IOException {
-        if(isGameOver.get() == Boolean.TRUE){
-           BufferedWriter bw = null;
-            bw = new BufferedWriter(new FileWriter("score.txt", true));
-            bw.write("score:\n");
-            bw.write(Integer.toString(SimpleBoard.getGameScore().scoreProperty().get()));
-            bw.newLine();
-            bw.flush();
-            bw.close();
-        }
+         
     }
 
     public static Timeline getTimeLine(){

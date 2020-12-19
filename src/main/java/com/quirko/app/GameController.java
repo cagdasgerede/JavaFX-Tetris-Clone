@@ -1,7 +1,11 @@
 package com.quirko.app;
 
 import com.quirko.gui.GuiController;
-import com.quirko.logic.*;
+import com.quirko.logic.Board;
+import com.quirko.logic.ClearRow;
+import com.quirko.logic.DownData;
+import com.quirko.logic.SimpleBoard;
+import com.quirko.logic.ViewData;
 import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
