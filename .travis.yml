@@ -1,5 +1,8 @@
 language: java
-before_install:
- - chmod +x gradlew
+dist: trusty
+
 jdk:
   - oraclejdk15
+
+script:
+  - ./gradlew build
