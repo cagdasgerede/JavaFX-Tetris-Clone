@@ -1,14 +1,16 @@
 package com.quirko.logic;
 
+import com.quirko.logic.achievements.AchievementManager;
+
 public final class DownData {
     private final ClearRow clearRow;
     private final ViewData viewData;
-    private final Achievements achievement;
+    private final AchievementManager achievements;
 
-    public DownData(ClearRow clearRow, ViewData viewData, Achievements achievement) {
+    public DownData(ClearRow clearRow, ViewData viewData, AchievementManager achievements) {
         this.clearRow = clearRow;
         this.viewData = viewData;
-        this.achievement = achievement;
+        this.achievements = achievements;
     }
 
     public ClearRow getClearRow() {
@@ -19,7 +21,7 @@ public final class DownData {
         return viewData;
     }
 
-    public Achievements getAchievements() {
-        return achievement;
+    public AchievementManager getAchievements() {
+        return achievements;
     }
 }

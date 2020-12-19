@@ -2,6 +2,7 @@ package com.quirko.app;
 
 import com.quirko.gui.GuiController;
 import com.quirko.logic.*;
+import com.quirko.logic.achievements.AchievementManager;
 import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
@@ -12,11 +13,11 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
     
-    private Achievements achieve;
+    private AchievementManager achievements;
 
-    public GameController(GuiController c, Achievements achieve) {
+    public GameController(GuiController c, AchievementManager achievements) {
         viewGuiController = c;
-        this.achieve = achieve;
+        this.achievements = achievements;
         board.createNewBrick();
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
@@ -31,8 +32,8 @@ public class GameController implements InputEventListener {
             board.mergeBrickToBackground();
             clearRow = board.clearRows();
 
-            //check line clear related achievements
-            achieve.clearedLines(clearRow.getLinesRemoved());
+            achievements.checkTotalLinesCleared(clearRow.getLinesRemoved());
+            achievements.checkClearedAtOnce(clearRow.getLinesRemoved());
 
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
@@ -46,11 +47,10 @@ public class GameController implements InputEventListener {
         } else {
             if (event.getEventSource() == EventSource.USER) {
                 board.getScore().add(1);
-                //check score related achievements
-                achieve.scored(board.getScore().scoreProperty().getValue());
+                achievements.checkScored(board.getScore().scoreProperty().getValue());
             }
         }
-        return new DownData(clearRow, board.getViewData(), achieve);
+        return new DownData(clearRow, board.getViewData(), achievements);
     }
 
     @Override

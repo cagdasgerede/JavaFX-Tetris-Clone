@@ -47,6 +47,8 @@ public class NotificationPanel extends BorderPane {
     public void showAchievement(ObservableList<Node> list) {
         FadeTransition ft = new FadeTransition(Duration.millis(3000), this);
         TranslateTransition tt = new TranslateTransition(Duration.millis(2500), this);
+        tt.setToY(this.getLayoutY() - 100);
+        tt.setFromY(this.getLayoutY() - 100);
         ft.setFromValue(1);
         ft.setToValue(0);
         ParallelTransition transition = new ParallelTransition(tt, ft);

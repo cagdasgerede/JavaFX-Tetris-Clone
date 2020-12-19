@@ -1,7 +1,7 @@
 package com.quirko.gui;
 
 import com.quirko.app.GameController;
-import com.quirko.logic.Achievements;
+import com.quirko.logic.achievements.AchievementManager;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +27,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
-        new GameController(c, new Achievements());
+        new GameController(c, new AchievementManager());
     }
 
 
