@@ -5,6 +5,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import static org.junit.Assert.*;
 public class MatrixOperationsTest {
 
@@ -441,5 +444,88 @@ public class MatrixOperationsTest {
         int[][] result = MatrixOperations.merge(matrix,brick,x,y);
         assertArrayEquals(expected, result);
     }
+
+    @Test
+    public void testCheckMerge1() {
+        int[][] matrix = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,1,1,1},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+        };
+
+        int[][] expected = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,0,0,0},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1}, 
+        };
+        int[][] brick = new int[][]{
+                {0,0,0,0},
+                {0,0,8,0},
+                {0,0,0,0},
+                {0,0,0,0},
+        };
+        int x=3;
+        int y=4;
+        MatrixOperations.setRadius(3);
+        int[][] result = MatrixOperations.merge(matrix,brick,x,y);
+        assertArrayEquals(expected, result);
+    }
+
+    /*@Ignore
+    @Test
+    public void testCheckMergeThrowsException() {
+        int[][] matrix = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,1,1,1},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+        };
+
+        int[][] expected = new int[][]{
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,1,0,0,0,0,0},
+                {1,1,0,0,1,1,1},
+                {1,0,0,0,1,1,1},
+                {1,0,0,0,1,1,1}, 
+        };
+        int[][] brick = new int[][]{
+                {0,0,0,0},
+                {0,0,8,0},
+                {0,0,0,0},
+                {0,0,0,0},
+        };
+        int x=5;
+        int y=4;
+        MatrixOperations.setRadius(3);
+        assertThrows(
+                ArrayIndexOutOfBoundsException.class,
+                () -> { MatrixOperations.merge(matrix,brick,x,y); }
+        );
+    }*/
 
 }
