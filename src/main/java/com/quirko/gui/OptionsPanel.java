@@ -43,9 +43,10 @@ public class OptionsPanel extends JFrame implements ActionListener{
 		menu.add(i1); menu.add(i2); menu.add(i3); menu.add(i4); menu.add(i5);
 		JMenu menu1=new JMenu("Radius"); 
 		JMenuItem i6=new JMenuItem("3");  
-		JMenuItem i7=new JMenuItem("4");  
-		JMenuItem i8=new JMenuItem("5");  
-		JMenuItem i9=new JMenuItem("6");  
+		JMenuItem i7=new JMenuItem("5");  
+		JMenuItem i8=new JMenuItem("7");  
+		JMenuItem i9=new JMenuItem("9"); 
+		//I gave variables 3,5,7 and 9 because if the bomb exploids items symetrically 		 
 		menu1.add(i6); menu1.add(i7); menu1.add(i8); menu1.add(i9); 
 		i1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -95,17 +96,17 @@ public class OptionsPanel extends JFrame implements ActionListener{
 			MatrixOperations.setRadius(3);
 			selectedRadius.setText("Selected radius: 3");
 		}
-		else if(act_command.equals("4")){
-			MatrixOperations.setRadius(4);
-			selectedRadius.setText("Selected radius: 4");
-		}
 		else if(act_command.equals("5")){
 			MatrixOperations.setRadius(5);
 			selectedRadius.setText("Selected radius: 5");
 		}
-		if(act_command.equals("6")){
-			MatrixOperations.setRadius(6);
-			selectedRadius.setText("Selected radius: 6");
+		else if(act_command.equals("7")){
+			MatrixOperations.setRadius(7);
+			selectedRadius.setText("Selected radius: 7");
+		}
+		if(act_command.equals("9")){
+			MatrixOperations.setRadius(9);
+			selectedRadius.setText("Selected radius: 9");
 		}
 
 	}
