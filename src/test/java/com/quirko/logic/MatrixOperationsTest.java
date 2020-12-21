@@ -485,47 +485,4 @@ public class MatrixOperationsTest {
         assertArrayEquals(expected, result);
     }
 
-    /*@Ignore
-    @Test
-    public void testCheckMergeThrowsException() {
-        int[][] matrix = new int[][]{
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {1,1,0,0,1,1,1},
-                {1,1,0,0,1,1,1},
-                {1,0,0,0,1,1,1},
-                {1,0,0,0,1,1,1},
-        };
-
-        int[][] expected = new int[][]{
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {1,1,0,0,0,0,0},
-                {1,1,0,0,1,1,1},
-                {1,0,0,0,1,1,1},
-                {1,0,0,0,1,1,1}, 
-        };
-        int[][] brick = new int[][]{
-                {0,0,0,0},
-                {0,0,8,0},
-                {0,0,0,0},
-                {0,0,0,0},
-        };
-        int x=5;
-        int y=4;
-        MatrixOperations.setRadius(3);
-        assertThrows(
-                ArrayIndexOutOfBoundsException.class,
-                () -> { MatrixOperations.merge(matrix,brick,x,y); }
-        );
-    }*/
-
 }
