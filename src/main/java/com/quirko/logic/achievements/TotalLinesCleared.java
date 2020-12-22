@@ -31,9 +31,16 @@ public class TotalLinesCleared {
         totalLines.push(10);
         totalLines.push(1);
 
-        if (totalLines.contains(milestone)) 
-            while (!totalLines.isEmpty() && totalLines.peek() != milestone) 
-                completed.push(totalLines.pop());
+        if (totalLines.contains(milestone)) {
+            while (!totalLines.isEmpty()) {
+                if (totalLines.peek() == milestone) {
+                    completed.push(totalLines.pop());
+                    break;
+                }
+                else
+                    completed.push(totalLines.pop());
+            }
+        }   
     }
 
     public boolean checkAchievement(int lines) {

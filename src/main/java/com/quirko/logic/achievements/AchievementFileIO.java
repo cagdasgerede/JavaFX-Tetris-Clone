@@ -57,6 +57,13 @@ public class AchievementFileIO {
             userAchievements.set(3 * index + 1, achievements.clearedAtOnce.getLastCompleted() + "");
             userAchievements.set(3 * index + 2, achievements.scored.getLastCompleted() + "");
         }
+        else {
+            users.add(username);
+            userAchievements.add(achievements.totalCleared.getLastCompleted() + "");
+            userAchievements.add(achievements.clearedAtOnce.getLastCompleted() + "");
+            userAchievements.add(achievements.scored.getLastCompleted() + "");
+        }
+        System.out.println(users + "\n" + userAchievements);
 
         try {
             FileWriter writer = new FileWriter(file, false);
@@ -72,12 +79,7 @@ public class AchievementFileIO {
                         writer.write(userAchievements.get(j).toString() + "\n");
                 }
             }
-            if (!users.contains(username)) {
-                writer.write("\n" + username + "\n");
-                writer.write(achievements.totalCleared.getLastCompleted() + "\n");
-                writer.write(achievements.clearedAtOnce.getLastCompleted() + "\n");
-                writer.write(achievements.scored.getLastCompleted() + "");
-            }
+
             writer.close();
 
         } catch (Exception e) {

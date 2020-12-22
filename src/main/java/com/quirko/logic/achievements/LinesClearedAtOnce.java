@@ -21,9 +21,16 @@ public class LinesClearedAtOnce implements Achievements {
         atOnce.push(3);
         atOnce.push(2);
         
-        if (atOnce.contains(milestone)) 
-            while (!atOnce.isEmpty() && atOnce.peek() != milestone)
-                completed.push(atOnce.pop());
+        if (atOnce.contains(milestone)) {
+            while (!atOnce.isEmpty()) {
+                if (atOnce.peek() == milestone) {
+                    completed.push(atOnce.pop());
+                    break;
+                }
+                else
+                    completed.push(atOnce.pop());
+            }
+        }
     }
 
     public boolean checkAchievement(int lines) {

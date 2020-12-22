@@ -31,9 +31,16 @@ public class Scored implements Achievements {
         scores.push(300);
         scores.push(100);
 
-        if (scores.contains(milestone)) 
-            while (!scores.isEmpty() && scores.peek() != milestone) 
-                completed.push(scores.pop());
+        if (scores.contains(milestone)) {
+            while (!scores.isEmpty()) {
+                if (scores.peek() == milestone) {
+                    completed.push(scores.pop());
+                    break;
+                }
+                else
+                    completed.push(scores.pop());
+            }
+        }
     }
 
     public boolean checkAchievement(int score) {

@@ -18,16 +18,25 @@ public class AchievementManager {
         scored = new Scored(highestScore);
     }
 
-    public void checkTotalLinesCleared(int lines) {
-        totalCleared.checkAchievement(lines);
+    public void checkTotalLinesCleared(int lines, AchievementFileIO fileIO) {
+        boolean isAchieved = totalCleared.checkAchievement(lines);
+        if (isAchieved) {
+            fileIO.saveAchievements(UsernameInputWindow.username, this);
+        }
     }
 
-    public void checkClearedAtOnce(int lines) {
-        clearedAtOnce.checkAchievement(lines);
+    public void checkClearedAtOnce(int lines, AchievementFileIO fileIO) {
+        boolean isAchieved = clearedAtOnce.checkAchievement(lines);
+        if (isAchieved) {
+            fileIO.saveAchievements(UsernameInputWindow.username, this);
+        }
     }
 
-    public void checkScored(int score) {
-        scored.checkAchievement(score);
+    public void checkScored(int score, AchievementFileIO fileIO) {
+        boolean isAchieved = scored.checkAchievement(score);
+        if (isAchieved) {
+            fileIO.saveAchievements(UsernameInputWindow.username, this);
+        }
     }
 
     public String getCompletionMessage() {

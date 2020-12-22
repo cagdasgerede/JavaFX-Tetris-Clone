@@ -33,8 +33,8 @@ public class Main extends Application {
         primaryStage.show();
 
         AchievementFileIO achievementFileIO = new AchievementFileIO();
+        String username = UsernameInputWindow.username;
         AchievementManager achievements;
-        String username = "abc"; //temporary until username input on startup is implemented
         if (achievementFileIO.userExists(username)) {
             int[] userAchievements = achievementFileIO.getUserAchievements(username);
             achievements = new AchievementManager(userAchievements[0], userAchievements[1], userAchievements[2]);
@@ -42,8 +42,7 @@ public class Main extends Application {
         else
             achievements = new AchievementManager();
             
-        achievementFileIO.saveAchievements(username, achievements);
-        new GameController(c, achievements);
+        new GameController(c, achievements, achievementFileIO);
     }
 
 
