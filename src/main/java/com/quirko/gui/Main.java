@@ -3,6 +3,7 @@ package com.quirko.gui;
 import com.quirko.app.GameController;
 import com.quirko.logic.achievements.AchievementFileIO;
 import com.quirko.logic.achievements.AchievementManager;
+import com.quirko.logic.achievements.UsernameInputWindow;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Main extends Application {
+
+    private static UsernameInputWindow usernameInput;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -45,6 +48,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+        if (usernameInput == null) 
+            usernameInput = new UsernameInputWindow(args);
+        else
+            launch(args);
     }
 }
