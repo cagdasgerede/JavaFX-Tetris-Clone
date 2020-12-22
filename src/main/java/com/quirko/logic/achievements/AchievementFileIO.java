@@ -8,13 +8,13 @@ import java.util.Scanner;
 public class AchievementFileIO {
 
     private File file;
-    
+
     ArrayList<String> users;
     ArrayList<String> userAchievements;
 
     public AchievementFileIO() {
         String userDirectory = new File("").getAbsolutePath();
-        
+
         try {
             file = new File(userDirectory + "\\src\\main\\resources\\user_achievements.txt");
         } catch (NullPointerException e) {
@@ -39,10 +39,9 @@ public class AchievementFileIO {
                 line++;
             }
             reader.close();
-		} catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(users + "\n" + userAchievements);
     }
 
     public void saveAchievements(String username, AchievementManager achievements) {
@@ -57,12 +56,11 @@ public class AchievementFileIO {
             userAchievements.set(3 * index, achievements.totalCleared.getLastCompleted() + "");
             userAchievements.set(3 * index + 1, achievements.clearedAtOnce.getLastCompleted() + "");
             userAchievements.set(3 * index + 2, achievements.scored.getLastCompleted() + "");
-            System.out.println(userAchievements);
         }
 
         try {
             FileWriter writer = new FileWriter(file, false);
-                
+
             for (int i = 0; i < users.size(); i++) {
                 if (i != 0)
                     writer.write("\n");
@@ -81,11 +79,11 @@ public class AchievementFileIO {
                 writer.write(achievements.scored.getLastCompleted() + "");
             }
             writer.close();
-                
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       
+
     }
 
     public boolean userExists(String username) {
