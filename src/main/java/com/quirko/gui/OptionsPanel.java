@@ -1,6 +1,5 @@
 package com.quirko.gui;
 
-import java.util.*;
 import java.awt.*;
 import java.awt.color.*;
 import java.awt.event.*;

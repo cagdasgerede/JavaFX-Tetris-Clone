@@ -77,9 +77,9 @@ public class MatrixOperations {
             for (int i = 0; i < copy.length; i++) {
                 for (int j = 0; j < copy[i].length; j++) {
                     if(copy[i][j]==8){
-                        for(int m=i-radius/2; m<=i+radius/2; m++){
-                            for(int n=j-radius/2; n<=j+radius/2; n++){
-                               if( m>=0 && m<copy.length && 0<=n && n<copy[i].length)
+                        for(int m = i - (radius/2) ; m <= i + (radius/2) ; m++){
+                            for(int n = j - (radius/2); n <= j + (radius/2); n++){
+                               if( m >= 0 && m < copy.length && n >= 0 && n < copy[i].length)
                                     copy[m][n]=0;
                             }
                         }

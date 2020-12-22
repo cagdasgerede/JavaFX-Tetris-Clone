@@ -17,9 +17,9 @@ public class SimpleBoard implements Board {
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
-    private int counter=1;
+    private int counter_forBomb=1;
     //default frequency of bomb is 50
-    private static int frequency=50;
+    private static int frequency_ofBomb=50;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
@@ -88,8 +88,8 @@ public class SimpleBoard implements Board {
 
     @Override
     public boolean createNewBrick() {
-        counter++;
-        Brick currentBrick = brickGenerator.getBrick(counter,frequency);
+        counter_forBomb++;
+        Brick currentBrick = brickGenerator.getBrick(counter_forBomb, frequency_ofBomb);
         brickRotator.setBrick(currentBrick);
         currentOffset = new Point(4, 0);
         return MatrixOperations.intersect(currentGameMatrix, brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY());
@@ -125,16 +125,18 @@ public class SimpleBoard implements Board {
 
     @Override
     public void newGame() {
+        counter_forBomb = 1;
         currentGameMatrix = new int[width][height];
         score.reset();
         createNewBrick();
     }
 
     public static int getFrequency() {
-        return frequency;
+        return frequency_ofBomb;
     }
 
     public static void setFrequency(int frequency) {
-        SimpleBoard.frequency = frequency;
+        SimpleBoard.frequency_ofBomb = frequency;
     }
+    
 }
