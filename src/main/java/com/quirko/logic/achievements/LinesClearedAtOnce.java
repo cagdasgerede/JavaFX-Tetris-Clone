@@ -34,14 +34,14 @@ public class LinesClearedAtOnce implements Achievements {
     }
 
     public boolean checkAchievement(int lines) {
-        if (!atOnce.isEmpty()) {
-            if (lines >= atOnce.peek()) {
-                completed.add(atOnce.pop());
-                Achievements.notDisplayed.add(getCompletionMessage());
-                return true;
-            }
+        boolean success = false;
+        while (!atOnce.isEmpty() && lines >= atOnce.peek()) {
+            completed.add(atOnce.pop());
+            success = true;
         }
-        return false;
+        if (success)
+            Achievements.notDisplayed.add(getCompletionMessage());
+        return success;
     }
 
     public String getCompletionMessage() {
@@ -52,6 +52,14 @@ public class LinesClearedAtOnce implements Achievements {
         if (!completed.isEmpty())
             return completed.peek();
         return 0;
+    }
+
+    public int completedCount() {
+        return completed.size();
+    }
+
+    public int uncompletedCount() {
+        return atOnce.size();
     }
 
 }

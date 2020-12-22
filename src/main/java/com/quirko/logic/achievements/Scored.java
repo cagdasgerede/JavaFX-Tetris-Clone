@@ -44,14 +44,14 @@ public class Scored implements Achievements {
     }
 
     public boolean checkAchievement(int score) {
-        if (!scores.isEmpty()) {
-            if (score >= scores.peek()) {
-                completed.push(scores.pop());
-                Achievements.notDisplayed.add(getCompletionMessage());
-                return true;
-            }
+        boolean success = false;
+        while (!scores.isEmpty() && score >= scores.peek()) {
+            completed.add(scores.pop());
+            success = true;
         }
-        return false;
+        if (success)
+            Achievements.notDisplayed.add(getCompletionMessage());
+        return success;
     }
     
     public String getCompletionMessage() {
@@ -63,4 +63,13 @@ public class Scored implements Achievements {
             return completed.peek();
         return 0;
     }
+
+    public int completedCount() {
+        return completed.size();
+    }
+
+    public int uncompletedCount() {
+        return scores.size();
+    }
+
 }

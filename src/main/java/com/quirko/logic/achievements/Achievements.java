@@ -9,5 +9,7 @@ public interface Achievements {
     public String getCompletionMessage();
     public boolean checkAchievement(int number);
     public int getLastCompleted();
+    public int completedCount();
+    public int uncompletedCount();
     
 }

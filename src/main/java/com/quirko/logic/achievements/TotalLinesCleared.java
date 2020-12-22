@@ -2,7 +2,7 @@ package com.quirko.logic.achievements;
 
 import java.util.Stack;
 
-public class TotalLinesCleared {
+public class TotalLinesCleared implements Achievements {
     
     private Stack<Integer> totalLines, completed;
 
@@ -46,14 +46,14 @@ public class TotalLinesCleared {
     public boolean checkAchievement(int lines) {
         totalCleared += lines;
         
-        if (!totalLines.isEmpty()) {
-            if (totalCleared >= totalLines.peek()) {
-                completed.add(totalLines.pop());
-                Achievements.notDisplayed.add(getCompletionMessage());
-                return true;
-            }
+        boolean success = false;
+        while (!totalLines.isEmpty() && lines >= totalLines.peek()) {
+            completed.add(totalLines.pop());
+            success = true;
         }
-        return false;
+        if (success)
+            Achievements.notDisplayed.add(getCompletionMessage());
+        return success;
     }
 
     public String getCompletionMessage() {
@@ -65,4 +65,13 @@ public class TotalLinesCleared {
             return completed.peek();
         return 0;
     }
+
+    public int completedCount() {
+        return completed.size();
+    }
+
+    public int uncompletedCount() {
+        return totalLines.size();
+    }
+
 }
