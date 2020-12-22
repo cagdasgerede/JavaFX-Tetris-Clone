@@ -47,7 +47,7 @@ public class TotalLinesCleared implements Achievements {
         totalCleared += lines;
         
         boolean success = false;
-        while (!totalLines.isEmpty() && lines >= totalLines.peek()) {
+        while (!totalLines.isEmpty() && totalCleared >= totalLines.peek()) {
             completed.add(totalLines.pop());
             success = true;
         }
