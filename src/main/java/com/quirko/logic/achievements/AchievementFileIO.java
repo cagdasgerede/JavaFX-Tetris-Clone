@@ -63,7 +63,6 @@ public class AchievementFileIO {
             userAchievements.add(achievements.clearedAtOnce.getLastCompleted() + "");
             userAchievements.add(achievements.scored.getLastCompleted() + "");
         }
-        System.out.println(users + "\n" + userAchievements);
 
         try {
             FileWriter writer = new FileWriter(file, false);
