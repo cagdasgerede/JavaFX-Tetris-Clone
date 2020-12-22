@@ -10,7 +10,7 @@ JavaFX Tetris Clone Game
 </p>
 
 ## Gameplay
-See Youtube: <a href="https://www.youtube.com/watch?v=uzyOOlCvQN0">https://www.youtube.com/watch?v=uzyOOlCvQN0</a>
+See Youtube: <a href="https://youtu.be/WhbPYyLDtvA">https://youtu.be/WhbPYyLDtvA</a>
 
 ## Starting
 ```mvn clean```
