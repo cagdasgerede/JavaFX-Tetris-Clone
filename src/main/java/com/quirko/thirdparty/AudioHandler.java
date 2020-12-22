@@ -5,6 +5,9 @@
  */
 package com.quirko.thirdparty;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -20,6 +23,7 @@ public class AudioHandler {
 
 	private static AudioHandler handler;
 	private HashMap<String, Clip> sounds;
+	private Logger logger = Logger.getAnonymousLogger();
 
 	private AudioHandler() {
 		sounds = new HashMap<String, Clip>();
@@ -42,8 +46,10 @@ public class AudioHandler {
 			input = AudioSystem.getAudioInputStream(resource);
 		} catch (UnsupportedAudioFileException e1) {
 			e1.printStackTrace();
+			logger.log(Level.SEVERE, "an exception was thrown", e1);
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			logger.log(Level.SEVERE, "an exception was thrown", e1);
 		}
 		AudioFormat baseFormat = input.getFormat();
 		
@@ -56,6 +62,7 @@ public class AudioHandler {
 			}
 			catch(Exception e){
 				e.printStackTrace();
+				logger.log(Level.SEVERE, "an exception was thrown", e);
 			}
 		}
 		
@@ -71,6 +78,7 @@ public class AudioHandler {
 			c.open(decodedIn);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.log(Level.SEVERE, "an exception was thrown", e);
 		}
 		sounds.put(name, c);
 	}

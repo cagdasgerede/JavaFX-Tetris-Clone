@@ -33,23 +33,4 @@ public class DotBrickTest {
         Brick brick = new DotBrick();
         Assert.assertEquals(1, brick.getShapeMatrix().size());
     }
-
-    /**Tests changeBrick method in SimpleBoard Class */
-    @Test
-    public void testChangeBrick() throws Exception {
-        Board board = new SimpleBoard(25, 10);
-        Brick brick = new DotBrick();
-        board.setCurrentBrickAsDotBrick();
-        Assert.assertTrue(board.changeBrick());
-    }
-
-    /**Tests changeNextBrick method in RandomBrickGenerator Class */
-    @Test
-    public void testChangeNextBrick() throws Exception {
-        RandomBrickGenerator generate = new RandomBrickGenerator();
-        Brick currentBrick = generate.getBrick();
-        Brick next = generate.changeNextBrick();
-        boolean isChanged = next.getClass().equals(currentBrick.getClass()) ? false : true;
-        Assert.assertTrue(isChanged);
-    }
 }
