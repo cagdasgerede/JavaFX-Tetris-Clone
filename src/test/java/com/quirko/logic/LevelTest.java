@@ -3,7 +3,7 @@ package com.quirko.logic;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class LevelOperationsTest {
+public class LevelTest {
 
     @Test
     public void levelNumberTest() {
