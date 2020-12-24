@@ -388,7 +388,6 @@ public class GuiController implements Initializable {
             data.add(new ScoreData(score.getKey(), score.getValue().toString()));
         }
 
-        //Creating columns
         TableColumn nameCol = new TableColumn("Player Name");
         nameCol.setStyle( "-fx-alignment: CENTER;");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("playerName"));
@@ -398,12 +397,10 @@ public class GuiController implements Initializable {
         scoreCol.setCellValueFactory(new PropertyValueFactory("score"));
         scoreCol.setPrefWidth(100);
 
-        //Adding data to the table
         ObservableList<String> list = FXCollections.observableArrayList();
         table.setItems(data);
         table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         table.getColumns().addAll(nameCol, scoreCol);
-        //Setting the size of the table
         table.setMaxSize(350, 200);
 
         VBox vbox = new VBox();
