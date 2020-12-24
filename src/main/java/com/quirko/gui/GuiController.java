@@ -46,6 +46,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import javafx.geometry.Insets;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,6 +63,7 @@ import java.util.ResourceBundle;
 public class GuiController implements Initializable {
 
     private static final int BRICK_SIZE = 20;
+    private static final int MAX_SCOREBOARD_SIZE = 10;
 
     @FXML
     private GridPane gamePanel;
@@ -97,6 +99,8 @@ public class GuiController implements Initializable {
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
     private List<Pair<String, Integer>> scores = new ArrayList<>();
+
+    private static Logger logger = Logger.getLogger(GuiController.class);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -170,8 +174,8 @@ public class GuiController implements Initializable {
                 String[] words = line.split(":");
                 scores.add(new Pair<>(words[0], Integer.parseInt(words[1])));
             }
-        } catch (IOException ignored) {
-
+        } catch (IOException e) {
+            logger.error("File cannot be found!", e);
         }
     }
 
@@ -340,8 +344,8 @@ public class GuiController implements Initializable {
 
                     scores.add(finalPos, new Pair<>(name, Integer.parseInt(scoreValue.getText())));
 
-                    if (scores.size() == 11)
-                        scores.remove(10);
+                    if (scores.size() == MAX_SCOREBOARD_SIZE + 1)
+                        scores.remove(MAX_SCOREBOARD_SIZE);
 
                     try {
                         PrintWriter writer = new PrintWriter(new File("score.txt"));
@@ -350,7 +354,8 @@ public class GuiController implements Initializable {
                         }
                         writer.flush();
                         writer.close();
-                    } catch (FileNotFoundException ignored) {
+                    } catch (FileNotFoundException e) {
+                        logger.error("File cannot be found!", e);
                     }
                 }
             });
