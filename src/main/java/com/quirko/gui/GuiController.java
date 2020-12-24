@@ -2,7 +2,10 @@ package com.quirko.gui;
 
 import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
-import com.quirko.logic.events.*;
+import com.quirko.logic.events.EventSource;
+import com.quirko.logic.events.EventType;
+import com.quirko.logic.events.InputEventListener;
+import com.quirko.logic.events.MoveEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -44,10 +47,17 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import javafx.geometry.Insets;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
 
