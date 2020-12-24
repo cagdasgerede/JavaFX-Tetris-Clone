@@ -10,11 +10,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputListener;
 
+import com.quirko.app.GameController;
 import com.quirko.gui.GuiController;
 
 public class UsernameInputWindow {
-
-    public static String username;
 
     private JFrame frame;
 
@@ -62,7 +61,14 @@ public class UsernameInputWindow {
                     JOptionPane.showMessageDialog(null, "Warning! Username cannot be left empty.", "Invalid Username", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    username = txtField.getText();
+                    User.username = txtField.getText();      
+                    if (GameController.achievementFileIO.userExists(User.username)) {
+                        int[] userAchievements = GameController.achievementFileIO.getUserAchievements(User.username);
+                        GameController.achievements = new AchievementManager(userAchievements[0], userAchievements[1], userAchievements[2]);
+                    }
+                    else
+                    GameController.achievements = new AchievementManager();
+
                     c.unpause();
                     disposed = true;
                     frame.dispose();

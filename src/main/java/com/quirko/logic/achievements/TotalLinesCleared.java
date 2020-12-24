@@ -18,6 +18,7 @@ public class TotalLinesCleared implements Achievements {
         totalLines.push(20);
         totalLines.push(10);
         totalLines.push(1);
+        User.totalLines = 0;
     }
 
     public TotalLinesCleared(int milestone) {
@@ -40,7 +41,8 @@ public class TotalLinesCleared implements Achievements {
                 else
                     completed.push(totalLines.pop());
             }
-        }   
+        }  
+        User.totalLines = getLastCompleted();
     }
 
     public boolean checkAchievement(int lines) {
@@ -51,8 +53,10 @@ public class TotalLinesCleared implements Achievements {
             completed.add(totalLines.pop());
             success = true;
         }
-        if (success)
+        if (success) {
+            User.totalLines = getLastCompleted();
             Achievements.notDisplayed.add(getCompletionMessage());
+        }
         return success;
     }
 

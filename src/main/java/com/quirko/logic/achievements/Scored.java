@@ -17,6 +17,7 @@ public class Scored implements Achievements {
         scores.push(500);
         scores.push(300);
         scores.push(100);
+        User.scored = 0;
     }
 
     public Scored(int milestone) {
@@ -41,6 +42,7 @@ public class Scored implements Achievements {
                     completed.push(scores.pop());
             }
         }
+        User.scored = getLastCompleted();
     }
 
     public boolean checkAchievement(int score) {
@@ -49,8 +51,10 @@ public class Scored implements Achievements {
             completed.add(scores.pop());
             success = true;
         }
-        if (success)
+        if (success) {
+            User.scored = getLastCompleted();
             Achievements.notDisplayed.add(getCompletionMessage());
+        }
         return success;
     }
     

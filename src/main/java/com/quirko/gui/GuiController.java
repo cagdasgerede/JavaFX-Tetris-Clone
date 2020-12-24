@@ -2,7 +2,7 @@ package com.quirko.gui;
 
 import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
-import com.quirko.logic.achievements.UsernameInputWindow;
+import com.quirko.logic.achievements.MyAchievementsWindow;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -68,7 +68,7 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
-    public static UsernameInputWindow usernameInput;
+    private MyAchievementsWindow myAchievements;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -100,8 +100,15 @@ public class GuiController implements Initializable {
                     newGame(null);
                 }
                 if (keyEvent.getCode() == KeyCode.P) {
-                    if (usernameInput.getDisposed())
+                    if (Main.usernameInput.getDisposed())
                         pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
+                }
+                if (keyEvent.getCode() == KeyCode.C) {
+                    if (Main.usernameInput.getDisposed()) {
+                        pause();
+                        pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
+                        new MyAchievementsWindow();
+                    }
                 }
 
             }
@@ -111,8 +118,8 @@ public class GuiController implements Initializable {
         pauseButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!usernameInput.getDisposed()) {
-                    usernameInput.requestFocus();
+                if (!Main.usernameInput.getDisposed()) {
+                    Main.usernameInput.requestFocus();
                     return;
                 }
                 if (newValue) {
@@ -163,8 +170,6 @@ public class GuiController implements Initializable {
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
-        
-        usernameInput = new UsernameInputWindow(this);
     }
 
     private Paint getFillColor(int i) {
@@ -288,6 +293,14 @@ public class GuiController implements Initializable {
 
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
+    }
+
+    public void achieved() {
+        if (Main.usernameInput.getDisposed()) {
+            pause();
+            pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
+            myAchievements = new MyAchievementsWindow();
+        }
     }
 
     public void pause() {

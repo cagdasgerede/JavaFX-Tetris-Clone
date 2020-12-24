@@ -21,21 +21,24 @@ public class AchievementManager {
     public void checkTotalLinesCleared(int lines, AchievementFileIO fileIO) {
         boolean isAchieved = totalCleared.checkAchievement(lines);
         if (isAchieved) {
-            fileIO.saveAchievements(UsernameInputWindow.username, this);
+            User.totalLines = totalCleared.getLastCompleted();
+            fileIO.saveAchievements(User.username, this);
         }
     }
 
     public void checkClearedAtOnce(int lines, AchievementFileIO fileIO) {
         boolean isAchieved = clearedAtOnce.checkAchievement(lines);
         if (isAchieved) {
-            fileIO.saveAchievements(UsernameInputWindow.username, this);
+            User.atOnce = clearedAtOnce.getLastCompleted();
+            fileIO.saveAchievements(User.username, this);
         }
     }
 
     public void checkScored(int score, AchievementFileIO fileIO) {
         boolean isAchieved = scored.checkAchievement(score);
         if (isAchieved) {
-            fileIO.saveAchievements(UsernameInputWindow.username, this);
+            User.scored = scored.getLastCompleted();
+            fileIO.saveAchievements(User.username, this);
         }
     }
 

@@ -12,6 +12,7 @@ public class LinesClearedAtOnce implements Achievements {
         atOnce.push(4);
         atOnce.push(3);
         atOnce.push(2);
+        User.atOnce = 0;
     }
 
     public LinesClearedAtOnce(int milestone) {
@@ -31,6 +32,7 @@ public class LinesClearedAtOnce implements Achievements {
                     completed.push(atOnce.pop());
             }
         }
+        User.atOnce = getLastCompleted();
     }
 
     public boolean checkAchievement(int lines) {
@@ -39,8 +41,10 @@ public class LinesClearedAtOnce implements Achievements {
             completed.add(atOnce.pop());
             success = true;
         }
-        if (success)
+        if (success) {
+            User.atOnce = getLastCompleted();
             Achievements.notDisplayed.add(getCompletionMessage());
+        }
         return success;
     }
 

@@ -1,9 +1,11 @@
 package com.quirko.app;
 
 import com.quirko.gui.GuiController;
+import com.quirko.gui.Main;
 import com.quirko.logic.*;
 import com.quirko.logic.achievements.AchievementFileIO;
 import com.quirko.logic.achievements.AchievementManager;
+import com.quirko.logic.achievements.UsernameInputWindow;
 import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
@@ -14,17 +16,17 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
     
-    private AchievementManager achievements;
-    private AchievementFileIO achievementFileIO;
+    public static AchievementManager achievements;
+    public static AchievementFileIO achievementFileIO;
 
-    public GameController(GuiController c, AchievementManager achievements, AchievementFileIO achievementFileIO) {
+    public GameController(GuiController c) {
         viewGuiController = c;
-        this.achievements = achievements;
-        this.achievementFileIO = achievementFileIO;
         board.createNewBrick();
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+        
+        Main.usernameInput = new UsernameInputWindow(c);
     }
 
     @Override

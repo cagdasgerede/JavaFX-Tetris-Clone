@@ -2,8 +2,6 @@ package com.quirko.gui;
 
 import com.quirko.app.GameController;
 import com.quirko.logic.achievements.AchievementFileIO;
-import com.quirko.logic.achievements.AchievementManager;
-import com.quirko.logic.achievements.MyAchievementsWindow;
 import com.quirko.logic.achievements.UsernameInputWindow;
 
 import javafx.application.Application;
@@ -16,6 +14,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Main extends Application {
+
+    public static UsernameInputWindow usernameInput;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,18 +30,9 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, 510);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        AchievementFileIO achievementFileIO = new AchievementFileIO();
-        String username = UsernameInputWindow.username;
-        AchievementManager achievements;
-        if (achievementFileIO.userExists(username)) {
-            int[] userAchievements = achievementFileIO.getUserAchievements(username);
-            achievements = new AchievementManager(userAchievements[0], userAchievements[1], userAchievements[2]);
-        }
-        else
-            achievements = new AchievementManager();
         
-        new GameController(c, achievements, achievementFileIO);
+        GameController.achievementFileIO = new AchievementFileIO();
+        new GameController(c);
     }
 
 
