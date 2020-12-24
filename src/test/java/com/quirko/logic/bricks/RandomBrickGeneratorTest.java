@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 //This test control brickList consist correct number of its bricks.
-public class DifficultyConfigurationTest {
+public class RandomBrickGeneratorTest {
 
     @Test
     public void testGetEasyDifficultyTypes() throws Exception {

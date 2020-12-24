@@ -70,7 +70,7 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
-    private Enum difficultyLevel;
+    private DifficultyType difficultyLevel;
 
     private final double rate = 0.5;
 
@@ -314,7 +314,7 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
-    public void setDifficulty(Enum difficulty){
+    public void setDifficulty(DifficultyType difficulty){
         this.difficultyLevel = difficulty;
     }
 }

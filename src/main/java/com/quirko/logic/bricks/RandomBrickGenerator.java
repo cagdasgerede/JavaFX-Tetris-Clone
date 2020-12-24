@@ -14,27 +14,22 @@ public class RandomBrickGenerator implements BrickGenerator {
 
     private final Deque<Brick> nextBricks = new ArrayDeque<>();
     
-    private HardConfiguration hardBricks;
-
-    private MediumConfiguration mediumBricks;
-
-    private EasyConfiguration easyBricks;
-
-    public RandomBrickGenerator(Enum diff) {
+    public RandomBrickGenerator(DifficultyType difficultyLevel) {
         brickList = new ArrayList<>();
-        hardBricks = new HardConfiguration();
-        mediumBricks = new MediumConfiguration();
-        easyBricks = new EasyConfiguration();
         //According to every level configuration add brickList.
-        if(diff == DifficultyType.MEDIUM){//for medium level adding each level for balancing
-            brickList.addAll(mediumBricks.getConfiguration());
-        }
-        else if(diff == DifficultyType.HARD){//extra hard shape for increase difficulty
-            brickList.addAll(hardBricks.getConfiguration());
-            
-        }
-        else if(diff == DifficultyType.EASY){//extra easy shape for decrease difficulty
-            brickList.addAll(easyBricks.getConfiguration());
+        switch(difficultyLevel){
+            case MEDIUM://for medium level adding each level for balancing
+                MediumConfiguration mediumBricks = new MediumConfiguration();
+                brickList.addAll(mediumBricks.getConfiguration());
+                break;
+            case HARD://extra hard shape for increase difficulty
+                HardConfiguration hardBricks = new HardConfiguration();
+                brickList.addAll(hardBricks.getConfiguration());
+                break;
+            case EASY://extra easy shape for decrease difficulty
+                EasyConfiguration easyBricks = new EasyConfiguration();
+                brickList.addAll(easyBricks.getConfiguration());
+                break;
         }
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));
         nextBricks.add(brickList.get(ThreadLocalRandom.current().nextInt(brickList.size())));

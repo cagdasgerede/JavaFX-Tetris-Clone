@@ -23,12 +23,13 @@ import javax.swing.JTextField;
 import com.quirko.gui.GuiController;
 
 public class GameController implements InputEventListener {
-    Enum difficultyLevel;
+    DifficultyType difficultyLevel;
+    
     private Board board;
 
     private final GuiController viewGuiController;
 
-    public GameController(GuiController c, Enum difficultyLevel) {
+    public GameController(GuiController c, DifficultyType difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
         viewGuiController = c;
         board= new SimpleBoard(25, 10, difficultyLevel);
@@ -85,7 +86,7 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         DifficultySetPanel dfs = new DifficultySetPanel();
-        Enum difficultyLevel_new = dfs.getDifficultyLevel();
+        DifficultyType difficultyLevel_new = dfs.getDifficultyLevel();
         while(difficultyLevel_new == null){
             difficultyLevel_new = dfs.getDifficultyLevel();
         }

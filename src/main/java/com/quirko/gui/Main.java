@@ -2,6 +2,7 @@ package com.quirko.gui;
 
 import com.quirko.app.GameController;
 import com.quirko.gui.DifficultySetPanel;
+import com.quirko.gui.DifficultyType;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         GuiController c = fxmlLoader.getController();
         DifficultySetPanel dfs= new DifficultySetPanel();
-        Enum difficultyLevel = dfs.getDifficultyLevel();
+        DifficultyType difficultyLevel = dfs.getDifficultyLevel();
         while(difficultyLevel == null){
             difficultyLevel = dfs.getDifficultyLevel();
         }

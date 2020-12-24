@@ -5,6 +5,7 @@ import com.quirko.logic.bricks.BrickGenerator;
 import com.quirko.logic.bricks.RandomBrickGenerator;
 import com.quirko.logic.rotator.BrickRotator;
 import com.quirko.logic.rotator.NextShapeInfo;
+import com.quirko.gui.DifficultyType;
 
 import java.awt.*;
 
@@ -17,14 +18,14 @@ public class SimpleBoard implements Board {
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
-    private Enum diff;
+    private DifficultyType difficultyLevel;
 
-    public SimpleBoard(int width, int height, Enum diff) {
-        this.diff = diff;
+    public SimpleBoard(int width, int height, DifficultyType difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
         this.width = width;
         this.height = height;
         currentGameMatrix = new int[width][height];
-        brickGenerator = new RandomBrickGenerator(diff);
+        brickGenerator = new RandomBrickGenerator(difficultyLevel);
         brickRotator = new BrickRotator();
         score = new Score();
     }
@@ -127,9 +128,9 @@ public class SimpleBoard implements Board {
         currentGameMatrix = new int[width][height];
         score.reset();
         createNewBrick();
-        brickGenerator = new RandomBrickGenerator(diff);
+        brickGenerator = new RandomBrickGenerator(difficultyLevel);
     }
-    public void setDifficulty(Enum diff){
-        this.diff = diff;
+    public void setDifficulty(DifficultyType difficultyLevel){
+        this.difficultyLevel = difficultyLevel;
     }
 }

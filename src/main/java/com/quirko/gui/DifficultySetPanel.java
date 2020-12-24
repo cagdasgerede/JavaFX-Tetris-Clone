@@ -1,5 +1,6 @@
 package com.quirko.gui;
 
+import com.quirko.gui.DifficultyType;
 import com.quirko.gui.GuiController;
 import com.quirko.app.GameController;
 
@@ -19,9 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class DifficultySetPanel extends JFrame implements ActionListener{
+public class DifficultySetPanel extends JFrame implements ActionListener {
 	
-	public Enum difficultyLevel;
+	public DifficultyType difficultyLevel;
 	
 	public DifficultySetPanel(){
 		setSize(500,500);
@@ -65,24 +66,26 @@ public class DifficultySetPanel extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String action_command = e.getActionCommand();
-		if(action_command.equals("EASY")) {
-			this.difficultyLevel = DifficultyType.EASY;
+		switch(action_command){
+			case "EASY":
+				this.difficultyLevel = DifficultyType.EASY;
+				break;
+			case "MEDIUM":
+				this.difficultyLevel = DifficultyType.MEDIUM;
+				break;
+			case "HARD":
+				this.difficultyLevel = DifficultyType.HARD;
+				break;
 		}
-		else if(action_command.equals("MEDIUM")) {
-			this.difficultyLevel = DifficultyType.MEDIUM;
-		}
-		else if(action_command.equals("HARD")) {
-			this.difficultyLevel = DifficultyType.HARD;
-		}	
 	}
 	
-    public Enum getDifficultyLevel(){
+    public DifficultyType getDifficultyLevel(){
 		//when difficulty level is choosen, wait for a second for return difficulty level to Main.
 		try{
 			TimeUnit.SECONDS.sleep(1);
 		}
 		catch (InterruptedException e) { 
-			System.out.println("Interrupted");
+			
 		} 
 		return this.difficultyLevel;
 	}	

@@ -1,5 +1,7 @@
 package com.quirko.logic;
 
+import com.quirko.gui.DifficultyType;
+
 public interface Board {
 
     boolean moveBrickDown();
@@ -24,5 +26,5 @@ public interface Board {
 
     void newGame();
 
-    void setDifficulty(Enum diff);
+    void setDifficulty(DifficultyType difficultyLevel);
 }
