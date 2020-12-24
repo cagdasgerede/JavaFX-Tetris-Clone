@@ -10,14 +10,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputListener;
 
-import com.quirko.gui.Main;
+import com.quirko.gui.GuiController;
 
 public class UsernameInputWindow {
 
     public static String username;
 
     private JFrame frame;
-    String[] args;
 
     private final int WIDTH = 250;
     private final int HEIGHT = 185;
@@ -26,12 +25,14 @@ public class UsernameInputWindow {
     JLabel label;
     JTextField txtField;
 
-    public UsernameInputWindow(String[] args) {
-        this.args = args;
-        setup();
+    private boolean disposed = false;
+
+    public UsernameInputWindow(GuiController c) {
+        c.pause();
+        setup(c);
     }
 
-    private void setup() {
+    private void setup(GuiController c) {
         frame = new JFrame("Username");
         frame.setResizable(false);
         frame.setBounds(0, 0, WIDTH, HEIGHT);
@@ -62,8 +63,9 @@ public class UsernameInputWindow {
                 }
                 else {
                     username = txtField.getText();
+                    c.unpause();
+                    disposed = true;
                     frame.dispose();
-                    Main.main(args);
                 }
             }
             
@@ -84,6 +86,14 @@ public class UsernameInputWindow {
         frame.add(btnSave);
 
         frame.setVisible(true);
+    }
+
+    public void requestFocus() {
+        frame.requestFocus();
+    }
+
+    public boolean getDisposed() {
+        return disposed;
     }
 
 }
