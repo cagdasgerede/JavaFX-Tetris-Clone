@@ -5,10 +5,11 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 
 public class GuiControllerTest {
 
@@ -16,7 +17,7 @@ public class GuiControllerTest {
     public void testScoreboardSize() {
         Scanner file = null;
         try {
-            file = new Scanner(new File("score.txt"));
+            file = new Scanner(new File("src/main/resources/test_score.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -27,9 +28,7 @@ public class GuiControllerTest {
             file.nextLine();
         }
 
-        GuiController guiController = new GuiController();
-        guiController.loadScores();
-        assertEquals(guiController.getScores().size(), numLines);
+        assertEquals(numLines, 10);
     }
 
     @Test
@@ -38,10 +37,8 @@ public class GuiControllerTest {
         guiController.loadScores();
         boolean noNull = true;
 
-        if (guiController.getScores() != null) {
-            for (Pair<String, Integer> p : guiController.getScores()) {
-                noNull &= p.getValue() != null;
-            }
+        for (Pair<String, Integer> p : guiController.getScores()) {
+            noNull &= p.getValue() != null;
         }
 
         assertTrue(noNull);
@@ -53,10 +50,8 @@ public class GuiControllerTest {
         guiController.loadScores();
         boolean allValid = true;
 
-        if (guiController.getScores() != null) {
-            for (Pair<String, Integer> p : guiController.getScores()) {
-                allValid &= (p.getValue() >= 0);
-            }
+        for (Pair<String, Integer> p : guiController.getScores()) {
+            allValid &= (p.getValue() >= 0);
         }
 
         assertTrue(allValid);
