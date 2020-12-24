@@ -1,6 +1,5 @@
 package com.quirko.gui;
 
-import java.io.IOException;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -8,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,8 +16,28 @@ import javax.swing.JPanel;
 public class MenuPanel extends JFrame {
 	 
 	private static final long serialVersionUID = 1L;
-	public JButton settings, load, save, scoreBoard, exit;
+	private JButton settings, load, save, scoreBoard, exit;
 	private int width = 400 , height = 510;
+
+	public JButton getSettingsButton(){
+		return settings;
+	}
+
+	public JButton getLoadButton(){
+		return load;
+	}
+
+	public JButton getSaveButton(){
+		return save;
+	}
+
+	public JButton getScoreBoardButton(){
+		return scoreBoard;
+	}
+
+	public JButton getExitButton(){
+		return exit;
+	}
 
 	public MenuPanel(){
 		this.setTitle("Escape Menu");
@@ -53,7 +74,7 @@ public class MenuPanel extends JFrame {
 		exit.addActionListener(new myActionListener());
 		exit.setBackground(Color.ORANGE);
 
-		 this.getContentPane().add(panel);
+		this.getContentPane().add(panel);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setBackground(Color.DARK_GRAY);
 		this.setFocusable(true);
@@ -61,41 +82,11 @@ public class MenuPanel extends JFrame {
 		this.setVisible(true);
 	}
 
-	private class myActionListener implements ActionListener, KeyListener {
+	class myActionListener implements ActionListener, KeyListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == settings){
-				new SettingsMenuPanel();
-			}
-
-			else if(e.getSource() == load){
-				try {
-					load();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-
-			else if(e.getSource() == save){
-				try {
-					save();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-
-			else if(e.getSource() == scoreBoard){
-				try {
-					loadScore();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-
-			else if(e.getSource() == exit){
-				System.exit(0);
-			}
+			checkWhichButtonPressed(e.getActionCommand());
 		}
 
 		@Override
@@ -113,16 +104,55 @@ public class MenuPanel extends JFrame {
 		}
 	}
 
-	public void save() throws IOException {
-		 
+	public void save() throws IOException{
 	}
 
-	public void load() throws IOException {
-		 
+	public void load() throws IOException{
 	}
 
-	 
-	public void loadScore() throws IOException {
-		 
+	public void loadScore() throws IOException{
+	}
+
+	public void exit(){
+		System.exit(0);
+	}
+	
+	public void createSettingsMenu(){
+		new SettingsMenuPanel();
+	}
+
+	public void checkWhichButtonPressed(String button){
+		
+		if(button.equals("SETTINGS")){
+			createSettingsMenu();
+		}
+
+		else if(button.equals("LOAD")){
+			try {
+				load();
+			} catch (IOException e) {
+				Logger.getLogger(MenuPanel.class.getName()).severe(e.getMessage());
+			}
+		}
+
+		else if(button.equals("SAVE")){
+			try {
+				save();
+			} catch (IOException e) {
+				Logger.getLogger(MenuPanel.class.getName()).severe(e.getMessage());
+			}
+		}
+
+		else if(button.equals("SCOREBOARD")){
+			try {
+				loadScore();
+			} catch (IOException e) {
+				Logger.getLogger(MenuPanel.class.getName()).severe(e.getMessage());
+			}
+		}
+
+		else if(button.equals("EXIT")){
+			exit();
+		}
 	}
 }

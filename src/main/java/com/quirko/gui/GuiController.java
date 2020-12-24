@@ -9,6 +9,7 @@ import com.quirko.logic.events.MoveEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -268,7 +269,7 @@ public class GuiController implements Initializable {
         try {
             saveScore();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(MenuPanel.class.getName()).severe(e.getMessage());
         }
     }
 
