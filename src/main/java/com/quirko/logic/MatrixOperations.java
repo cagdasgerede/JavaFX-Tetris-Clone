@@ -6,11 +6,12 @@ import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.awt.*;
+
 public class MatrixOperations {
 
-
-    //We don't want to instantiate this utility class
-    private MatrixOperations(){
+    // We don't want to instantiate this utility class
+    private MatrixOperations() {
 
     }
 
@@ -46,8 +47,12 @@ public class MatrixOperations {
         return myInt;
     }
 
-    public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y) {
+    public static int[][] merge(int[][] filledFields, int[][] brick, int x, int y, Score score) {
         int[][] copy = copy(filledFields);
+        boolean isExplosive = false;
+        if (brick[1][1] == 8) {
+            isExplosive = true;
+        }
         for (int i = 0; i < brick.length; i++) {
             for (int j = 0; j < brick[i].length; j++) {
                 int targetX = x + i;
@@ -56,6 +61,38 @@ public class MatrixOperations {
                     copy[targetY][targetX] = brick[j][i];
                 }
             }
+        }
+        if (isExplosive) {
+            Toolkit.getDefaultToolkit().beep();
+            int scoreBonus = 0;
+            /*for (int i = 0; i < copy.length; i++) {
+                for (int j = 0; j < copy[0].length; j++) {
+                    System.out.print(copy[i][j] + " ");
+                }
+                System.out.println("");
+            }
+            System.out.println("");*/
+            for (int i = 0; i < copy.length; i++) {
+                for (int j = 0; j < copy[0].length; j++) {
+                    if (copy[i][j] == 8) {
+                        for (int xVicinity = i - 1; xVicinity < i + 2; xVicinity++) {
+                            for (int yVicinity = j - 1; yVicinity < j + 2; yVicinity++) {
+                                if (xVicinity < copy.length && yVicinity < copy[0].length && xVicinity >= 0 && yVicinity >= 0) {
+                                    if (copy[xVicinity][yVicinity] == 8) {
+                                        continue;
+                                    }
+                                    if (copy[xVicinity][yVicinity] != 0) {
+                                        scoreBonus += 10;
+                                        copy[xVicinity][yVicinity] = 0;
+                                    }
+                                }
+                            }
+                        }
+                        copy[i][j] = 0;
+                    }
+                }
+            }
+            score.add(scoreBonus);
         }
         return copy;
     }
@@ -92,7 +129,7 @@ public class MatrixOperations {
         return new ClearRow(clearedRows.size(), tmp, scoreBonus);
     }
 
-    public static List<int[][]> deepCopyList(List<int[][]> list){
+    public static List<int[][]> deepCopyList(List<int[][]> list) {
         return list.stream().map(MatrixOperations::copy).collect(Collectors.toList());
     }
 
