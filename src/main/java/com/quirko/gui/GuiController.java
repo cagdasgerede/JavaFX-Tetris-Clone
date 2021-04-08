@@ -66,7 +66,16 @@ public class GuiController implements Initializable {
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
-
+    
+    public BooleanProperty getIsPause(){
+        return isPause;
+    }
+    public ToggleButton getToggleButton(){
+        return pauseButton;
+    }
+    public Timeline getTimeline(){
+        return timeLine;
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
