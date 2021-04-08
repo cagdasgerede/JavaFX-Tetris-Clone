@@ -6,11 +6,19 @@ import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
 
+import java.util.ArrayList;
+
+import com.quirko.achievements.*;
+
 public class GameController implements InputEventListener {
 
     private Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
+
+    public int linesRemoved;
+
+    public ArrayList<Achievement> achievements;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -68,4 +76,5 @@ public class GameController implements InputEventListener {
         board.newGame();
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
+
 }
