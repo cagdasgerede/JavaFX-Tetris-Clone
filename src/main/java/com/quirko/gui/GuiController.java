@@ -277,7 +277,7 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-
+        
     }
 
     public void newGame(ActionEvent actionEvent) {
