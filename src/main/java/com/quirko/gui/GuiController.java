@@ -4,6 +4,7 @@ import com.quirko.app.GameController;
 import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
+import com.quirko.achievements.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -27,6 +28,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.io.File;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -277,7 +281,25 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-        
+        PrintWriter out=null;
+        try{
+            out=new PrintWriter(new File("java/com/quirko/achievements/achievements.txt"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        for(int i=0;i<GameController.achievements.size();++i){
+            Achievement temp=GameController.achievements.get(i);
+            if(temp.getClass()==ScoreAchievement.class){
+                out.println(temp.name);
+            }
+            else if(temp.getClass()==TotalLinesDestroyedAchievement.class){
+
+            }
+            else if(temp.getClass()==LinesDestroyedSimultaneouslyAchievement.class){
+                
+            }
+        }
+        out.close();
     }
 
     public void newGame(ActionEvent actionEvent) {

@@ -14,8 +14,6 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
 
-    private int linesRemoved;
-
     public static AchievementList achievements;
 
     public GameController(GuiController c) {
@@ -24,9 +22,9 @@ public class GameController implements InputEventListener {
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
-        linesRemoved=0;
         achievements=new AchievementList();
-        achievements.add(new ScoreAchievement(50, false));
+        achievements.add(new ScoreAchievement(0,20,false));
+        achievements.add(new LinesDestroyedSimultaneouslyAchievement(0, 2, false));
     }
 
     @Override
@@ -38,16 +36,21 @@ public class GameController implements InputEventListener {
             clearRow = board.clearRows();
             if (clearRow.getLinesRemoved() > 0) {
                 board.getScore().add(clearRow.getScoreBonus());
-                linesRemoved+=clearRow.getLinesRemoved();
-                if(isAchievementFound(linesRemoved)!=null){
+                if(isLineDestroyedSimultaneouslyAchievementFound(clearRow.getLinesRemoved())!=null){
                     viewGuiController.getTimeline().pause();
-                    new AchievementPopUp(isAchievementFound(linesRemoved));
+                    new AchievementPopUp(isLineDestroyedSimultaneouslyAchievementFound(clearRow.getLinesRemoved()));
                     viewGuiController.getToggleButton().setText("Resume");
                     viewGuiController.getIsPause().setValue(true);
                 }
-                else if(isAchievementFound(clearRow.getLinesRemoved())!=null){
+                else if(isTotalLinesDestroyedAchievementFound(clearRow.getLinesRemoved())!=null){
                     viewGuiController.getTimeline().pause();
-                    new AchievementPopUp(isAchievementFound(linesRemoved));
+                    new AchievementPopUp(isTotalLinesDestroyedAchievementFound(clearRow.getLinesRemoved()));
+                    viewGuiController.getToggleButton().setText("Resume");
+                    viewGuiController.getIsPause().setValue(true);
+                }
+                else if(isScoreAchievementFound(board.getScore().getIntValue())!=null){
+                    viewGuiController.getTimeline().pause();
+                    new AchievementPopUp(isScoreAchievementFound(board.getScore().getIntValue()));
                     viewGuiController.getToggleButton().setText("Resume");
                     viewGuiController.getIsPause().setValue(true);
                 }
@@ -61,9 +64,9 @@ public class GameController implements InputEventListener {
         } else {
             if (event.getEventSource() == EventSource.USER) {
                 board.getScore().add(1);
-                if(isAchievementFound(board.getScore().getIntValue())!=null){
+                if(isScoreAchievementFound(board.getScore().getIntValue())!=null){
                     viewGuiController.getTimeline().pause();
-                    new AchievementPopUp(isAchievementFound(board.getScore().getIntValue()));
+                    new AchievementPopUp(isScoreAchievementFound(board.getScore().getIntValue()));
                     viewGuiController.getToggleButton().setText("Resume");
                     viewGuiController.getIsPause().setValue(true);
                 }
@@ -97,22 +100,36 @@ public class GameController implements InputEventListener {
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 
-    public Achievement isAchievementFound(int goal){
+    public Achievement isLineDestroyedSimultaneouslyAchievementFound(int lineDiff){
         for (int i=0;i<achievements.size();++i) {
             Achievement achievement=achievements.get(i);
-            if(achievement.completed){
+            if(achievement.completed)
                 continue;
-            }
-            else if(goal>=achievement.goal && achievement.getClass()==ScoreAchievement.class){
+            else if(lineDiff>=achievement.goal)
                 return achievement;
-            }
-            else if(goal>=achievement.goal && achievement.getClass()==TotalLinesDestroyedAchievement.class){
-                return achievement;
-            }
-            else if(goal>=achievement.goal && achievement.getClass()==LinesDestroyedSimultaneouslyAchievement.class){
-                return achievement;
-            }
         }
         return null;
+    }
+    public Achievement isTotalLinesDestroyedAchievementFound(int lineDiff){
+        for (int i=0;i<achievements.size();++i) {
+            Achievement achievement=achievements.get(i);
+            if(achievement.completed)
+                continue;
+            else if(achievement.currentState<achievement.goal)
+                achievement.currentState+=lineDiff;
+            if(achievement.currentState>=achievement.goal)
+                return achievement;
+        }
+        return null;
+    }
+    public Achievement isScoreAchievementFound(int score){
+        for(int i=0;i<achievements.size();++i){
+            Achievement achievement=achievements.get(i);
+            if(achievement.completed)
+                continue;
+            else if(score>=achievement.goal && achievement.getClass()==ScoreAchievement.class)
+                return achievement;
+        }
+        return null;   
     }
 }

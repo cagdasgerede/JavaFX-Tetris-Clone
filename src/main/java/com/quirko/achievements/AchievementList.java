@@ -113,30 +113,34 @@ public class AchievementList {
         private static final long serialVersionUID = 1L;
         JComboBox<String> comboBox;
         JButton addButton;
-        JTextField textField;
+        JTextField textFieldGoal;
         public AchievementForm(){
             String[] achievementTypes={"Score","Line Destroyed Simultaneously","Total Linees Destroyed"};
             JPanel panel=new JPanel();
-            textField=new JTextField(10);
+            textFieldGoal=new JTextField(10);
             addButton=new JButton("Add");
             addButton.addActionListener(this);
-            setSize(300,350);
+            setSize(300,150);
             setResizable(false);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             comboBox=new JComboBox<String>();
             for(int i=0;i<3;++i){
                 comboBox.addItem(achievementTypes[i]);
             }
+            JLabel label=new JLabel("Goal:");
+            panel.add(label);
+            label.setLabelFor(textFieldGoal);
+            panel.add(textFieldGoal);
             panel.add(comboBox);
-            panel.add(textField);
             panel.add(addButton);
             add(panel);
+            setTitle("New Achievement");
             setVisible(true);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(textField.getText().toString());
+            System.out.println(textFieldGoal.getText().toString());
             System.out.println(comboBox.getSelectedItem().toString());
             dispose();
         }

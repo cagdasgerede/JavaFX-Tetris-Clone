@@ -1,6 +1,6 @@
 package com.quirko.achievements;
 public class TotalLinesDestroyedAchievement extends Achievement{
-    public TotalLinesDestroyedAchievement(int goal,boolean completed) {
-        super(goal,completed);
+    public TotalLinesDestroyedAchievement(int currentState,int goal,boolean completed) {
+        super(currentState,goal,completed);
     }
 }
