@@ -1,5 +1,6 @@
 package com.quirko.gui;
 
+import com.quirko.app.GameController;
 import com.quirko.logic.DownData;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
@@ -26,7 +27,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -51,6 +51,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private ToggleButton pauseButton;
+
+    @FXML
+    private ToggleButton achievementButton;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -112,6 +115,15 @@ public class GuiController implements Initializable {
             }
         });
         gameOverPanel.setVisible(false);
+        achievementButton.selectedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                timeLine.pause();
+                isPause.set(true);
+                pauseButton.setText("Resume");
+                GameController.achievements.showAchievements();
+            }
+        });
         pauseButton.selectedProperty().bindBidirectional(isPause);
         pauseButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -280,5 +292,9 @@ public class GuiController implements Initializable {
 
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
+    }
+
+    public void showAchievements(ActionEvent actionEvent){
+
     }
 }

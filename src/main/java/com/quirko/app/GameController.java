@@ -6,9 +6,6 @@ import com.quirko.logic.events.EventSource;
 import com.quirko.logic.events.InputEventListener;
 import com.quirko.logic.events.MoveEvent;
 
-
-import java.util.ArrayList;
-
 import com.quirko.achievements.*;
 
 public class GameController implements InputEventListener {
@@ -17,9 +14,9 @@ public class GameController implements InputEventListener {
 
     private final GuiController viewGuiController;
 
-    public int linesRemoved;
+    private int linesRemoved;
 
-    public ArrayList<Achievement> achievements;
+    public static AchievementList achievements;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -28,7 +25,7 @@ public class GameController implements InputEventListener {
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
         linesRemoved=0;
-        achievements=new ArrayList<Achievement>();
+        achievements=new AchievementList();
         achievements.add(new ScoreAchievement(50, false));
     }
 
@@ -101,7 +98,8 @@ public class GameController implements InputEventListener {
     }
 
     public Achievement isAchievementFound(int goal){
-        for (Achievement achievement : achievements) {
+        for (int i=0;i<achievements.size();++i) {
+            Achievement achievement=achievements.get(i);
             if(achievement.completed){
                 continue;
             }

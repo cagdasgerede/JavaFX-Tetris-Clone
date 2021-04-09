@@ -31,6 +31,8 @@
         <Button text="New Game" onAction="#newGame" styleClass="ipad-dark-grey" prefWidth="140"/>
         <ToggleButton text="Pause" styleClass="ipad-dark-grey" onAction="#pauseGame" prefWidth="140"
                       fx:id="pauseButton"/>
+        <ToggleButton text="Achievements" styleClass="ipad-dark-grey" onAction="#showAchievements" prefWidth="150"
+                      fx:id="achievementButton"/>
         <VBox fx:id="helpBox">
 
             <Text styleClass="helpInfo" wrappingWidth="150">
