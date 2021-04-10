@@ -154,7 +154,7 @@ public class GuiController implements Initializable {
 
 
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(800),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
@@ -258,6 +258,16 @@ public class GuiController implements Initializable {
 
     public void bindLevel(IntegerProperty integerProperty){
         levelValue.textProperty().bind(integerProperty.asString());
+    }
+
+    public void changeSpeed(long speed){
+        timeLine.stop();
+        timeLine = new Timeline(new KeyFrame(
+                Duration.millis(speed),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        timeLine.setCycleCount(Timeline.INDEFINITE);
+        timeLine.play();
     }
 
     public void gameOver() {

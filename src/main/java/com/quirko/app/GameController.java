@@ -48,18 +48,23 @@ public class GameController implements InputEventListener {
         if(currentScore >= 1000 && !(currentLevel >= 5)){
             currentLevel = 5;
             board.getLevel().add(1);
+            viewGuiController.changeSpeed(200);
         }else if(currentScore >= 600 && !(currentLevel >= 4)){
             currentLevel = 4;
             board.getLevel().add(1);
+            viewGuiController.changeSpeed(250);
         }else if(currentScore >= 300 && !(currentLevel >= 3)){
             currentLevel = 3;
             board.getLevel().add(1);
+            viewGuiController.changeSpeed(300);
         }else if(currentScore >= 150 && !(currentLevel >= 2)){
             currentLevel = 2;
             board.getLevel().add(1);
+            viewGuiController.changeSpeed(500);
         }else if(currentScore >= 50 && !(currentLevel >= 1)){
             currentLevel = 1;
             board.getLevel().add(1);
+            viewGuiController.changeSpeed(600);
         }
 
         return new DownData(clearRow, board.getViewData());
