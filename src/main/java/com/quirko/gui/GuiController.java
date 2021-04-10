@@ -41,6 +41,9 @@ public class GuiController implements Initializable {
     private Text scoreValue;
 
     @FXML
+    private Text levelValue;
+
+    @FXML
     private Group groupNotification;
 
     @FXML
@@ -121,6 +124,7 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
         scoreValue.setEffect(reflection);
+        levelValue.setEffect(reflection);
     }
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
@@ -250,6 +254,10 @@ public class GuiController implements Initializable {
 
     public void bindScore(IntegerProperty integerProperty) {
         scoreValue.textProperty().bind(integerProperty.asString());
+    }
+
+    public void bindLevel(IntegerProperty integerProperty){
+        levelValue.textProperty().bind(integerProperty.asString());
     }
 
     public void gameOver() {

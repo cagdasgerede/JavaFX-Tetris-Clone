@@ -21,6 +21,10 @@
             <Text text="Text" fx:id="scoreValue" styleClass="scoreClass"/>
         </VBox>
         <VBox alignment="CENTER">
+            <Label text="Level:" styleClass="levelClass"/>
+            <Text text="Text" fx:id="levelValue" styleClass="levelClass"/>
+        </VBox>
+        <VBox alignment="CENTER">
             <Label text="Next brick" styleClass="nextBrickLabel"/>
             <BorderPane styleClass="nextBrick" prefWidth="100" prefHeight="70" maxWidth="100">
                 <center>
