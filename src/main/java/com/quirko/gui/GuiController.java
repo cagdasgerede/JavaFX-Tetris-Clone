@@ -30,10 +30,14 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.zip.CRC32;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class GuiController implements Initializable {
 
@@ -282,18 +286,7 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-        PrintWriter out=null;
-        try{
-            out=new PrintWriter(new File("achievements.txt"));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        for(int i=0;i<GameController.achievements.size();++i){
-            Achievement temp=GameController.achievements.get(i);
-            String achievementName=temp.getClass().toString();
-            out.println(achievementName.substring(achievementName.lastIndexOf('.')+1)+" "+(temp.completed?"completed":temp.currentState+"/"+temp.goal));
-        }
-        out.close();
+        storeAchievements();
     }
     public void storeAchievements(){
         PrintWriter out=null;
@@ -302,13 +295,73 @@ public class GuiController implements Initializable {
         }catch(Exception e){
             e.printStackTrace();
         }
+        Path file=Paths.get("achievements.txt");
+        BasicFileAttributes attributes=null;
+        try {
+            attributes=Files.readAttributes(file,BasicFileAttributes.class);
+        } catch (Exception e) {
+        }
+        out.println("lastModified "+attributes.lastModifiedTime());
         for(int i=0;i<GameController.achievements.size();++i){
             Achievement temp=GameController.achievements.get(i);
             String achievementName=temp.getClass().toString();
-            out.println(achievementName.substring(achievementName.lastIndexOf('.')+1)+" "+(temp.completed?"completed":temp.currentState+"/"+temp.goal));
+            out.println(achievementName.substring(achievementName.lastIndexOf('.')+1)+" "+(temp.currentState>=temp.goal?temp.goal:temp.currentState)+"/"+temp.goal);
         }
         
         out.close();
+    }
+    public void readAchievements(){
+        Scanner in=null;
+        try {
+            in=new Scanner(new File("achievements.txt"));
+        } catch (Exception e) {
+            System.out.println("File not found.");
+            return;
+        }
+        while(in.hasNextLine()){
+            String line=in.nextLine();
+            if(line.contains("TotalLinesDestroyed")){
+                GameController.achievements.add(createAchievement(line, false, true));
+            }
+            else if(line.contains("LinesDestroyedSimultaneously")){
+                GameController.achievements.add(createAchievement(line, false, false)); 
+            }
+            else if(line.contains("Score")){
+                GameController.achievements.add(createAchievement(line, true, false));
+            }
+            else{
+                Path file=Paths.get("achievements.txt");
+                BasicFileAttributes attributes=null;
+                try {
+                    attributes=Files.readAttributes(file,BasicFileAttributes.class);
+                } catch (Exception e) {
+                }
+                if(!line.substring(line.indexOf(' ')+1).equals(""+attributes.lastModifiedTime())){
+                    System.out.println("Changes in the file has been detected. Could not load achievements.");
+                    return;
+                }
+            }
+        }
+    }
+    public Achievement createAchievement(String s,boolean score,boolean totalLines){
+        int goal=Integer.parseInt(s.substring(s.indexOf('/')+1));
+        int currentState=Integer.parseInt(s.substring(s.indexOf(' ')+1,s.indexOf('/')));
+        if(score){
+            if(currentState>=goal)
+                return new ScoreAchievement(goal,goal,true);
+            else
+                return new ScoreAchievement(currentState,goal,false);
+        }else if(totalLines){
+            if(currentState>=goal)
+                return new TotalLinesDestroyedAchievement(goal,goal,true);
+            else
+                return new TotalLinesDestroyedAchievement(currentState,goal,false);
+        }else{
+            if(currentState>=goal)
+                return new LinesDestroyedSimultaneouslyAchievement(goal,goal,true);
+            else
+                return new LinesDestroyedSimultaneouslyAchievement(currentState,goal,false);
+        }
     }
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();

@@ -23,8 +23,7 @@ public class GameController implements InputEventListener {
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
         achievements=new AchievementList();
-        achievements.add(new ScoreAchievement(0,20,false));
-        achievements.add(new TotalLinesDestroyedAchievement(0, 5, false));
+        viewGuiController.readAchievements();
     }
     public void readAchievements(String filepath){
         
@@ -129,8 +128,10 @@ public class GameController implements InputEventListener {
             Achievement achievement=achievements.get(i);
             if(achievement.completed)
                 continue;
-            else if(score>=achievement.goal && achievement.getClass()==ScoreAchievement.class)
+            else if(score>=achievement.goal && achievement.getClass()==ScoreAchievement.class){
+                achievement.currentState=score;
                 return achievement;
+            }
         }
         return null;   
     }

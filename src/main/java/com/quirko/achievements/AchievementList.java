@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import com.quirko.app.GameController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +31,7 @@ public class AchievementList {
             if(achievements.get(i-1).completed)
                 temp[i]="completed";
             else
-                temp[i]="not completed";
+                temp[i]=achievements.get(i-1).currentState+"/"+achievements.get(i-1).goal;
         }
         return temp;
     }
@@ -50,7 +52,7 @@ public class AchievementList {
     private static class ListFrame extends JFrame{
         private static final long serialVersionUID = 1L;
 
-        private int width = 300;
+        private int width = 350;
         
         private int height = 600;
 
@@ -59,13 +61,14 @@ public class AchievementList {
         setSize(width, height);
         setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        setLocation(600,300);
+
         JPanel name = new JPanel();
         name.add(names);
-        name.setSize(150, 400);
+        name.setSize(200, 400);
         name.setBackground(Color.WHITE);
         name.setVisible(true);
-
+        
         JPopupMenu popup=new JPopupMenu();
         JMenuItem addItem=new JMenuItem("Add Achievement");
         addItem.addActionListener(new ActionListener(){
@@ -78,7 +81,7 @@ public class AchievementList {
 
         JPanel completed = new JPanel();
         
-        completed.setSize(150, 400);
+        completed.setSize(150, 300);
         completed.add(complete);
         completed.setBackground(Color.WHITE);
         completed.setVisible(true);
@@ -86,7 +89,7 @@ public class AchievementList {
         JSplitPane splitPane = new JSplitPane();
         splitPane.setSize(width, height);
         splitPane.setDividerSize(0);
-        splitPane.setDividerLocation(150);
+        splitPane.setDividerLocation(175);
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setLeftComponent(name);
         splitPane.setRightComponent(completed);
@@ -115,7 +118,7 @@ public class AchievementList {
         JButton addButton;
         JTextField textFieldGoal;
         public AchievementForm(){
-            String[] achievementTypes={"Score","Line Destroyed Simultaneously","Total Linees Destroyed"};
+            String[] achievementTypes={"Score","Lines Destroyed Simultaneously","Total Lines Destroyed"};
             JPanel panel=new JPanel();
             textFieldGoal=new JTextField(10);
             addButton=new JButton("Add");
@@ -140,8 +143,13 @@ public class AchievementList {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(textFieldGoal.getText().toString());
-            System.out.println(comboBox.getSelectedItem().toString());
+            int goal=Integer.parseInt(textFieldGoal.getText());
+            if(comboBox.getSelectedItem().toString().equals("Lines Destroyed Simultaneously"))
+                GameController.achievements.add(new LinesDestroyedSimultaneouslyAchievement(0, goal, false));
+            else if(comboBox.getSelectedItem().toString().equals("Total Lines Destroyed"))
+                GameController.achievements.add(new TotalLinesDestroyedAchievement(0, goal, false));
+            else
+                GameController.achievements.add(new ScoreAchievement(0, goal, false));
             dispose();
         }
     }
