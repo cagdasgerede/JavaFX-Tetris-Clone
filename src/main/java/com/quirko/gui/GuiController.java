@@ -30,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.zip.CRC32;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -283,25 +284,32 @@ public class GuiController implements Initializable {
         isGameOver.setValue(Boolean.TRUE);
         PrintWriter out=null;
         try{
-            out=new PrintWriter(new File("java/com/quirko/achievements/achievements.txt"));
+            out=new PrintWriter(new File("achievements.txt"));
         }catch(Exception e){
             e.printStackTrace();
         }
         for(int i=0;i<GameController.achievements.size();++i){
             Achievement temp=GameController.achievements.get(i);
-            if(temp.getClass()==ScoreAchievement.class){
-                out.println(temp.name);
-            }
-            else if(temp.getClass()==TotalLinesDestroyedAchievement.class){
-
-            }
-            else if(temp.getClass()==LinesDestroyedSimultaneouslyAchievement.class){
-                
-            }
+            String achievementName=temp.getClass().toString();
+            out.println(achievementName.substring(achievementName.lastIndexOf('.')+1)+" "+(temp.completed?"completed":temp.currentState+"/"+temp.goal));
         }
         out.close();
     }
-
+    public void storeAchievements(){
+        PrintWriter out=null;
+        try{
+            out=new PrintWriter(new File("achievements.txt"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        for(int i=0;i<GameController.achievements.size();++i){
+            Achievement temp=GameController.achievements.get(i);
+            String achievementName=temp.getClass().toString();
+            out.println(achievementName.substring(achievementName.lastIndexOf('.')+1)+" "+(temp.completed?"completed":temp.currentState+"/"+temp.goal));
+        }
+        
+        out.close();
+    }
     public void newGame(ActionEvent actionEvent) {
         timeLine.stop();
         gameOverPanel.setVisible(false);
@@ -316,7 +324,5 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
     }
 
-    public void showAchievements(ActionEvent actionEvent){
-
-    }
+    public void showAchievements(ActionEvent actionEvent){}
 }

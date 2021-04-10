@@ -4,3 +4,6 @@ public class ScoreAchievement extends Achievement{
         super(currentState,goal,completed);
     }
 }
+/*
+    Score achievement is achieved by reaching a score in a single game without failing.
+*/

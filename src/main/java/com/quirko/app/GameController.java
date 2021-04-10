@@ -24,9 +24,11 @@ public class GameController implements InputEventListener {
         viewGuiController.bindScore(board.getScore().scoreProperty());
         achievements=new AchievementList();
         achievements.add(new ScoreAchievement(0,20,false));
-        achievements.add(new LinesDestroyedSimultaneouslyAchievement(0, 2, false));
+        achievements.add(new TotalLinesDestroyedAchievement(0, 5, false));
     }
-
+    public void readAchievements(String filepath){
+        
+    }
     @Override
     public DownData onDownEvent(MoveEvent event) {
         boolean canMove = board.moveBrickDown();
