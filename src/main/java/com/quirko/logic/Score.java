@@ -18,4 +18,9 @@ public final class Score {
     public void reset() {
         score.setValue(0);
     }
+
+    public int getScoreValue(){
+        int value = (int)score.getValue();
+        return value;
+    }
 }

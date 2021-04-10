@@ -11,6 +11,8 @@ public class GameController implements InputEventListener {
     private Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
+    private int currentScore = 0;
+    private int currentLevel = 0;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -18,6 +20,7 @@ public class GameController implements InputEventListener {
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+
     }
 
     @Override
@@ -41,6 +44,19 @@ public class GameController implements InputEventListener {
                 board.getScore().add(1);
             }
         }
+        currentScore = board.getScore().getScoreValue();
+        if(currentScore >= 1000 && !(currentLevel >= 5)){
+            currentLevel = 5;
+        }else if(currentScore >= 600 && !(currentLevel >= 4)){
+            currentLevel = 4;
+        }else if(currentScore >= 300 && !(currentLevel >= 3)){
+            currentLevel = 3;
+        }else if(currentScore >= 150 && !(currentLevel >= 2)){
+            currentLevel = 2;
+        }else if(currentScore >= 50 && !(currentLevel >= 1)){
+            currentLevel = 1;
+        }
+
         return new DownData(clearRow, board.getViewData());
     }
 
