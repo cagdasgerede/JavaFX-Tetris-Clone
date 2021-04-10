@@ -26,7 +26,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
 
+import java.awt.BorderLayout;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +42,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private Text scoreValue;
+
+    @FXML
+    private Text levelValue;
 
     @FXML
     private Group groupNotification;
@@ -121,6 +127,7 @@ public class GuiController implements Initializable {
         reflection.setTopOpacity(0.9);
         reflection.setTopOffset(-12);
         scoreValue.setEffect(reflection);
+        levelValue.setEffect(reflection);
     }
 
     public void initGameView(int[][] boardMatrix, ViewData brick) {
@@ -150,7 +157,7 @@ public class GuiController implements Initializable {
 
 
         timeLine = new Timeline(new KeyFrame(
-                Duration.millis(400),
+                Duration.millis(800),
                 ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
         ));
         timeLine.setCycleCount(Timeline.INDEFINITE);
@@ -250,6 +257,45 @@ public class GuiController implements Initializable {
 
     public void bindScore(IntegerProperty integerProperty) {
         scoreValue.textProperty().bind(integerProperty.asString());
+    }
+
+    public void bindLevel(IntegerProperty integerProperty){
+        levelValue.textProperty().bind(integerProperty.asString());
+    }
+
+    public void changeLevel(long diff,int levelNum){
+        timeLine.stop();
+        JFrame levelFrame = new JFrame();
+        levelFrame.setVisible(false);
+        levelFrame.setSize(400, 200);
+        levelFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        levelFrame.setLocation(300,150);
+        JLabel myPanel1 = new JLabel("          You finished this level in  "+diff+"  seconds");
+        JLabel myPanel2 = new JLabel("          Level  "+levelNum+"  will start in 10 seconds.");
+        levelFrame.setLayout(new BorderLayout());
+        levelFrame.add(myPanel1,BorderLayout.NORTH);
+        levelFrame.add(myPanel2,BorderLayout.SOUTH);
+        levelFrame.requestFocus();
+        levelFrame.setVisible(true);
+        long currentTime = System.currentTimeMillis();
+        while(true)
+        {
+            if( (System.currentTimeMillis()/1000 - currentTime/1000 ) >= 10 ){
+                break;
+            }
+        }
+        levelFrame.setVisible(false);
+        timeLine.play();
+    }
+
+    public void changeSpeed(long speed){
+        timeLine.stop();
+        timeLine = new Timeline(new KeyFrame(
+                Duration.millis(speed),
+                ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+        ));
+        timeLine.setCycleCount(Timeline.INDEFINITE);
+        timeLine.play();
     }
 
     public void gameOver() {

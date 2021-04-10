@@ -11,6 +11,9 @@ public class GameController implements InputEventListener {
     private Board board = new SimpleBoard(25, 10);
 
     private final GuiController viewGuiController;
+    private int currentScore = 0;
+    private int currentLevel = 0;
+    private long startTime;
 
     public GameController(GuiController c) {
         viewGuiController = c;
@@ -18,6 +21,8 @@ public class GameController implements InputEventListener {
         viewGuiController.setEventListener(this);
         viewGuiController.initGameView(board.getBoardMatrix(), board.getViewData());
         viewGuiController.bindScore(board.getScore().scoreProperty());
+        viewGuiController.bindLevel(board.getLevel().levelProperty());
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -41,6 +46,36 @@ public class GameController implements InputEventListener {
                 board.getScore().add(1);
             }
         }
+        currentScore = board.getScore().getScoreValue();
+        long endTime = System.currentTimeMillis();
+        long timeDiff = (endTime - startTime)/1000;
+        if(currentScore >= 1000 && !(currentLevel >= 5)){
+            currentLevel = 5;
+            board.getLevel().add(1);
+            viewGuiController.changeLevel(timeDiff,currentLevel);
+            viewGuiController.changeSpeed(200);
+        }else if(currentScore >= 600 && !(currentLevel >= 4)){
+            currentLevel = 4;
+            board.getLevel().add(1);
+            viewGuiController.changeLevel(timeDiff,currentLevel);
+            viewGuiController.changeSpeed(250);
+        }else if(currentScore >= 300 && !(currentLevel >= 3)){
+            currentLevel = 3;
+            board.getLevel().add(1);
+            viewGuiController.changeLevel(timeDiff,currentLevel);
+            viewGuiController.changeSpeed(300);
+        }else if(currentScore >= 150 && !(currentLevel >= 2)){
+            currentLevel = 2;
+            board.getLevel().add(1);
+            viewGuiController.changeLevel(timeDiff,currentLevel);
+            viewGuiController.changeSpeed(500);
+        }else if(currentScore >= 50 && !(currentLevel >= 1)){
+            currentLevel = 1;
+            board.getLevel().add(1);
+            viewGuiController.changeLevel(timeDiff,currentLevel);
+            viewGuiController.changeSpeed(600);
+        }
+
         return new DownData(clearRow, board.getViewData());
     }
 
@@ -66,6 +101,9 @@ public class GameController implements InputEventListener {
     @Override
     public void createNewGame() {
         board.newGame();
+        currentLevel = 0;
+        currentScore = 0;
+        startTime = System.currentTimeMillis();
         viewGuiController.refreshGameBackground(board.getBoardMatrix());
     }
 }
