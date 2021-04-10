@@ -26,7 +26,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
 
+import java.awt.BorderLayout;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -258,6 +261,31 @@ public class GuiController implements Initializable {
 
     public void bindLevel(IntegerProperty integerProperty){
         levelValue.textProperty().bind(integerProperty.asString());
+    }
+
+    public void changeLevel(long diff,int levelNum){
+        timeLine.stop();
+        JFrame levelFrame = new JFrame();
+        levelFrame.setVisible(false);
+        levelFrame.setSize(400, 200);
+        levelFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        levelFrame.setLocation(300,150);
+        JLabel myPanel1 = new JLabel("          You finished this level in  "+diff+"  seconds");
+        JLabel myPanel2 = new JLabel("          Level  "+levelNum+"  will start in 10 seconds.");
+        levelFrame.setLayout(new BorderLayout());
+        levelFrame.add(myPanel1,BorderLayout.NORTH);
+        levelFrame.add(myPanel2,BorderLayout.SOUTH);
+        levelFrame.requestFocus();
+        levelFrame.setVisible(true);
+        long currentTime = System.currentTimeMillis();
+        while(true)
+        {
+            if( (System.currentTimeMillis()/1000 - currentTime/1000 ) >= 10 ){
+                break;
+            }
+        }
+        levelFrame.setVisible(false);
+        timeLine.play();
     }
 
     public void changeSpeed(long speed){
