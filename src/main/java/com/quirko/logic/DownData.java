@@ -2,11 +2,11 @@ package com.quirko.logic;
 
 public final class DownData {
     private final ClearRow clearRow;
-    private final ViewData viewData;
+    private static ViewData viewData;
 
-    public DownData(ClearRow clearRow, ViewData viewData) {
+    public DownData(ClearRow clearRow, ViewData view) {
         this.clearRow = clearRow;
-        this.viewData = viewData;
+        viewData = view;
     }
 
     public ClearRow getClearRow() {
@@ -16,4 +16,6 @@ public final class DownData {
     public ViewData getViewData() {
         return viewData;
     }
+
+    public static void setViewData(ViewData view) { viewData = view; }
 }

@@ -4,5 +4,7 @@ public interface BrickGenerator {
 
     Brick getBrick();
 
+    Brick getBrick(int brick);
+
     Brick getNextBrick();
 }

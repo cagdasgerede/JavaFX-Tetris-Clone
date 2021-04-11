@@ -14,13 +14,19 @@ public interface Board {
 
     int[][] getBoardMatrix();
 
+    void setBoard(int[][] board);
+
     ViewData getViewData();
+
+    void setViewData(int[][] currentShape, int  posX, int posY, int[][] nextShape);
 
     void mergeBrickToBackground();
 
     ClearRow clearRows();
 
     Score getScore();
+
+    void setScore(int score);
 
     void newGame();
 }
