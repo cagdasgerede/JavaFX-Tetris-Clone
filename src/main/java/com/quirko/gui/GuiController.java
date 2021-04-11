@@ -42,7 +42,6 @@ public class GuiController implements Initializable {
 
     File file;
     String path;
-    int counter;
 
     @FXML
     private GridPane gamePanel;
@@ -112,6 +111,10 @@ public class GuiController implements Initializable {
                 }
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
+                }
+
+                if(keyEvent.getCode() == KeyCode.S){
+                        manualSave();
                 }
 
                 if (keyEvent.getCode() == KeyCode.ESCAPE) {
@@ -276,6 +279,7 @@ public class GuiController implements Initializable {
     }
 
     private void moveDown(MoveEvent event) {
+
         if (isPause.getValue() == Boolean.FALSE) {
             DownData downData = eventListener.onDownEvent(event);
             if (downData.getClearRow() != null && downData.getClearRow().getLinesRemoved() > 0) {
@@ -296,7 +300,7 @@ public class GuiController implements Initializable {
         scoreValue.textProperty().bind(integerProperty.asString());
     }
 
-    public void autoSave() {
+    public void manualSave() {
         String timeStamp = new SimpleDateFormat("HH.mm.ss dd-MM-yyyy").format(new Date());
         timeStamp = "saves" + File.separator + "auto_saved_" + timeStamp + ".txt";
         path = System.getProperty("user.dir") + File.separator + "saves";
