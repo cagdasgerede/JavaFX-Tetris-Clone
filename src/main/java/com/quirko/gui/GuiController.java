@@ -51,6 +51,12 @@ public class GuiController implements Initializable {
 
     @FXML
     private ToggleButton pauseButton;
+    @FXML
+    private ToggleButton hardButton;
+    @FXML
+    private ToggleButton normalButton;
+    @FXML
+    private ToggleButton easyButton;
 
     @FXML
     private GameOverPanel gameOverPanel;
@@ -65,6 +71,9 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
+    private final BooleanProperty isHard = new SimpleBooleanProperty();
+    private final BooleanProperty isNormal = new SimpleBooleanProperty();
+    private final BooleanProperty isEasy = new SimpleBooleanProperty();
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
     @Override
@@ -99,6 +108,15 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
+                if (keyEvent.getCode() == KeyCode.K) {
+                    easyButton.selectedProperty().setValue(!easyButton.selectedProperty().getValue());
+                }
+                if (keyEvent.getCode() == KeyCode.O) {
+                    normalButton.selectedProperty().setValue(!normalButton.selectedProperty().getValue());
+                }
+                if (keyEvent.getCode() == KeyCode.Z) {
+                    hardButton.selectedProperty().setValue(!hardButton.selectedProperty().getValue());
+                }
 
             }
         });
@@ -113,6 +131,93 @@ public class GuiController implements Initializable {
                 } else {
                     timeLine.play();
                     pauseButton.setText("Pause");
+                }
+            }
+        });
+        hardButton.selectedProperty().bindBidirectional(isHard);
+        hardButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)  {
+                if (newValue) {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(70),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    hardButton.setText("*Hard*");
+                    normalButton.setText("Normal");
+                    easyButton.setText("Easy");
+                } else {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(400),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    
+                    hardButton.setText("Hard");
+                    easyButton.setText("*Easy*");
+                    isEasy.setValue(Boolean.TRUE);
+
+                }
+            }
+        });
+        normalButton.selectedProperty().bindBidirectional(isNormal);
+        normalButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)  {
+                if (newValue) {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(200),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    normalButton.setText("*Normal*");
+                    hardButton.setText("Hard");
+                    easyButton.setText("Easy");
+                } else {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(400),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    normalButton.setText("Normal");
+                    easyButton.setText("*Easy*");
+                    isEasy.setValue(Boolean.TRUE);
+                }
+            }
+        });
+        easyButton.selectedProperty().bindBidirectional(isEasy);
+        easyButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)  {
+                if (newValue) {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(400),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    easyButton.setText("*Easy*");
+                    normalButton.setText("Normal");
+                    hardButton.setText("Hard");
+                } else {
+                    timeLine.stop();
+                    timeLine = new Timeline(new KeyFrame(
+                    Duration.millis(400),
+                    ae -> moveDown(new MoveEvent(EventType.DOWN, EventSource.THREAD))
+                    ));
+                    timeLine.setCycleCount(Timeline.INDEFINITE);
+                    timeLine.play();
+                    easyButton.setText("*Easy*");
                 }
             }
         });
@@ -256,6 +361,9 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
+        isHard.setValue(Boolean.FALSE);
+        isEasy.setValue(Boolean.FALSE);
+        isNormal.setValue(Boolean.FALSE);
 
     }
 
@@ -266,10 +374,16 @@ public class GuiController implements Initializable {
         gamePanel.requestFocus();
         timeLine.play();
         isPause.setValue(Boolean.FALSE);
+        isHard.setValue(Boolean.FALSE);
+        isEasy.setValue(Boolean.TRUE);
+        isNormal.setValue(Boolean.FALSE);
         isGameOver.setValue(Boolean.FALSE);
     }
 
     public void pauseGame(ActionEvent actionEvent) {
+        gamePanel.requestFocus();
+    }
+    public void setGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
     }
 }
