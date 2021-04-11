@@ -67,6 +67,8 @@ public class GuiController implements Initializable {
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
+    public int buff ; // 0 -> row break
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Font.loadFont(getClass().getClassLoader().getResource("digital.ttf").toExternalForm(), 38);
@@ -145,7 +147,7 @@ public class GuiController implements Initializable {
         }
         brickPanel.setLayoutX(gamePanel.getLayoutX() + brick.getxPosition() * brickPanel.getVgap() + brick.getxPosition() * BRICK_SIZE);
         brickPanel.setLayoutY(-42 + gamePanel.getLayoutY() + brick.getyPosition() * brickPanel.getHgap() + brick.getyPosition() * BRICK_SIZE);
-
+        
         generatePreviewPanel(brick.getNextBrickData());
 
 
@@ -165,24 +167,43 @@ public class GuiController implements Initializable {
                 break;
             case 1:
                 returnPaint = Color.AQUA;
+                buff = 0;
                 break;
             case 2:
                 returnPaint = Color.BLUEVIOLET;
+                buff = 0;
                 break;
             case 3:
                 returnPaint = Color.DARKGREEN;
+                buff = 0;
                 break;
             case 4:
                 returnPaint = Color.YELLOW;
+                buff = 0;
                 break;
             case 5:
                 returnPaint = Color.RED;
+                buff = 0;
                 break;
             case 6:
                 returnPaint = Color.BEIGE;
+                buff = 0;
                 break;
             case 7:
                 returnPaint = Color.BURLYWOOD;
+                buff = 0;
+                break;
+            case 8:
+                returnPaint = Color.PINK;
+                buff = 1;
+                break;
+            case 9:
+                returnPaint = Color.ORANGE;
+                buff = 2;
+                break;
+            case 10:
+                returnPaint = Color.SILVER;
+                buff = 3;
                 break;
             default:
                 returnPaint = Color.WHITE;
