@@ -1,6 +1,7 @@
 package com.quirko.gui;
 
 import com.quirko.logic.DownData;
+import com.quirko.logic.ScoreName;
 import com.quirko.logic.ViewData;
 import com.quirko.logic.events.*;
 import javafx.animation.KeyFrame;
@@ -10,11 +11,17 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.KeyCode;
@@ -26,9 +33,24 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.application.*;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.collections.*;
 
 public class GuiController implements Initializable {
 
@@ -55,6 +77,24 @@ public class GuiController implements Initializable {
     @FXML
     private GameOverPanel gameOverPanel;
 
+    @FXML
+    private Button scoreboardButton;
+
+    @FXML
+    private ScoreboardPanel scoreboardPanel;
+
+    @FXML
+    private Group scoreboardgroup;
+
+    @FXML
+    private TableView<ScoreName> table;
+
+    @FXML
+    private TableColumn<ScoreName,String> namecol;
+
+    @FXML
+    private TableColumn<ScoreName,Integer> scorecol;
+
     private Rectangle[][] displayMatrix;
 
     private InputEventListener eventListener;
@@ -66,6 +106,16 @@ public class GuiController implements Initializable {
     private final BooleanProperty isPause = new SimpleBooleanProperty();
 
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
+
+    private final BooleanProperty isScoreboardOpen = new SimpleBooleanProperty();
+    
+    private ObservableList<ScoreName> list = FXCollections.observableArrayList();
+
+    private ArrayList<ScoreName> alist;
+
+    private int GameCount = 1;
+
+    private int askUserCount = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,10 +149,18 @@ public class GuiController implements Initializable {
                 if (keyEvent.getCode() == KeyCode.P) {
                     pauseButton.selectedProperty().setValue(!pauseButton.selectedProperty().getValue());
                 }
+                if (keyEvent.getCode() == KeyCode.B) {
+                    if(isScoreboardOpen.getValue() == Boolean.TRUE)
+                        closeScoreboard(null);
+                    else
+                        openScoreboard(null);
+                }
 
             }
         });
         gameOverPanel.setVisible(false);
+        scoreboardgroup.setVisible(false);
+        createScoreboard();
         pauseButton.selectedProperty().bindBidirectional(isPause);
         pauseButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -112,6 +170,7 @@ public class GuiController implements Initializable {
                     pauseButton.setText("Resume");
                 } else {
                     timeLine.play();
+                    if(isScoreboardOpen.getValue() == Boolean.TRUE) closeScoreboard(null);
                     pauseButton.setText("Pause");
                 }
             }
@@ -256,12 +315,14 @@ public class GuiController implements Initializable {
         timeLine.stop();
         gameOverPanel.setVisible(true);
         isGameOver.setValue(Boolean.TRUE);
-
+        askUser();
     }
 
     public void newGame(ActionEvent actionEvent) {
+        GameCount++;
         timeLine.stop();
         gameOverPanel.setVisible(false);
+        if(isScoreboardOpen.getValue() == Boolean.TRUE) closeScoreboard(null);
         eventListener.createNewGame();
         gamePanel.requestFocus();
         timeLine.play();
@@ -272,4 +333,108 @@ public class GuiController implements Initializable {
     public void pauseGame(ActionEvent actionEvent) {
         gamePanel.requestFocus();
     }
+
+    public void openScoreboard(ActionEvent actionEvent){
+        if(isScoreboardOpen.getValue() == Boolean.TRUE)
+            return;
+        isScoreboardOpen.setValue(Boolean.TRUE);
+        pauseButton.selectedProperty().setValue(true);
+        scoreboardgroup.setVisible(true);
+    }
+    public void closeScoreboard(ActionEvent actionEvent){
+        isScoreboardOpen.setValue(Boolean.FALSE);
+        scoreboardgroup.setVisible(false);
+        pauseButton.selectedProperty().setValue(false); 
+    }
+
+    public void askUser(){
+        if(askUserCount == GameCount)
+            return;
+        askUserCount++;
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setContentText("Enter your name");
+        Platform.runLater(new Runnable(){
+            public void run(){
+                Optional<String> result = dialog.showAndWait();
+                String name = "";
+                if (result.isPresent()){
+                    name = result.get();
+                }
+                int score = Integer.parseInt(scoreValue.textProperty().get());
+                if(!name.equals(""))
+                    addtoscoreboard(name, score);
+                openScoreboard(null);
+            }
+        });    
+    }
+
+    public void createScoreboard(){
+        try {
+            File file = new File("scoredata.txt");
+            file.createNewFile();
+            FileReader filereader = new FileReader(file);
+            BufferedReader reader = new BufferedReader(filereader);
+            String line;
+            alist = new ArrayList<>();
+            while((line = reader.readLine()) != null){
+                ScoreName scorename = new ScoreName();
+                String[] arr = line.split("=");
+                scorename.setName(arr[0]);
+                scorename.setScore(Integer.parseInt(arr[1]));
+                boolean bool = false;
+                for (ScoreName s : alist) {
+                    if(scorename.getName().equals(s.getName())){
+                        if(scorename.getScore()>s.getScore())
+                            s.setScore(scorename.getScore());
+                        bool = true;
+                    }
+                }
+                if(!bool)
+                    alist.add(scorename);
+            }
+            for (ScoreName s : alist) {
+                list.addAll(s);
+            }
+            namecol.setCellValueFactory(new PropertyValueFactory<ScoreName,String>("Name"));
+            scorecol.setCellValueFactory(new PropertyValueFactory<ScoreName,Integer>("Score"));
+            scorecol.setSortType(TableColumn.SortType.DESCENDING);
+            table.setItems(list);
+            table.getSortOrder().add(scorecol);
+            reader.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    public void addtoscoreboard(String name,int score){
+        try {
+            boolean bool = false;
+            for (ScoreName s : alist) {
+                if(s.getName().equals(name)){
+                    if(score>s.getScore()){
+                        s.setScore(score);
+                
+                    }
+                bool = true;
+                }        
+            }
+            if(!bool){
+                ScoreName acoren = new ScoreName(score,name);
+                alist.add(acoren);
+            }
+            FileWriter fw = new FileWriter(new File("scoredata.txt"),true);
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.write(name+"="+score+"\n");
+            writer.flush();
+            writer.close();
+            list.clear();
+            list.addAll(alist);
+            table.sort();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+
 }

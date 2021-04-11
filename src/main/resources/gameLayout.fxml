@@ -1,5 +1,6 @@
 <?import com.quirko.gui.GameOverPanel?>
-<?import javafx.scene.control.Button?>
+<?import com.quirko.gui.ScoreboardPanel?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.Group?>
@@ -16,6 +17,7 @@
     </BorderPane>
 
     <VBox layoutX="243" layoutY="20" alignment="CENTER" styleClass="vbox">
+        <Button text="Scoreboard" onAction="#openScoreboard" styleClass="ipad-dark-grey" prefWidth="140" fx:id="scoreboardButton"/>
         <VBox alignment="CENTER">
             <Label text="Score:" styleClass="scoreClass"/>
             <Text text="Text" fx:id="scoreValue" styleClass="scoreClass"/>
@@ -48,12 +50,28 @@
                 P - pause/resume.
                 ]]>
             </Text>
-
+            <Text styleClass="helpInfo" wrappingWidth="150">
+                <![CDATA[
+                B - open scoreboard.
+                ]]>
+            </Text>
         </VBox>
     </VBox>
     <Group fx:id="groupNotification" layoutX="14" layoutY="203">
         <VBox alignment="CENTER">
             <GameOverPanel fx:id="gameOverPanel"/>
+        </VBox>
+    </Group>
+    <Group fx:id="scoreboardgroup" layoutX="0" layoutY="0">
+        <VBox alignment="CENTER">
+            <ScoreboardPanel fx:id="scoreboardPanel"/>
+            <TableView fx:id="table" prefHeight="420.0" prefWidth="236.0" styleClass="tableClass">
+                <columns>
+                    <TableColumn fx:id="namecol" prefWidth="118.0" text="Name" styleClass="textClass"/>
+                    <TableColumn fx:id="scorecol" prefWidth="118.0" text="Score" styleClass="textClass"/>
+                </columns>
+            </TableView>
+            <Button text="CLOSE" alignment="BOTTOM_CENTER" onAction= "#closeScoreboard" styleClass="ipad-dark-grey" prefWidth="236"/>
         </VBox>
     </Group>
     <stylesheets>
