@@ -12,11 +12,12 @@ public class SimpleBoard implements Board {
 
     private final int width;
     private final int height;
-    private final BrickGenerator brickGenerator;
-    private final BrickRotator brickRotator;
+    private static BrickGenerator brickGenerator;
+    private static BrickRotator brickRotator;
     private int[][] currentGameMatrix;
     private Point currentOffset;
     private final Score score;
+    private ViewData viewData;
 
     public SimpleBoard(int width, int height) {
         this.width = width;
@@ -97,8 +98,18 @@ public class SimpleBoard implements Board {
     }
 
     @Override
+    public void setBoard(int[][] board) {
+
+    }
+
+    @Override
     public ViewData getViewData() {
         return new ViewData(brickRotator.getCurrentShape(), (int) currentOffset.getX(), (int) currentOffset.getY(), brickGenerator.getNextBrick().getShapeMatrix().get(0));
+    }
+
+    @Override
+    public void setViewData(int[][] currentShape, int posX, int posY, int[][] nextShape) {
+
     }
 
     @Override
@@ -119,11 +130,20 @@ public class SimpleBoard implements Board {
         return score;
     }
 
+    @Override
+    public void setScore(int score) {
+
+    }
+
 
     @Override
     public void newGame() {
         currentGameMatrix = new int[width][height];
         score.reset();
         createNewBrick();
+    }
+
+    public static  void  setBrick(int b){
+        brickRotator.setBrick(brickGenerator.getBrick(b));
     }
 }

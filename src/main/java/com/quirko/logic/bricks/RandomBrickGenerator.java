@@ -8,9 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomBrickGenerator implements BrickGenerator {
 
-    private final List<Brick> brickList;
+    private static List<Brick> brickList;
 
-    private final Deque<Brick> nextBricks = new ArrayDeque<>();
+    private static Deque<Brick> nextBricks = new ArrayDeque<>();
 
     public RandomBrickGenerator() {
         brickList = new ArrayList<>();
@@ -36,5 +36,16 @@ public class RandomBrickGenerator implements BrickGenerator {
     @Override
     public Brick getNextBrick() {
         return nextBricks.peek();
+    }
+
+    public static void addBrick(int b){
+        nextBricks.clear();
+        if(nextBricks.size() == 0){
+            nextBricks.add(brickList.get(b - 1));
+        }
+    }
+
+    public Brick getBrick(int b){
+        return brickList.get(b - 1);
     }
 }
