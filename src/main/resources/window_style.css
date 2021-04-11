@@ -63,7 +63,26 @@
     -fx-font-size: 48;
     -fx-background-color: red;
 }
+.scoreboardStyle {
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 46;
+    -fx-fill: yellow;
+    -fx-text-fill: yellow;
+    -fx-background-color: #61a2b1;
+}
 
+.textClass{
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 25;
+    -fx-background-color: #61a2b1;
+    -fx-border-color:black;
+}
+
+.tableClass{
+    -fx-font-family: "Let's go Digital";
+    -fx-font-size: 25;
+    -fx-background-color: #61a2b1;
+}
 .scoreClass{
     -fx-font-family: "Let's go Digital";
     -fx-font-size: 38;
