@@ -50,6 +50,9 @@ public class GuiController implements Initializable {
     private GridPane brickPanel;
 
     @FXML
+    private ToggleButton coOpButton;
+
+    @FXML
     private ToggleButton pauseButton;
 
     @FXML
@@ -64,7 +67,7 @@ public class GuiController implements Initializable {
     private Timeline timeLine;
 
     private final BooleanProperty isPause = new SimpleBooleanProperty();
-
+    
     private final BooleanProperty isGameOver = new SimpleBooleanProperty();
 
     @Override
@@ -116,6 +119,7 @@ public class GuiController implements Initializable {
                 }
             }
         });
+
         final Reflection reflection = new Reflection();
         reflection.setFraction(0.8);
         reflection.setTopOpacity(0.9);
